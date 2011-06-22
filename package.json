@@ -4,7 +4,8 @@
  "version":"0.1.2",
  "author": "Ge.tt <hello@ge.tt>",
  "contributors": [
-   "Mathias Buus Madsen <m@ge.tt>"
+   "Mathias Buus Madsen <m@ge.tt>",
+   "Ian Jorgensen <i@ge.tt"
  ],
  "main":"./index.js",
  "dependencies": {"common":">=0.1.0", "mongodb":">=0.8.0"}
