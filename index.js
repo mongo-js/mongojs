@@ -247,10 +247,11 @@ exports.connect = function(url, collections) {
 		return new Collection(oncollection);
 	};
 	
-	collections.forEach(function(col) {
-		that[col] = that.collection(col);
-	});
-	
+	if (collections) {
+		collections.forEach(function(col) {
+			that[col] = that.collection(col);
+		});		
+	}
 	if (typeof Proxy !== undefined) {
 		return Proxy.create({
 			get: function(proxy, name) {
