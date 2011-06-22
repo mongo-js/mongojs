@@ -1,5 +1,5 @@
 # mongojs
-A wrapper around the mongodb driver [mongodb-native](https://github.com/christkv/node-mongodb-native/) for [node.js](http://nodejs.org) that tries to emulate the mongo shell as much as possible.  
+A [node.js](http://nodejs.org) module for mongodb, that emulates the mongodb API as much as possible. It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native/).  
 It is available through npm:
 
 	    npm install mongojs
@@ -23,7 +23,7 @@ Some examples of this could be:
 	var db = require('mongojs').connect('username:password@example.com/mydb', ['mycollection']);
 ```
 
-After we connected to can query or update the database just how we would using the mongo shell with the exception that we use a callback
+After we connected to can query or update the database just how we would using the mongo API with the exception that we use a callback
 
 ``` js
 	// find everything
