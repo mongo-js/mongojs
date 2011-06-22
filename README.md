@@ -2,7 +2,7 @@
 A wrapper around the mongodb driver [mongodb-native](https://github.com/christkv/node-mongodb-native/) for [node.js](http://nodejs.org) that tries to emulate the mongo shell as much as possible.  
 It is available through npm:
 
-	npm install db
+	    npm install mongojs
 
 DB is very simple to use:
 
