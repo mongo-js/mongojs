@@ -6,10 +6,13 @@ It is available through npm:
 
 DB is very simple to use:
 
+``` js
 	var db = require('db').connect(databaseURL, [collections]);
+```
 
 Some examples of this could be:
 
+``` js
 	// simple usage for a local db
 	var db = require('db').connect('mydb', ['mycollection']);
 	
@@ -18,9 +21,11 @@ Some examples of this could be:
 	
 	// we can also provide some credentials
 	var db = require('db').connect('username:password@example.com/mydb', ['mycollection']);
+```
 
 After we connected to can query or update the database just how we would using the mongo shell with the exception that we use a callback
 
+``` js
 	// find everything
 	db.mycollection.find(callback);
 	
@@ -35,5 +40,6 @@ After we connected to can query or update the database just how we would using t
 	
 	// use the save function to just save a document (the callback is optional for all writes)
 	db.mycollection.save({created:'just now'});
-	
+```
+
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
