@@ -1,11 +1,11 @@
 {
  "name":"mongojs",
  "description":"a simple mongo module that emulates the mongo api",
- "version":"0.1.0",
+ "version":"0.1.1",
  "author": "Ge.tt <hello@ge.tt>",
  "contributors": [
    "Mathias Buus Madsen <m@ge.tt>"
- ]
+ ],
  "main":"./index.js",
  "dependencies": {"common":">=0.1.0", "mongodb":">=0.8.0"}
 }

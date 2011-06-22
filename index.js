@@ -251,5 +251,16 @@ exports.connect = function(url, collections) {
 		that[col] = that.collection(col);
 	});
 	
+	if (typeof Proxy !== undefined) {
+		return Proxy.create({
+			get: function(proxy, name) {
+				if (!that[name]) {
+					that[name] = that.collection(name);
+				}
+				return that[name];
+			}
+		});
+	}
+	
 	return that;
 };
