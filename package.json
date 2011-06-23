@@ -1,7 +1,7 @@
 {
  "name":"mongojs",
  "description":"a simple mongo module that emulates the mongo api",
- "version":"0.1.3",
+ "version":"0.1.4",
  "author": "Ge.tt <hello@ge.tt>",
  "contributors": [
    "Mathias Buus Madsen <m@ge.tt>",
