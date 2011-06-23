@@ -225,8 +225,6 @@ exports.connect = function(url, collections) {
 		}));
 	};	
 	that.collection = function(name) {
-		var that = {};
-		
 		var oncollection = common.future();
 		
 		common.step([
