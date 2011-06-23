@@ -4,7 +4,7 @@ It is available through npm:
 
 	npm install mongojs
 
-DB is very simple to use:
+mongojs is very simple to use:
 
 ``` js
 var db = require('mongojs').connect(databaseURL, [collections]);
