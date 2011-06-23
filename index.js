@@ -70,9 +70,6 @@ Cursor.prototype.forEach = function() {
 Cursor.prototype.count = function() {
 	this._exec('count', arguments);
 };
-Cursor.prototype.toArray = function() {
-	this._exec('toArray', arguments);
-};
 Cursor.prototype.sort = function() {
 	return this._config('sort', arguments);
 };
@@ -120,7 +117,7 @@ Collection.prototype.find = function() {
 		var callback = args.pop();
 		
 		oncursor.get(common.fork(callback, function(cur) {
-			cur.toArray(callback);
+			cur.toArray(normalize(callback));
 		}));
 	}
 
