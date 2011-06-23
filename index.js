@@ -10,7 +10,7 @@ var normalizeId = function() {
 		};
 	}	
 	return function(args) {	
-		if (typeof args[0] === 'object' && typeof args[0]._id === 'string') {
+		if (args[0] && typeof args[0] === 'object' && typeof args[0]._id === 'string') {
 			args[0]._id = new mongo.BSONNative.ObjectID(args[0]._id);
 		}
 		return args;
