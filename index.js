@@ -197,6 +197,15 @@ exports.connect = function(url, collections) {
 		function(next) {
 			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port), {native_parser:true});
 			
+			that.bson = {
+				Long:      client.bson_serializer.Long,
+				ObjectID:  client.bson_serializer.ObjectID,
+				Timestamp: client.bson_serializer.Timestamp,
+				DBRef:     client.bson_serializer.DBRef,
+				Binary:    client.bson_serializer.Binary,
+				Code:      client.bson_serializer.Code
+			};
+
 			client.open(next);
 		},
 		function(db, next) {
