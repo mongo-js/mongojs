@@ -2,7 +2,7 @@
 A [node.js](http://nodejs.org) module for mongodb, that emulates the mongodb API as much as possible. It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native/).  
 It is available through npm:
 
-	npm install mongojs
+	npm install mongojs --mongodb:native
 
 mongojs is very simple to use:
 
