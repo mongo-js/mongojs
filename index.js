@@ -142,27 +142,6 @@ Collection.prototype.findOne = function() { // see http://www.mongodb.org/displa
 
 	this.find.apply(this, args).limit(1).next(callback);
 };
-Collection.prototype.count = function() {
-	this._exec('count', arguments);
-};
-Collection.prototype.remove = function() {
-	this._exec('remove', arguments);
-};
-Collection.prototype.update = function() {
-	this._exec('update', arguments);
-};
-Collection.prototype.rename = function() {
-	this._exec('rename', arguments);
-};
-Collection.prototype.save = function() {
-	this._exec('save', arguments);
-};
-Collection.prototype.insert = function() {
-	this._exec('insert', arguments);
-};
-Collection.prototype.insertAll = function() {
-	this._exec('insertAll', arguments);
-};
 Collection.prototype.findAndModify = function(options, callback) {
 	this._exec('findAndModify', [options.query, options.sort || [], options.update || {}, {
 		new:!!options.new, 
@@ -186,6 +165,14 @@ Collection.prototype._exec = function(name, args) {
 		col[name].apply(col, args);
 	}));
 };
+
+Object.keys(mongo.Collection.prototype).forEach(function(name) {
+	if (!Collection.prototype[name] && typeof mongo.Collection.prototype[name] === 'function') {
+		Collection.prototype[name] = function() {
+			this._exec(name, arguments);
+		};
+	}	
+});
 
 exports.connect = function(url, collections) {
 	url = parse(url);
@@ -250,6 +237,19 @@ exports.connect = function(url, collections) {
 		
 		return new Collection(oncollection);
 	};
+
+	Object.keys(mongo.Db.prototype).forEach(function(name) {
+		if (!that[name] && typeof mongo.Db.prototype[name] === 'function') {
+			that[name] = function() {
+				var args = arguments;
+				var callback = args[args.length-1];
+
+				ondb.get(common.fork(callback, function(db) {
+					db[name].apply(db, args);
+				}));
+			};
+		}
+	});
 	
 	if (collections) {
 		collections.forEach(function(col) {
