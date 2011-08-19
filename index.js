@@ -213,13 +213,6 @@ exports.connect = function(url, collections) {
 		}
 	], ondb.put);
 	
-	that.close = function(callback) {
-		callback = callback || noop;
-		
-		ondb.get(common.fork(callback, function(db) {
-			db.close(callback);
-		}));
-	};	
 	that.collection = function(name) {
 		var oncollection = common.future();
 		
@@ -242,7 +235,7 @@ exports.connect = function(url, collections) {
 		if (!that[name] && typeof mongo.Db.prototype[name] === 'function') {
 			that[name] = function() {
 				var args = arguments;
-				var callback = args[args.length-1];
+				var callback = args[args.length-1] || noop;
 
 				ondb.get(common.fork(callback, function(db) {
 					db[name].apply(db, args);
