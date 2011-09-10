@@ -182,7 +182,7 @@ exports.connect = function(url, collections) {
 
 	common.step([
 		function(next) {
-			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port), {native_parser:true});
+			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}), {native_parser:true});
 			
 			that.bson = {
 				Long:      client.bson_serializer.Long,
