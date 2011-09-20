@@ -19,27 +19,6 @@ var normalizeId = function() {
 		return args;
 	};
 }();
-var normalize = function() {
-	var longify = function(val) {
-		if (!val || typeof val !== 'object') {
-			return val;
-		}
-		for (var i in val) {
-			if (Object.prototype.toString.call(val[i]) === '[object Long]') {$
-				val[i] = parseInt(val[i], 10);
-			} else if (i !== '_id' && typeof val[i] === 'object') {
-				val[i] = longify(val[i]);
-			}
-		}
-		return val;
-	};
-
-	return function(callback) {
-		return function(err, val) {
-			callback(err, longify(val));
-		};
-	};
-}();
 var parse = function(options) {
 	if (typeof options === 'object') {
 		return options;
@@ -61,7 +40,7 @@ var Cursor = function(oncursor) {
 	this._oncursor = oncursor;
 };
 
-Cursor.prototype.toArray = function(callback) {
+Cursor.prototype.toArray = function() {
 	this._exec('toArray', arguments);
 };
 Cursor.prototype.next = function() {
@@ -95,11 +74,8 @@ Cursor.prototype._config = function(name, args) {
 	return this._exec(name, args);
 };
 Cursor.prototype._exec = function(name, args) {
-	var callback = noop;
+	var callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : noop;
 
-	if (typeof args[args.length-1] === 'function') {
-		callback = args[args.length-1] = normalize(args[args.length-1]);
-	}
 	this._oncursor.get(common.fork(callback, function(cur) {
 		cur[name].apply(cur, args);
 	}));
@@ -120,7 +96,7 @@ Collection.prototype.find = function() {
 		var callback = args.pop();
 
 		oncursor.get(common.fork(callback, function(cur) {
-			cur.toArray(normalize(callback));
+			cur.toArray(callback);
 		}));
 	}
 
@@ -153,23 +129,20 @@ Collection.prototype.findAndModify = function(options, callback) {
 		fields:options.fields
 	}, callback]);
 };
+Collection.prototype.remove = function() {
+	this._exec('remove', arguments.length === 0 ? [{}] : arguments); // driver has a small issue with zero-arguments in remove
+};
 
 Collection.prototype._exec = function(name, args) {
 	var args = normalizeId(args);
-	var callback = args[args.length-1];
-
-	if (typeof callback === 'function') {
-		args[args.length-1] = callback = normalize(callback);
-	} else {
-		callback = noop;
-	}
+	var callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : noop;
 
 	this._oncollection.get(common.fork(callback, function(col) {
 		col[name].apply(col, args);
 	}));
 };
 
-Object.keys(mongo.Collection.prototype).forEach(function(name) {
+Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wanna proxy any remaining methods on collections
 	if (!Collection.prototype[name] && typeof mongo.Collection.prototype[name] === 'function') {
 		Collection.prototype[name] = function() {
 			this._exec(name, arguments);
