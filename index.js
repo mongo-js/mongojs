@@ -25,7 +25,7 @@ var normalize = function() {
 			return val;
 		}
 		for (var i in val) {
-			if (Object.prototype.toString.call(val[i]) === '[object Long]') {
+			if (Object.prototype.toString.call(val[i]) === '[object Long]') {$
 				val[i] = parseInt(val[i], 10);
 			} else if (i !== '_id' && typeof val[i] === 'object') {
 				val[i] = longify(val[i]);
@@ -185,7 +185,7 @@ exports.connect = function(url, collections) {
 
 	common.step([
 		function(next) {
-			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}), {native_parser:true});
+			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}));
 
 			that.bson = {
 				Long:      client.bson_serializer.Long,
