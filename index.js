@@ -5,11 +5,14 @@ var noop = function() {};
 
 var normalizeId = function() {
 	if (!mongo.BSONNative || !mongo.BSONNative.ObjectID) {
-		return function(args) {
-			return args;
-		};
-	}	
-	return function(args) {	
+	  return function(args) {
+		  if (args[0] && typeof args[0] === 'object' && typeof args[0]._id === 'string') {
+			  args[0]._id = mongo.BSONPure.ObjectID.createFromHexString(args[0]._id);
+		  }
+		  return args;
+	  };
+	}
+	return function(args) {
 		if (args[0] && typeof args[0] === 'object' && typeof args[0]._id === 'string') {
 			args[0]._id = new mongo.BSONNative.ObjectID(args[0]._id);
 		}
@@ -30,7 +33,7 @@ var normalize = function() {
 		}
 		return val;
 	};
-	
+
 	return function(callback) {
 		return function(err, val) {
 			callback(err, longify(val));
@@ -41,9 +44,9 @@ var parse = function(options) {
 	if (typeof options === 'object') {
 		return options;
 	}
-	var result = {};	
+	var result = {};
 	var match = options.match(/(?:mongodb:\/\/)?(?:(.+):(.+)@)?(?:([^:]+)(?::(\d+))?\/)?(.+)/);
-	
+
 	result.username = match[1];
 	result.password = match[2];
 	result.host = match[3] || '127.0.0.1';
@@ -83,17 +86,17 @@ Cursor.prototype.skip = function() {
 Cursor.prototype._config = function(name, args) {
 	if (typeof args[args.length-1] === 'function') {
 		args = Array.prototype.slice.call(args);
-		
+
 		var callback = args.pop();
 
 		this._exec(name, args).toArray(callback);
 		return;
 	}
-	return this._exec(name, args);	
+	return this._exec(name, args);
 };
 Cursor.prototype._exec = function(name, args) {
 	var callback = noop;
-	
+
 	if (typeof args[args.length-1] === 'function') {
 		callback = args[args.length-1] = normalize(args[args.length-1]);
 	}
@@ -111,11 +114,11 @@ Collection.prototype.find = function() {
 	var args = normalizeId(Array.prototype.slice.call(arguments));
 	var oncursor = common.future();
 	var oncollection = this._oncollection;
-	
+
 	// we provide sugar for doing find(query, callback) -> find(query).toArray(callback);
 	if (typeof args[args.length-1] === 'function') {
 		var callback = args.pop();
-		
+
 		oncursor.get(common.fork(callback, function(cur) {
 			cur.toArray(normalize(callback));
 		}));
@@ -133,7 +136,7 @@ Collection.prototype.find = function() {
 			oncursor.put(null, cur);
 		}
 	], oncursor.put);
-	
+
 	return new Cursor(oncursor);
 };
 Collection.prototype.findOne = function() { // see http://www.mongodb.org/display/DOCS/Queries+and+Cursors
@@ -144,8 +147,8 @@ Collection.prototype.findOne = function() { // see http://www.mongodb.org/displa
 };
 Collection.prototype.findAndModify = function(options, callback) {
 	this._exec('findAndModify', [options.query, options.sort || [], options.update || {}, {
-		new:!!options.new, 
-		remove:!!options.remove, 
+		new:!!options.new,
+		remove:!!options.remove,
 		upsert:!!options.upsert,
 		fields:options.fields
 	}, callback]);
@@ -154,13 +157,13 @@ Collection.prototype.findAndModify = function(options, callback) {
 Collection.prototype._exec = function(name, args) {
 	var args = normalizeId(args);
 	var callback = args[args.length-1];
-	
+
 	if (typeof callback === 'function') {
 		args[args.length-1] = callback = normalize(callback);
 	} else {
 		callback = noop;
 	}
-	
+
 	this._oncollection.get(common.fork(callback, function(col) {
 		col[name].apply(col, args);
 	}));
@@ -171,19 +174,19 @@ Object.keys(mongo.Collection.prototype).forEach(function(name) {
 		Collection.prototype[name] = function() {
 			this._exec(name, arguments);
 		};
-	}	
+	}
 });
 
 exports.connect = function(url, collections) {
 	url = parse(url);
-	
+
 	var that = {};
 	var ondb = common.future();
 
 	common.step([
 		function(next) {
 			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}), {native_parser:true});
-			
+
 			that.bson = {
 				Long:      client.bson_serializer.Long,
 				ObjectID:  client.bson_serializer.ObjectID,
@@ -197,9 +200,9 @@ exports.connect = function(url, collections) {
 		},
 		function(db, next) {
 			this.db = db;
-			
+
 			if (url.username) {
-				db.authenticate(url.username, url.password, next);				
+				db.authenticate(url.username, url.password, next);
 			} else {
 				next(null, true);
 			}
@@ -212,10 +215,10 @@ exports.connect = function(url, collections) {
 			ondb.put(null, this.db);
 		}
 	], ondb.put);
-	
+
 	that.collection = function(name) {
 		var oncollection = common.future();
-		
+
 		common.step([
 			function(next) {
 				ondb.get(next);
@@ -227,7 +230,7 @@ exports.connect = function(url, collections) {
 				oncollection.put(null, col);
 			}
 		], oncollection.put);
-		
+
 		return new Collection(oncollection);
 	};
 
@@ -243,11 +246,11 @@ exports.connect = function(url, collections) {
 			};
 		}
 	});
-	
+
 	if (collections) {
 		collections.forEach(function(col) {
 			that[col] = that.collection(col);
-		});		
+		});
 	}
 	if (typeof Proxy !== 'undefined') {
 		return Proxy.create({
@@ -259,6 +262,7 @@ exports.connect = function(url, collections) {
 			}
 		});
 	}
-	
+
 	return that;
 };
+
