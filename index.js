@@ -3,20 +3,14 @@ var common = require('common');
 
 var noop = function() {};
 
-var normalizeId = function() {
+var createObjectId = function() {
 	if (!mongo.BSONNative || !mongo.BSONNative.ObjectID) {
-	  return function(args) {
-		  if (args[0] && typeof args[0] === 'object' && typeof args[0]._id === 'string') {
-			  args[0]._id = mongo.BSONPure.ObjectID.createFromHexString(args[0]._id);
-		  }
-		  return args;
+	  return function(id) {
+		return mongo.BSONPure.ObjectID.createFromHexString(id);
 	  };
 	}
-	return function(args) {
-		if (args[0] && typeof args[0] === 'object' && typeof args[0]._id === 'string') {
-			args[0]._id = new mongo.BSONNative.ObjectID(args[0]._id);
-		}
-		return args;
+	return function(id) {
+		return new mongo.BSONNative.ObjectID(id);
 	};
 }();
 var parse = function(options) {
@@ -87,7 +81,7 @@ var Collection = function(oncollection) {
 };
 
 Collection.prototype.find = function() {
-	var args = normalizeId(Array.prototype.slice.call(arguments));
+	var args = Array.prototype.slice.call(arguments);
 	var oncursor = common.future();
 	var oncollection = this._oncollection;
 
@@ -134,7 +128,6 @@ Collection.prototype.remove = function() {
 };
 
 Collection.prototype._exec = function(name, args) {
-	var args = normalizeId(args);
 	var callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : noop;
 
 	this._oncollection.get(common.fork(callback, function(col) {
@@ -149,6 +142,8 @@ Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wann
 		};
 	}
 });
+
+exports.ObjectId = createObjectId;
 
 exports.connect = function(url, collections) {
 	url = parse(url);
@@ -189,6 +184,7 @@ exports.connect = function(url, collections) {
 		}
 	], ondb.put);
 
+	that.ObjectId = createObjectId;
 	that.collection = function(name) {
 		var oncollection = common.future();
 
