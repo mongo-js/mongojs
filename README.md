@@ -23,20 +23,33 @@ var db = require('mongojs').connect('example.com/mydb', ['mycollection']);
 var db = require('mongojs').connect('username:password@example.com/mydb', ['mycollection']);
 ```
 
-After we connected to can query or update the database just how we would using the mongo API with the exception that we use a callback
+After we connected to can query or update the database just how we would using the mongo API with the exception that we use a callback  
+The format for callbacks is always `callback(error, value)` where error is null if no exception has occured.
 
 ``` js
 // find everything
-db.mycollection.find(callback);
+db.mycollection.find(function(err, docs) {
+	// docs is an array of all the documents in mycollection
+});
 
 // find everything, but sort by name
-db.mycollection.find().sort({name:1}, callback);
+db.mycollection.find().sort({name:1}, function(err, docs) {
+	// docs is now a sorted array
+});
 
-// iterate over all whose level is greater than 90 (callback(null,null) indicates that the iteration has finished)
-db.mycollection.find({level:{$gt:90}}).forEach(callback);
+// iterate over all whose level is greater than 90.
+db.mycollection.find({level:{$gt:90}}).forEach(function(err, doc) {
+	if (!doc) {
+		// we visited all docs in the collection
+		return;
+	}
+	// doc is a document in the collection
+});
 
 // find all named 'mathias' and increment their level
-db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, callback);
+db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function(err) {
+	// the update is complete
+});
 
 // use the save function to just save a document (the callback is optional for all writes)
 db.mycollection.save({created:'just now'});
