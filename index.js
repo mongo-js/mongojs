@@ -131,7 +131,13 @@ Collection.prototype._exec = function(name, args) {
 	var callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : noop;
 
 	this._oncollection.get(common.fork(callback, function(col) {
+		var old = col.opts.safe;
+
+		if (callback !== noop) {
+			col.opts.safe = true;
+		}
 		col[name].apply(col, args);
+		col.opts.safe = old;
 	}));
 };
 
