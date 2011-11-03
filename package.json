@@ -7,7 +7,7 @@
  "author": "Ge.tt <hello@ge.tt>",
  "contributors": [
    "Mathias Buus Madsen <m@ge.tt>",
-   "Ian Jorgensen <i@ge.tt"
+   "Ian Jorgensen <i@ge.tt>"
  ],
  "main":"./index.js",
  "dependencies": {"common":">=0.1.0", "mongodb":">=0.9.6"}
