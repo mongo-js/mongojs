@@ -23,7 +23,7 @@ var db = require('mongojs').connect('example.com/mydb', ['mycollection']);
 var db = require('mongojs').connect('username:password@example.com/mydb', ['mycollection']);
 ```
 
-After we connected to can query or update the database just how we would using the mongo API with the exception that we use a callback  
+After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback  
 The format for callbacks is always `callback(error, value)` where error is null if no exception has occured.
 
 ``` js
