@@ -21,6 +21,10 @@ var db = require('mongojs').connect('example.com/mydb', ['mycollection']);
 
 // we can also provide some credentials
 var db = require('mongojs').connect('username:password@example.com/mydb', ['mycollection']);
+
+// connect now, and worry about collections later
+var db = require('mongojs').connect('mydb');
+var mycollection = db.collection('mycollection');
 ```
 
 After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback  
