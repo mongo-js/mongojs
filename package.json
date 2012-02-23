@@ -2,7 +2,7 @@
  "name":"mongojs",
  "description":"a simple mongo module that implements the mongo api",
  "keywords": ["mongo", "db", "mongodb"],
- "version":"0.2.6",
+ "version":"0.3.0",
  "homepage" : "https://github.com/gett/mongojs",
  "author": "Ge.tt <hello@ge.tt>",
  "contributors": [

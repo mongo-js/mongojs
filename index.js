@@ -141,6 +141,10 @@ Collection.prototype._exec = function(name, args) {
 	}));
 };
 
+Collection.prototype.close = function() {
+	this.close();
+};
+
 Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wanna proxy any remaining methods on collections
 	if (!Collection.prototype[name] && typeof mongo.Collection.prototype[name] === 'function') {
 		Collection.prototype[name] = function() {
