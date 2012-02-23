@@ -141,7 +141,7 @@ Collection.prototype._exec = function(name, args) {
 	}));
 };
 
-Collection.prototype.close = function() {
+Collection.prototype.disconnect = function() {
 	this.close();
 };
 
