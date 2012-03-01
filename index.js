@@ -165,6 +165,7 @@ exports.connect = function(url, collections) {
 		function(next) {
 			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}));
 
+			that.client = client;
 			that.bson = {
 				Long:      client.bson_serializer.Long,
 				ObjectID:  client.bson_serializer.ObjectID,
