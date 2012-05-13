@@ -28,6 +28,10 @@ var parse = function(options) {
 
 	return result;
 };
+var shouldExtend = function(that, proto, name) {
+	if (name[0] === '_') return false;
+	return !that[name] && !proto.__lookupGetter__(name) && typeof proto[name] === 'function';
+};
 
 // basicly just a proxy prototype
 var Cursor = function(oncursor) {
@@ -146,7 +150,7 @@ Collection.prototype.disconnect = function() {
 };
 
 Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wanna proxy any remaining methods on collections
-	if (!Collection.prototype[name] && typeof mongo.Collection.prototype[name] === 'function') {
+	if (shouldExtend(Collection.prototype, mongo.Collection.prototype, name)) {
 		Collection.prototype[name] = function() {
 			this._exec(name, arguments);
 		};
@@ -215,7 +219,7 @@ exports.connect = function(url, collections) {
 	};
 
 	Object.keys(mongo.Db.prototype).forEach(function(name) {
-		if (!that[name] && typeof mongo.Db.prototype[name] === 'function') {
+		if (shouldExtend(that, mongo.Db.prototype, name)) {
 			that[name] = function() {
 				var args = arguments;
 				var callback = args[args.length-1] || noop;
