@@ -1,5 +1,6 @@
 var mongo = require('mongodb');
 var common = require('common');
+var url = require('url');
 
 var noop = function() {};
 
@@ -13,20 +14,38 @@ var createObjectId = function() {
 		return new mongo.BSONNative.ObjectID(id);
 	};
 }();
-var parse = function(options) {
+var parseURL = function(options) {
 	if (typeof options === 'object') {
+		options.host = options.host || '127.0.0.1';
+		options.port = parseInt(options.port || 27017, 10);
 		return options;
 	}
+	if (/^[^:\/]+$/.test(options)) {
+		options = 'mongodb://127.0.0.1:27017/'+options;
+	}
+
+	var parsed = url.parse('mongodb://'+options.replace('mongodb://', ''));
 	var result = {};
-	var match = options.match(/(?:mongodb:\/\/)?(?:(.+):(.+)@)?(?:([^:]+)(?::(\d+))?\/)?(.+)/);
 
-	result.username = match[1];
-	result.password = match[2];
-	result.host = match[3] || '127.0.0.1';
-	result.port = parseInt(match[4] || 27017,10);
-	result.db = match[5];
+	result.username = parsed.auth && parsed.auth.split(':')[0];
+	result.password = parsed.auth && parsed.auth.split(':')[1];
+	result.db = (parsed.path || '').substr(1);
+	result.host = parsed.hostname;
+	result.port = parsed.port;
 
-	return result;
+	return parse(result);
+};
+var parse = function(options) {
+	options = parseURL(options);
+
+	if (options.replSet) {
+		if (!options.replSet.members) {
+			throw new Error('replSet.members required');
+		}
+		options.replSet.members = options.replSet.members.map(parseURL);
+	}
+
+	return options;
 };
 var shouldExtend = function(that, proto, name) {
 	if (name[0] === '_') return false;
@@ -161,13 +180,21 @@ exports.ObjectId = createObjectId;
 
 exports.connect = function(url, collections) {
 	url = parse(url);
+	collections = collections || url.collections;
 
 	var that = {};
 	var ondb = common.future();
 
 	common.step([
 		function(next) {
-			var client = new mongo.Db(url.db, new mongo.Server(url.host, url.port, {auto_reconnect:true}));
+			var replSet = url.replSet && new mongo.ReplSetServers(url.replSet.members.map(function(member) {
+				return new mongo.Server(member.host, member.port, {auto_reconnect:true});
+			}), {
+				read_secondary:url.replSet.slaveOk,
+				rs_name:url.replSet.name
+			});
+
+			var client = new mongo.Db(url.db, replSet || new mongo.Server(url.host, url.port, {auto_reconnect:true}));
 
 			that.client = client;
 			that.bson = {
