@@ -4,6 +4,8 @@ It is available through npm:
 
 	npm install mongojs
 
+## Usage
+
 mongojs is very simple to use:
 
 ``` js
@@ -60,3 +62,21 @@ db.mycollection.save({created:'just now'});
 ```
 
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
+
+## Replication Sets
+
+Mongojs can also connect to a mongo replication set
+
+``` js
+var db = require('mongojs').connect({
+	db: 'mydb',                  // the name of our database
+	collection: ['mycollection'] // we can pass the collections here also
+	replSet: {
+		name: 'myReplSetName',   // the name of the replication set
+		slaveOk: true,           // is it to read from secondary? defaults to false
+		members: ['myserver:myport', 'myotherserver', 'mythirdserver']
+	}
+});
+```
+
+For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
