@@ -38,6 +38,9 @@ var parseURL = function(options) {
 var parse = function(options) {
 	options = parseURL(options);
 
+	if (options.replSet && Array.isArray(options.replSet)) {
+		options.replSet = {members:options.replSet};
+	}
 	if (options.replSet) {
 		if (!options.replSet.members) {
 			throw new Error('replSet.members required');
