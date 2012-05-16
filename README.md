@@ -70,7 +70,7 @@ Mongojs can also connect to a mongo replication set
 ``` js
 var db = require('mongojs').connect({
 	db: 'mydb',                   // the name of our database
-	collection: ['mycollection'], // we can pass the collections here also
+	collections: ['mycollection'], // we can pass the collections here also
 	replSet: {
 		name: 'myReplSetName',    // the name of the replication set
 		slaveOk: true,            // is it to read from secondary? defaults to false
