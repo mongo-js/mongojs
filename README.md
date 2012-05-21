@@ -73,7 +73,7 @@ var db = require('mongojs').connect({
 	collections: ['mycollection'], // we can pass the collections here also
 	replSet: {
 		name: 'myReplSetName',    // the name of the replication set
-		slaveOk: true,            // is it to read from secondary? defaults to false
+		slaveOk: true,            // is it ok to read from secondary? defaults to false
 		members: ['myserver:myport', 'myotherserver', 'mythirdserver']
 	}
 });
