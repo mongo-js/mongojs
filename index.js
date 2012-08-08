@@ -102,8 +102,9 @@ Cursor.prototype._exec = function(name, args) {
 	return this;
 };
 
-var Collection = function(oncollection) {
+var Collection = function(oncollection, name) {
 	this._oncollection = oncollection;
+	this._name = name;
 };
 
 Collection.prototype.find = function() {
@@ -165,6 +166,10 @@ Collection.prototype._exec = function(name, args) {
 		col[name].apply(col, args);
 		col.opts.safe = old;
 	}));
+};
+
+Collection.prototype.group = function(group, callback) {
+	db.client.collection(this._name).group(group.key, group.cond, group.initial, group.reduce, group.finalize, true, callback);
 };
 
 Collection.prototype.disconnect = function() {
@@ -245,7 +250,7 @@ exports.connect = function(url, collections) {
 			}
 		], oncollection.put);
 
-		return new Collection(oncollection);
+		return new Collection(oncollection, name);
 	};
 
 	Object.keys(mongo.Db.prototype).forEach(function(name) {
