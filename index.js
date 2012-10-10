@@ -181,9 +181,7 @@ Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wann
 	}
 });
 
-exports.ObjectId = createObjectId;
-
-exports.connect = function(url, collections) {
+var connect = function(url, collections) {
 	url = parse(url);
 	collections = collections || url.collections;
 
@@ -199,7 +197,7 @@ exports.connect = function(url, collections) {
 				rs_name:url.replSet.name
 			});
 
-			var client = new mongo.Db(url.db, replSet || new mongo.Server(url.host, url.port, {auto_reconnect:true}),{safe:false});
+			var client = new mongo.Db(url.db, replSet || new mongo.Server(url.host, url.port, {auto_reconnect:true}), {safe:false});
 
 			that.client = client;
 			that.bson = {
@@ -282,3 +280,6 @@ exports.connect = function(url, collections) {
 	return that;
 };
 
+exports = module.exports = connect;
+exports.ObjectId = createObjectId;
+exports.connect = exports; // for backwards compat
