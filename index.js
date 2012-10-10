@@ -152,6 +152,12 @@ Collection.prototype.findAndModify = function(options, callback) {
 Collection.prototype.remove = function() {
 	this._exec('remove', arguments.length === 0 ? [{}] : arguments); // driver has a small issue with zero-arguments in remove
 };
+Collection.prototype.group = function(group, callback) {
+	this._exec('group', [group.key, group.cond, group.initial, group.reduce, group.finalize, true], callback);
+};
+Collection.prototype.disconnect = function() {
+	this.close();
+};
 
 Collection.prototype._exec = function(name, args) {
 	var callback = typeof args[args.length-1] === 'function' ? args[args.length-1] : noop;
@@ -165,14 +171,6 @@ Collection.prototype._exec = function(name, args) {
 		col[name].apply(col, args);
 		col.opts.safe = old;
 	}));
-};
-
-Collection.prototype.group = function(group, callback) {
-	this._exec('group', [group.key, group.cond, group.initial, group.reduce, group.finalize, true], callback);
-};
-
-Collection.prototype.disconnect = function() {
-	this.close();
 };
 
 Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wanna proxy any remaining methods on collections
