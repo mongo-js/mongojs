@@ -29,7 +29,7 @@ var parseURL = function(options) {
 
 	result.username = parsed.auth && parsed.auth.split(':')[0];
 	result.password = parsed.auth && parsed.auth.split(':')[1];
-	result.db = (parsed.path || '').substr(1);
+	result.db = (parsed.pathname || '').substr(1);
 	result.host = parsed.hostname;
 	result.port = parsed.port;
 
