@@ -167,6 +167,10 @@ Collection.prototype._exec = function(name, args) {
 	}));
 };
 
+Collection.prototype.group = function(group, callback) {
+	this._exec('group', [group.key, group.cond, group.initial, group.reduce, group.finalize, true], callback);
+};
+
 Collection.prototype.disconnect = function() {
 	this.close();
 };
