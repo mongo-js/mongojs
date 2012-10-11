@@ -1,14 +1,19 @@
 {
- "name":"mongojs",
- "description":"a simple mongo module that implements the mongo api",
- "keywords": ["mongo", "db", "mongodb"],
- "version":"0.4.5",
- "repository": {"type": "git", "url": "git://github.com/gett/mongojs.git"},
- "author": "Ge.tt <hello@ge.tt>",
- "contributors": [
-   "Mathias Buus Madsen <m@ge.tt>",
-   "Ian Jorgensen <i@ge.tt>"
- ],
- "main":"./index.js",
- "dependencies": {"common":">=0.1.0", "mongodb":"1.x.x"}
+	"name":"mongojs",
+	"description":"a simple mongo module that implements the mongo api",
+	"keywords": ["mongo", "db", "mongodb"],
+	"version":"0.4.5",
+	"repository": "git://github.com/gett/mongojs.git",
+	"author": "Ge.tt <hello@ge.tt>",
+	"contributors": [
+ 		"Mathias Buus Madsen <m@ge.tt>",
+ 		"Ian Jorgensen <i@ge.tt>"
+	],
+	"dependencies": {
+		"common":">=0.1.0",
+		"mongodb":"1.x.x"
+	},
+	"scripts": {
+		"test":"node ./tests"
+	}
 }
