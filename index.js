@@ -81,6 +81,9 @@ Cursor.prototype.limit = function(a) {
 Cursor.prototype.skip = function() {
 	return this._config('skip', arguments);
 };
+Cursor.prototype.batchSize = function() {
+	return this._config('batchSize', arguments);
+};
 
 Cursor.prototype._config = function(name, args) {
 	if (typeof args[args.length-1] === 'function') {
