@@ -1,6 +1,9 @@
+var qs = require('querystring');
 var mongo = require('mongodb');
 var common = require('common');
-var url = require('url');
+
+var PARSE_CONNECTION_STRING = /^(?:mongodb:\/\/)?(?:([^:]+):([^@]+)@)?(?:([^\/]+)\/)?([^?]+)(?:\?(.+))?$/;
+var PARSE_HOST = /^([^:]+)(?::(\d+))?$/;
 
 var noop = function() {};
 
@@ -14,29 +17,41 @@ var createObjectId = function() {
 		return new mongo.BSONNative.ObjectID(id);
 	};
 }();
-var parseURL = function(options) {
-	if (typeof options === 'object') {
-		options.host = options.host || '127.0.0.1';
-		options.port = parseInt(options.port || 27017, 10);
-		return options;
-	}
-	if (/^[^:\/]+$/.test(options)) {
-		options = 'mongodb://127.0.0.1:27017/'+options;
-	}
+var parseHost = function(host, result) {
+	if (host && typeof host !== 'string') return host;
 
-	var parsed = url.parse('mongodb://'+options.replace('mongodb://', ''));
-	var result = {};
+	host = (host || '127.0.0.1').match(PARSE_HOST);
+	result = result && typeof result === 'object' ? result : {};
+	result.host = host[1];
+	result.port = parseInt(host[2] || 27017, 10);
 
-	result.username = parsed.auth && parsed.auth.split(':')[0];
-	result.password = parsed.auth && parsed.auth.split(':')[1];
-	result.db = (parsed.pathname || '').substr(1);
-	result.host = parsed.hostname;
-	result.port = parsed.port;
-
-	return parse(result);
+	return result;
 };
-var parse = function(options) {
-	options = parseURL(options);
+var parseConnectionString = function(url) {
+	if (url && typeof url !== 'string') return url;
+
+	url = url.match(PARSE_CONNECTION_STRING);
+
+	var result = {};
+	var options = qs.parse(url[5]);
+	var host = (url[3] || '').split(',');
+
+	result.db = url[4];
+	result.username = url[1];
+	result.password = url[2];
+
+	if (host.length === 1) {
+		parseHost(host[0], result);
+	} else {
+		result.replSet = {};
+		result.replSet.slaveOk = options.slaveOk === 'true';
+		result.replSet.members = host.map(parseHost);
+	}
+
+	return result;
+};
+var parseOptions = function(options) {
+	options = parseConnectionString(options);
 
 	if (options.replSet && Array.isArray(options.replSet)) {
 		options.replSet = {members:options.replSet};
@@ -45,7 +60,7 @@ var parse = function(options) {
 		if (!options.replSet.members) {
 			throw new Error('replSet.members required');
 		}
-		options.replSet.members = options.replSet.members.map(parseURL);
+		options.replSet.members = options.replSet.members.map(parseHost);
 	}
 
 	return options;
@@ -185,22 +200,22 @@ Object.keys(mongo.Collection.prototype).forEach(function(name) { // we just wann
 });
 
 var connect = function(url, collections) {
-	url = parse(url);
-	collections = collections || url.collections;
-
 	var that = {};
+	var options = parseOptions(url);
 	var ondb = common.future();
+
+	options.collections = options.collections || collections || [];
 
 	common.step([
 		function(next) {
-			var replSet = url.replSet && new mongo.ReplSetServers(url.replSet.members.map(function(member) {
+			var replSet = options.replSet && new mongo.ReplSetServers(options.replSet.members.map(function(member) {
 				return new mongo.Server(member.host, member.port, {auto_reconnect:true});
 			}), {
-				read_secondary:url.replSet.slaveOk,
-				rs_name:url.replSet.name
+				read_secondary:options.replSet.slaveOk,
+				rs_name:options.replSet.name
 			});
 
-			var client = new mongo.Db(url.db, replSet || new mongo.Server(url.host, url.port, {auto_reconnect:true}), {safe:false});
+			var client = new mongo.Db(options.db, replSet || new mongo.Server(options.host, options.port, {auto_reconnect:true}), {safe:false});
 
 			that.client = client;
 			that.bson = {
