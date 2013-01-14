@@ -232,8 +232,8 @@ var connect = function(url, collections) {
 		function(db, next) {
 			this.db = db;
 
-			if (url.username) {
-				db.authenticate(url.username, url.password, next);
+			if (options.username) {
+				db.authenticate(options.username, options.password, next);
 			} else {
 				next(null, true);
 			}
