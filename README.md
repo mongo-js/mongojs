@@ -10,9 +10,10 @@ mongojs is very simple to use:
 
 ``` js
 var mongojs = require('mongojs');
-var db = mongojs(databaseURL, [collections]);
+var db = mongojs(connectionString, [collections]);
 ```
 
+The connection string should follow the format desribed in [the mongo connection string docs](http://docs.mongodb.org/manual/reference/connection-string/).
 Some examples of this could be:
 
 ``` js

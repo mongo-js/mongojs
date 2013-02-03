@@ -176,6 +176,7 @@ Collection.prototype._apply = function(fn, args) {
 var toConnectionString = function(conf) {
 	var options = [];
 	var hosts = conf.replSet ? conf.replSet.members || conf.replSet : [conf];
+	var auth = conf.username ? (conf.username+':'+conf.password+'@') : '';
 
 	hosts = hosts.map(function(server) {
 		if (typeof server === 'string') return server;
@@ -184,7 +185,7 @@ var toConnectionString = function(conf) {
 
 	if (conf.slaveOk) options.push('slaveOk=true');
 
-	return 'mongodb://'+hosts+'/'+conf.db+'?'+options.join('&');
+	return 'mongodb://'+auth+hosts+'/'+conf.db+'?'+options.join('&');
 };
 
 var parseConfig = function(cs) {
