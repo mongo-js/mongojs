@@ -173,7 +173,7 @@ Collection.prototype._apply = function(fn, args) {
 	});
 };
 
-var toConnectionString = function(conf) {
+var toConnectionString = function(conf) { // backwards compat config map (use a connection string instead)
 	var options = [];
 	var hosts = conf.replSet ? conf.replSet.members || conf.replSet : [conf];
 	var auth = conf.username ? (conf.username+':'+conf.password+'@') : '';

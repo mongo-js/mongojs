@@ -67,18 +67,10 @@ For more detailed information about the different usages of update and quering s
 
 ## Replication Sets
 
-Mongojs can also connect to a mongo replication set
+Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
 
 ``` js
-var db = mongojs({
-	db: 'mydb',                    // the name of our database
-	collections: ['mycollection'], // we can pass the collections here also
-	replSet: {
-		name: 'myReplSetName',     // the name of the replication set
-		slaveOk: true,             // is it ok to read from secondary? defaults to false
-		members: ['myserver:myport', 'myotherserver', 'mythirdserver']
-	}
-});
+var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection']);
 ```
 
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
