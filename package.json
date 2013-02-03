@@ -10,7 +10,6 @@
  		"Ian Jorgensen <i@ge.tt>"
 	],
 	"dependencies": {
-		"common":">=0.1.0",
 		"mongodb":"1.x.x"
 	},
 	"scripts": {
