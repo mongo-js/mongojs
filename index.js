@@ -94,9 +94,9 @@ Cursor.prototype._apply = function(fn, args) {
 Cursor.prototype._config = function(fn, args) {
 	if (typeof args[args.length-1] !== 'function') return this._apply(fn, args);
 
-	args = Array.prototype.slice.call(arguments);
+	args = Array.prototype.slice.call(args);
 	var callback = args.pop();
-	return fn.apply(this, args).toArray(callback);
+	return this._apply(fn, args).toArray(callback); // issue here..
 };
 
 
