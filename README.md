@@ -59,9 +59,36 @@ db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, functio
 	// the update is complete
 });
 
+// find one named 'mathias', tag him as a contributor and return the modified doc
+
+db.mycollection.findAndModify({ 
+	query: { name: 'mathias' },
+	update: { $set: { tag:'maintainer' } },
+	new: true
+}, function(err, doc) {
+	// doc.tag === 'maintainer'
+});
+
+
 // use the save function to just save a document (the callback is optional for all writes)
 db.mycollection.save({created:'just now'});
 ```
+
+If you provide a callback to `find` or any cursor config operation mongojs will call `toArray` for you
+
+``` js
+db.mycollection.find({}, function(err, docs) { ... });
+
+db.mycollection.find({}).limit(2).skip(1, function(err, docs) { ... });
+```
+is the same as
+
+``` js
+db.mycollection.find({}).toArray(function(err, docs) { ... });
+
+db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
+```
+
 
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
