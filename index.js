@@ -96,7 +96,7 @@ Cursor.prototype._config = function(fn, args) {
 
 	args = Array.prototype.slice.call(args);
 	var callback = args.pop();
-	return this._apply(fn, args).toArray(callback); // issue here..
+	return this._apply(fn, args).toArray(callback);
 };
 
 
