@@ -2,7 +2,7 @@
 	"name":"mongojs",
 	"description":"a simple mongo module that implements the mongo api",
 	"keywords": ["mongo", "db", "mongodb"],
-	"version":"0.6.2",
+	"version":"0.6.3",
 	"repository": "git://github.com/gett/mongojs.git",
 	"author": "Ge.tt <hello@ge.tt>",
 	"contributors": [
@@ -10,7 +10,7 @@
  		"Ian Jorgensen <i@ge.tt>"
 	],
 	"dependencies": {
-		"mongodb":"1.x.x"
+		"mongodb":"1.2.x"
 	},
 	"scripts": {
 		"test":"node ./tests"
