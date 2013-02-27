@@ -199,6 +199,10 @@ var parseConfig = function(cs) {
 	return cs;
 };
 
+var ObjectId = function(id) {
+	return new mongodb.ObjectID(id);
+};
+
 var connect = function(config, collections) {
 	var that = {};
 	var connectionString = parseConfig(config);
@@ -213,9 +217,7 @@ var connect = function(config, collections) {
 
 	that.bson = mongodb.BSONPure;
 
-	that.ObjectId = function(id) {
-		return new mongodb.BSONNative.ObjectID(id);
-	};
+	that.ObjectId = ObjectId;
 
 	that.collection = function(name) {
 		if (that[name]) return that[name];
@@ -248,4 +250,5 @@ var connect = function(config, collections) {
 };
 
 connect.connect = connect; // backwards compat
+connect.ObjectId = ObjectId;
 module.exports = connect;
