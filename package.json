@@ -10,7 +10,8 @@
  		"Ian Jorgensen <i@ge.tt>"
 	],
 	"dependencies": {
-		"mongodb":"1.2.x"
+		"mongodb":"1.2.x",
+		"memolite":"~0.1.0"
 	},
 	"scripts": {
 		"test":"node ./tests"

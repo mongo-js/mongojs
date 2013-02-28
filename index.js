@@ -1,34 +1,11 @@
 var mongodb = require('mongodb');
+var memolite = require('memolite');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
 var DRIVER_CURSOR_PROTO = mongodb.Cursor.prototype;
 var DRIVER_DB_PROTO = mongodb.Db.prototype;
 
 var noop = function() {};
-
-var memoize = function(fn) {
-	var callFn = function(callback) {
-		var stack = [callback];
-
-		action = function(callback) {
-			stack.push(callback);
-		};
-
-		fn(function(err, val) {
-			action = err ? callFn : function(callback) {
-				callback(null, val);
-			};
-
-			while (stack.length) stack.shift()(err, val);
-		});
-	};
-
-	var action = callFn;
-
-	return function(callback) {
-		action(callback);
-	};
-};
 
 var forEachMethod = function(oldProto, newProto, fn) {
 	Object.keys(oldProto).forEach(function(methodName) {
@@ -111,7 +88,7 @@ Collection.prototype.find = function() {
 	var args = Array.prototype.slice.call(arguments);
 
 	var oncollection = this._get;
-	var oncursor = memoize(function(callback) {
+	var oncursor = memolite(function(callback) {
 		args.push(callback);
 		oncollection(function(err, collection) {
 			if (err) return callback(err);
@@ -199,15 +176,11 @@ var parseConfig = function(cs) {
 	return cs;
 };
 
-var ObjectId = function(id) {
-	return new mongodb.ObjectID(id);
-};
-
 var connect = function(config, collections) {
 	var that = {};
 	var connectionString = parseConfig(config);
 
-	var ondb = memoize(function(callback) {
+	var ondb = memolite(function(callback) {
 		mongodb.Db.connect(connectionString, function(err, db) {
 			if (err) return callback(err);
 			that.client = db;
@@ -215,14 +188,13 @@ var connect = function(config, collections) {
 		});
 	});
 
-	that.bson = mongodb.BSONPure;
-
-	that.ObjectId = ObjectId;
+	that.bson = mongodb.BSONPure; // backwards compat
+	that.ObjectId = mongodb.ObjectID; // backwards compat
 
 	that.collection = function(name) {
 		if (that[name]) return that[name];
 
-		var oncollection = memoize(function(callback) {
+		var oncollection = memolite(function(callback) {
 			ondb(function(err, db) {
 				if (err) return callback(err);
 				db.collection(name, callback);
@@ -250,5 +222,5 @@ var connect = function(config, collections) {
 };
 
 connect.connect = connect; // backwards compat
-connect.ObjectId = ObjectId;
+connect.ObjectId = mongodb.ObjectID;
 module.exports = connect;
