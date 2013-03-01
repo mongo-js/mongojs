@@ -1,5 +1,6 @@
 var mongodb = require('mongodb');
 var memolite = require('memolite');
+var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
 var DRIVER_CURSOR_PROTO = mongodb.Cursor.prototype;
@@ -24,8 +25,11 @@ var getCallback = function(args) {
 // arguments to fit the mongo shell.
 
 var Cursor = function(oncursor) {
+	Readable.call(this, {objectMode:true});
 	this._get = oncursor;
 };
+
+Cursor.prototype.__proto__ = Readable.prototype;
 
 Cursor.prototype.toArray = function() {
 	this._apply(DRIVER_CURSOR_PROTO.toArray, arguments);
@@ -66,6 +70,10 @@ Cursor.prototype._apply = function(fn, args) {
 	});
 
 	return this;
+};
+
+Cursor.prototype._read = function(size, callback) { // 0.10 stream support
+	this.next(callback);
 };
 
 Cursor.prototype._config = function(fn, args) {
