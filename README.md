@@ -61,7 +61,7 @@ db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, functio
 
 // find one named 'mathias', tag him as a contributor and return the modified doc
 
-db.mycollection.findAndModify({ 
+db.mycollection.findAndModify({
 	query: { name: 'mathias' },
 	update: { $set: { tag:'maintainer' } },
 	new: true
@@ -91,6 +91,21 @@ db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
 
 
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
+
+## Streaming cursors
+
+As of `0.7.0` all cursors are a [readable stream](http://nodejs.org/api/stream.html#stream_readable_stream) of objects.
+
+``` js
+var JSONStream = require('JSONStream');
+
+// pipe all documents in mycollection to stdout
+db.mycollection.find({}).pipe(JSONStream.stringify()).pipe(process.stdout);
+```
+
+Notice that you should pipe the cursor through a stringifier (like [JSONStream](https://github.com/dominictarr/JSONStream))
+if you want to pipe it to a serial stream like a http response.
+
 
 ## Replication Sets
 
