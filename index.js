@@ -1,5 +1,5 @@
 var mongodb = require('mongodb');
-var memolite = require('memolite');
+var thunky = require('thunky');
 var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
@@ -96,7 +96,7 @@ Collection.prototype.find = function() {
 	var args = Array.prototype.slice.call(arguments);
 
 	var oncollection = this._get;
-	var oncursor = memolite(function(callback) {
+	var oncursor = thunky(function(callback) {
 		args.push(callback);
 		oncollection(function(err, collection) {
 			if (err) return callback(err);
@@ -188,7 +188,7 @@ var connect = function(config, collections) {
 	var that = {};
 	var connectionString = parseConfig(config);
 
-	var ondb = memolite(function(callback) {
+	var ondb = thunky(function(callback) {
 		mongodb.Db.connect(connectionString, function(err, db) {
 			if (err) return callback(err);
 			that.client = db;
@@ -202,7 +202,7 @@ var connect = function(config, collections) {
 	that.collection = function(name) {
 		if (that[name]) return that[name];
 
-		var oncollection = memolite(function(callback) {
+		var oncollection = thunky(function(callback) {
 			ondb(function(err, db) {
 				if (err) return callback(err);
 				db.collection(name, callback);
