@@ -72,8 +72,12 @@ Cursor.prototype._apply = function(fn, args) {
 	return this;
 };
 
-Cursor.prototype._read = function(size, callback) { // 0.10 stream support (0.8 compat using readable-stream)
-	this.next(callback);
+Cursor.prototype._read = function() { // 0.10 stream support (0.8 compat using readable-stream)
+	var self = this;
+	this.next(function(err, data) {
+		if (err) return self.emit('error', err);
+		self.push(data);
+	});
 };
 
 Cursor.prototype._config = function(fn, args) {

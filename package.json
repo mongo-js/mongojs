@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "0.7.1",
+  "version": "0.7.2",
   "repository": "git://github.com/gett/mongojs.git",
   "author": "Ge.tt <hello@ge.tt>",
   "contributors": [
@@ -16,7 +16,7 @@
   "dependencies": {
     "mongodb": "~1.2.13",
     "thunky": "~0.1.0",
-    "readable-stream": "~0.3.1"
+    "readable-stream": "~1.0.2"
   },
   "scripts": {
     "test": "node ./tests"
