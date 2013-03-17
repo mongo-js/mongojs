@@ -235,4 +235,6 @@ var connect = function(config, collections) {
 
 connect.connect = connect; // backwards compat
 connect.ObjectId = mongodb.ObjectID;
+connect.Cursor = Cursor;
+connect.Collection = Collection;
 module.exports = connect;
