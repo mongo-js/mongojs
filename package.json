@@ -14,7 +14,7 @@
     "Ian Jorgensen <i@ge.tt>"
   ],
   "dependencies": {
-    "mongodb": "~1.2.13",
+    "mongodb": ">=1.2.8",
     "thunky": "~0.1.0",
     "readable-stream": "~1.0.2"
   },
