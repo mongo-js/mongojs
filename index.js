@@ -141,7 +141,7 @@ Collection.prototype.remove = function() {
 };
 
 Collection.prototype.group = function(group, callback) {
-	this._apply(DRIVER_COLLECTION_PROTO.group, [group.key, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
+	this._apply(DRIVER_COLLECTION_PROTO.group, [group.key ? group.key : group.keyf, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
 };
 
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
