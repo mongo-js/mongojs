@@ -16,6 +16,13 @@ var forEachMethod = function(oldProto, newProto, fn) {
 	});
 };
 
+var ensureCallback = function(args) {
+	if (getCallback(args) !== noop) return args;
+	args = Array.prototype.slice.call(args);
+	args.push(noop);
+	return args;
+};
+
 var getCallback = function(args) {
 	var callback = args[args.length-1];
 	return typeof callback === 'function' ? callback : noop;
@@ -133,20 +140,20 @@ Collection.prototype.findAndModify = function(options, callback) {
 		remove:!!options.remove,
 		upsert:!!options.upsert,
 		fields:options.fields
-	}, callback]);
-};
-
-Collection.prototype.remove = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}] : arguments); // driver has a small issue with zero-arguments in remove
+	}, callback || noop]);
 };
 
 Collection.prototype.group = function(group, callback) {
 	this._apply(DRIVER_COLLECTION_PROTO.group, [group.key ? group.key : group.keyf, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
 };
 
+Collection.prototype.remove = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+};
+
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
 	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
-		this._apply(fn, arguments);
+		this._apply(fn, ensureCallback(arguments));
 	};
 });
 
