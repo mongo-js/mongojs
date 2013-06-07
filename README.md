@@ -111,7 +111,7 @@ if you want to pipe it to a serial stream like a http response.
 If you are using a capped collection you can create a [tailable cursor](http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/) to that collection by adding `tailable:true` to the find options
 
 ``` js
-var cursor = db.mycollection.find({}, {}, {tailable:true});
+var cursor = db.mycollection.find({}, {}, {tailable:true, timeout:false});
 
 // since all cursors are streams we can just listen for data
 cursor.on('data', function(doc) {
