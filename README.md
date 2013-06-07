@@ -106,6 +106,20 @@ db.mycollection.find({}).pipe(JSONStream.stringify()).pipe(process.stdout);
 Notice that you should pipe the cursor through a stringifier (like [JSONStream](https://github.com/dominictarr/JSONStream))
 if you want to pipe it to a serial stream like a http response.
 
+## Tailable cursors
+
+If you are using a capped collection you can create a [tailable cursor](http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/) to that collection by adding `tailable:true` to the find options
+
+``` js
+var cursor = db.mycollection.find({}, {}, {tailable:true});
+
+// since all cursors are streams we can just listen for data
+cursor.on('data', function(doc) {
+	console.log('new document', doc);
+});
+```
+
+Note that you need to explicitly set the selection parameter in the `find` call.
 
 ## Replication Sets
 
