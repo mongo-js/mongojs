@@ -148,7 +148,15 @@ Collection.prototype.group = function(group, callback) {
 };
 
 Collection.prototype.remove = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	var thiz = this;
+	if (arguments[1] == true) { // the justOne parameter
+		var args = arguments;
+		this.find(arguments[0], function(err, docs) {
+			thiz._apply(DRIVER_COLLECTION_PROTO.remove,[docs[0], getCallback(args)]);
+		});
+	} else {
+		this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	}
 };
 
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
