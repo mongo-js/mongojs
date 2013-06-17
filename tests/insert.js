@@ -1,5 +1,5 @@
 var assert = require('assert');
-var mongojs = require('mongojs');
+var mongojs = require('../index');
 var db = mongojs('test', ['a']);
 
 module.exports = function(docs, test) {
