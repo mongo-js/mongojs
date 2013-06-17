@@ -151,6 +151,10 @@ Collection.prototype.remove = function() {
 	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
 };
 
+Collection.prototype.getIndexes = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.indexes, arguments);
+};
+
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
 	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
 		this._apply(fn, ensureCallback(arguments));
