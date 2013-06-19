@@ -190,7 +190,7 @@ var toConnectionString = function(conf) { // backwards compat config map (use a 
 
 var parseConfig = function(cs) {
 	if (typeof cs === 'object' && cs) return toConnectionString(cs);
-
+	if (typeof cs !== 'string') throw new Error('connection string required'); // to avoid undef errors on bad conf
 	cs = cs.replace(/^\//, '');
 
 	if (cs.indexOf('/') < 0) return parseConfig('127.0.0.1/'+cs);
