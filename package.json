@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "0.7.5",
+  "version": "0.7.6",
   "repository": "git://github.com/gett/mongojs.git",
   "author": "Ge.tt <hello@ge.tt>",
   "contributors": [

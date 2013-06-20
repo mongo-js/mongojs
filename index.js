@@ -160,6 +160,10 @@ Collection.prototype.remove = function() {
 	}
 };
 
+Collection.prototype.getIndexes = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.indexes, arguments);
+};
+
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
 	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
 		this._apply(fn, ensureCallback(arguments));
@@ -195,7 +199,7 @@ var toConnectionString = function(conf) { // backwards compat config map (use a 
 
 var parseConfig = function(cs) {
 	if (typeof cs === 'object' && cs) return toConnectionString(cs);
-
+	if (typeof cs !== 'string') throw new Error('connection string required'); // to avoid undef errors on bad conf
 	cs = cs.replace(/^\//, '');
 
 	if (cs.indexOf('/') < 0) return parseConfig('127.0.0.1/'+cs);
