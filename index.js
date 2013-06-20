@@ -148,7 +148,16 @@ Collection.prototype.group = function(group, callback) {
 };
 
 Collection.prototype.remove = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	var self = this;
+	if (arguments[1] == true) { // the justOne parameter
+		var args = arguments;
+		this.findOne(arguments[0], function(err, doc) {
+			if (err) return getCallback(args)(err);
+			self._apply(DRIVER_COLLECTION_PROTO.remove,[doc, getCallback(args)]);
+		});
+	} else {
+		this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	}
 };
 
 Collection.prototype.getIndexes = function() {
