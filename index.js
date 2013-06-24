@@ -149,19 +149,34 @@ Collection.prototype.group = function(group, callback) {
 
 Collection.prototype.remove = function() {
 	var self = this;
-	if (arguments[1] == true) { // the justOne parameter
-		var args = arguments;
+	var callback = getCallback(arguments);
+
+	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
-			if (err) return getCallback(args)(err);
-			self._apply(DRIVER_COLLECTION_PROTO.remove,[doc, getCallback(args)]);
+			if (err) return callback(err);
+			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
 		});
-	} else {
-		this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+		return;
 	}
+
+	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
 };
 
 Collection.prototype.getIndexes = function() {
 	this._apply(DRIVER_COLLECTION_PROTO.indexes, arguments);
+};
+
+Collection.prototype.runCommand = function(cmd, opts, callback) {
+	callback = callback || noop;
+	this._get(function(err, collection) {
+		if (err) return callback(err);
+		var commandObject = {};
+		commandObject[cmd] = collection.collectionName;
+		Object.keys(opts).forEach(function(key) {
+			commandObject[key] = opts[key];
+		});
+		collection.db.command(commandObject, callback);
+	});
 };
 
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
@@ -179,18 +194,6 @@ Collection.prototype._apply = function(fn, args) {
 		collection.opts.safe = true;
 		fn.apply(collection, args);
 		collection.opts.safe = safe;
-	});
-};
-
-Collection.prototype.runCommand = function(cmd, opts, callback) {
-	this._get(function(err, collection) {
-		if (err) return getCallback(args)(err);
-		var commandObject = {};
-		commandObject[cmd] = collection.collectionName;
-		Object.keys(opts).forEach(function(key) {
-			commandObject[key] = opts[key];
-		});
-		collection.db.command(commandObject, callback);
 	});
 };
 
