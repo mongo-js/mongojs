@@ -182,6 +182,18 @@ Collection.prototype._apply = function(fn, args) {
 	});
 };
 
+Collection.prototype.runCommand = function(cmd, opts, callback) {
+	this._get(function(err, collection) {
+		if (err) return getCallback(args)(err);
+		var commandObject = {};
+		commandObject[cmd] = collection.collectionName;
+		Object.keys(opts).forEach(function(key) {
+			commandObject[key] = opts[key];
+		});
+		collection.db.command(commandObject, callback);
+	});
+};
+
 var toConnectionString = function(conf) { // backwards compat config map (use a connection string instead)
 	var options = [];
 	var hosts = conf.replSet ? conf.replSet.members || conf.replSet : [conf];
@@ -238,6 +250,14 @@ var connect = function(config, collections) {
 
 	collections = collections || config.collections || [];
 	collections.forEach(that.collection);
+
+	that.runCommand = function(opts, callback) {
+		callback = callback || noop;
+		ondb(function(err, db) {
+			if (err) return callback(err);
+			db.command(opts, callback);
+		});
+	};
 
 	forEachMethod(DRIVER_DB_PROTO, that, function(methodName, fn) {
 		that[methodName] = function() {
