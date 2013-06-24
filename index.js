@@ -184,6 +184,7 @@ Collection.prototype._apply = function(fn, args) {
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
 	this._get(function(err, collection) {
+		if (err) return getCallback(args)(err);
 		var commandObject = {};
 		commandObject[cmd] = collection.collectionName;
 		Object.keys(opts).forEach(function(key) {
@@ -250,11 +251,13 @@ var connect = function(config, collections) {
 	collections = collections || config.collections || [];
 	collections.forEach(that.collection);
 
-	ondb(function(err, db) {
-		that.runCommand = function(opts, callback) {
+	that.runCommand = function(opts, callback) {
+		callback = callback || noop;
+		ondb(function(err, db) {
+			if (err) return callback(err);
 			db.command(opts, callback);
-		}
-	});
+		});
+	};
 
 	forEachMethod(DRIVER_DB_PROTO, that, function(methodName, fn) {
 		that[methodName] = function() {
