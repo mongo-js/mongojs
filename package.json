@@ -1,12 +1,12 @@
 {
   "name": "mongojs",
-  "description": "a simple mongo module that implements the mongo api",
+  "description": "Easy to use module that implements the mongo api",
   "keywords": [
     "mongo",
     "db",
     "mongodb"
   ],
-  "version": "0.7.7",
+  "version": "0.7.8",
   "repository": "git://github.com/gett/mongojs.git",
   "contributors": [
     "Mathias Buus Madsen <mathiasbuus@gmail.com>",
