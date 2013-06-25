@@ -8,10 +8,20 @@
   ],
   "version": "0.7.7",
   "repository": "git://github.com/gett/mongojs.git",
-  "author": "Ge.tt <hello@ge.tt>",
   "contributors": [
-    "Mathias Buus Madsen <m@ge.tt>",
-    "Ian Jorgensen <i@ge.tt>"
+    "Mathias Buus Madsen <mathiasbuus@gmail.com>",
+    "Ian Jorgensen",
+    "Eduardo Sorribas",
+    "Taeho Kim",
+    "Forbes Lindesay",
+    "Robert S.",
+    "Srirangan",
+    "Erkan Yilmaz",
+    "Jake Maskiewicz",
+    "Bjarke Walling",
+    "Tobias Baunbæk",
+    "Benedikt Arnold",
+    "Kevin McTigue"
   ],
   "dependencies": {
     "mongodb": ">=1.2.8",
