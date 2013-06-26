@@ -223,8 +223,33 @@ var parseConfig = function(cs) {
 	return cs;
 };
 
+var Database = function(ondb) {
+	this._get = ondb;
+};
+
+Database.prototype.runCommand = function(opts, callback) {
+	callback = callback || noop;
+	this._get(function(err, db) {
+		if (err) return callback(err);
+		db.command(opts, callback);
+	});
+};
+
+Database.prototype.collection = function(name) {
+	var self = this;
+	if (this[name]) return this[name];
+
+	var oncollection = thunky(function(callback) {
+		self._get(function(err, db) {
+			if (err) return callback(err);
+			db.collection(name, callback);
+		});
+	});
+
+	return this[name] = new Collection(oncollection);
+};
+
 var connect = function(config, collections) {
-	var that = {};
 	var connectionString = parseConfig(config);
 
 	var ondb = thunky(function(callback) {
@@ -234,33 +259,15 @@ var connect = function(config, collections) {
 			callback(null, db);
 		});
 	});
+	var that = new Database(ondb);
 
 	that.bson = mongodb.BSONPure; // backwards compat
 	that.ObjectId = mongodb.ObjectID; // backwards compat
 
-	that.collection = function(name) {
-		if (that[name]) return that[name];
-
-		var oncollection = thunky(function(callback) {
-			ondb(function(err, db) {
-				if (err) return callback(err);
-				db.collection(name, callback);
-			});
-		});
-
-		return that[name] = new Collection(oncollection);
-	};
-
 	collections = collections || config.collections || [];
-	collections.forEach(that.collection);
-
-	that.runCommand = function(opts, callback) {
-		callback = callback || noop;
-		ondb(function(err, db) {
-			if (err) return callback(err);
-			db.command(opts, callback);
-		});
-	};
+	collections.forEach(function(colName) {
+		that.collection(colName);
+	});
 
 	forEachMethod(DRIVER_DB_PROTO, that, function(methodName, fn) {
 		that[methodName] = function() {
