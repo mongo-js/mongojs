@@ -249,6 +249,17 @@ Database.prototype.collection = function(name) {
 	return this[name] = new Collection(oncollection);
 };
 
+forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
+	Database.prototype[methodName] = function() {
+		var args = arguments;
+
+		this._get(function(err, db) {
+			if (err) return getCallback(args)(err);
+			fn.apply(db, args);
+		});
+	};
+});
+
 var connect = function(config, collections) {
 	var connectionString = parseConfig(config);
 
@@ -267,17 +278,6 @@ var connect = function(config, collections) {
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
 		that.collection(colName);
-	});
-
-	forEachMethod(DRIVER_DB_PROTO, that, function(methodName, fn) {
-		that[methodName] = function() {
-			var args = arguments;
-
-			ondb(function(err, db) {
-				if (err) return getCallback(args)(err);
-				fn.apply(db, args);
-			});
-		};
 	});
 
 	return that;
