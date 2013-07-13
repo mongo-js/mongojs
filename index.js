@@ -70,6 +70,11 @@ Cursor.prototype.sort = function() {
 	return this._config(DRIVER_CURSOR_PROTO.sort, arguments);
 };
 
+Cursor.prototype.destroy = function() {
+	this._apply(DRIVER_CURSOR_PROTO.close, arguments);
+	this.push(null);
+};
+
 Cursor.prototype._apply = function(fn, args) {
 	this._get(function(err, cursor) {
 		if (err) return getCallback(args)(err);
