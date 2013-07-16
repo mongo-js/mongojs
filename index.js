@@ -1,4 +1,5 @@
 var mongodb = require('mongodb');
+var Grid = mongodb.Grid;
 var thunky = require('thunky');
 var Readable = require('stream').Readable || require('readable-stream');
 
@@ -106,6 +107,10 @@ Cursor.prototype._config = function(fn, args) {
 
 var Collection = function(oncollection) {
 	this._get = oncollection;
+};
+
+var GridFs = function(oncollection) {
+    this.getGridFs = oncollection;
 };
 
 Collection.prototype.find = function() {
@@ -254,6 +259,21 @@ Database.prototype.collection = function(name) {
 	return this[name] = new Collection(oncollection);
 };
 
+Database.prototype.gridCollection = function(name) {
+    var self = this;
+    if (this[name]) return this[name];
+
+    var oncollection = thunky(function(callback) {
+        self._get(function(err, db) {
+            if (err) return callback(err);
+
+            callback(null, new Grid(db, name));
+        });
+    });
+
+    return this[name] = new GridFs(oncollection);
+};
+
 forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 	Database.prototype[methodName] = function() {
 		var args = arguments;
@@ -265,7 +285,7 @@ forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 	};
 });
 
-var connect = function(config, collections) {
+var connect = function(config, collections, gridFsCollections) {
 	var connectionString = parseConfig(config);
 
 	var ondb = thunky(function(callback) {
@@ -284,6 +304,11 @@ var connect = function(config, collections) {
 	collections.forEach(function(colName) {
 		that.collection(colName);
 	});
+
+    gridFsCollections = gridFsCollections || config.gridFsCollections || [];
+    gridFsCollections.forEach(function(colName) {
+        that.gridCollection(colName);
+    });
 
 	return that;
 };
