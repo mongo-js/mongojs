@@ -6,6 +6,9 @@ var grid = db.b;
 
 grid.getGridFs(function (error, gridFs) {
     gridFs.put(new Buffer('Hello world'), {}, function(err, result) {
+        assert.equal(null, err);
+        assert.ok(result != null);
+        assert.ok(result._id != null);
 
         // Delete file
         gridFs.delete(result._id, function(err, result2) {
