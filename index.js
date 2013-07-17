@@ -266,7 +266,6 @@ Database.prototype.gridCollection = function(name) {
     var oncollection = thunky(function(callback) {
         self._get(function(err, db) {
             if (err) return callback(err);
-
             callback(null, new Grid(db, name));
         });
     });
@@ -300,15 +299,15 @@ var connect = function(config, collections, gridFsCollections) {
 	that.bson = mongodb.BSONPure; // backwards compat
 	that.ObjectId = mongodb.ObjectID; // backwards compat
 
-	collections = collections || config.collections || [];
-	collections.forEach(function(colName) {
-		that.collection(colName);
-	});
-
     gridFsCollections = gridFsCollections || config.gridFsCollections || [];
     gridFsCollections.forEach(function(colName) {
         that.gridCollection(colName);
     });
+
+    collections = collections || config.collections || [];
+	collections.forEach(function(colName) {
+		that.collection(colName);
+	});
 
 	return that;
 };
