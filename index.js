@@ -242,7 +242,6 @@ Database.prototype.runCommand = function(opts, callback) {
 
 Database.prototype.collection = function(name) {
 	var self = this;
-	if (this[name]) return this[name];
 
 	var oncollection = thunky(function(callback) {
 		self._get(function(err, db) {
@@ -251,7 +250,7 @@ Database.prototype.collection = function(name) {
 		});
 	});
 
-	return this[name] = new Collection(oncollection);
+	return new Collection(oncollection);
 };
 
 forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
@@ -282,7 +281,7 @@ var connect = function(config, collections) {
 
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-		that.collection(colName);
+		that[colName] = that.collection(colName);
 	});
 
 	return that;
