@@ -1,5 +1,6 @@
 var mongodb = require('mongodb');
 var thunky = require('thunky');
+var util = require('util');
 var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
@@ -36,7 +37,7 @@ var Cursor = function(oncursor) {
 	this._get = oncursor;
 };
 
-Cursor.prototype.__proto__ = Readable.prototype;
+util.inherits(Cursor, Readable);
 
 Cursor.prototype.toArray = function() {
 	this._apply(DRIVER_CURSOR_PROTO.toArray, arguments);
