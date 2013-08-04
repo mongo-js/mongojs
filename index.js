@@ -55,6 +55,10 @@ Cursor.prototype.count = function() {
 	this._apply(DRIVER_CURSOR_PROTO.count, arguments);
 };
 
+Cursor.prototype.explain = function() {
+	this._apply(DRIVER_CURSOR_PROTO.explain, arguments);
+};
+
 Cursor.prototype.limit = function() {
 	return this._config(DRIVER_CURSOR_PROTO.limit, arguments);
 };
@@ -74,6 +78,10 @@ Cursor.prototype.sort = function() {
 Cursor.prototype.destroy = function() {
 	this._apply(DRIVER_CURSOR_PROTO.close, arguments);
 	this.push(null);
+};
+
+Cursor.prototype.explain = function() {
+	return this._apply(DRIVER_CURSOR_PROTO.explain, arguments);
 };
 
 Cursor.prototype._apply = function(fn, args) {
