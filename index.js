@@ -80,10 +80,6 @@ Cursor.prototype.destroy = function() {
 	this.push(null);
 };
 
-Cursor.prototype.explain = function() {
-	return this._apply(DRIVER_CURSOR_PROTO.explain, arguments);
-};
-
 Cursor.prototype._apply = function(fn, args) {
 	this._get(function(err, cursor) {
 		if (err) return getCallback(args)(err);
