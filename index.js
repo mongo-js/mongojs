@@ -6,6 +6,7 @@ var Readable = require('stream').Readable || require('readable-stream');
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
 var DRIVER_CURSOR_PROTO = mongodb.Cursor.prototype;
 var DRIVER_DB_PROTO = mongodb.Db.prototype;
+var DRIVER_GRID_PROTO = mongodb.Grid.prototype;
 
 var noop = function() {};
 
@@ -101,16 +102,11 @@ Cursor.prototype._config = function(fn, args) {
 	return this._apply(fn, args).toArray(callback);
 };
 
-
 // Proxy for the native collection prototype that normalizes method names and
 // arguments to fit the mongo shell.
 
 var Collection = function(oncollection) {
 	this._get = oncollection;
-};
-
-var GridFs = function (oncollection) {
-    this.getGridFs = oncollection;
 };
 
 Collection.prototype.find = function() {
@@ -206,6 +202,33 @@ Collection.prototype._apply = function(fn, args) {
 		collection.opts.safe = safe;
 	});
 };
+
+// Proxy for the native gridFs prototype that normalizes method names and
+// arguments to fit the mongo shell.
+
+var GridFs = function (oncollection) {
+    this._get = oncollection;
+};
+
+forEachMethod(DRIVER_GRID_PROTO, GridFs.prototype, function(methodName, fn) {
+    GridFs.prototype[methodName] = function() { // we just proxy the rest of the methods directly
+        this._apply(fn, ensureCallback(arguments));
+    };
+});
+
+GridFs.prototype._apply = function(fn, args) {
+    this._get(function (err, gridFs) {
+        if (err) return getCallback(args)(err);
+        if (!gridFs.opts || getCallback(args) === noop) return fn.apply(gridFs, args);
+
+        var safe = gridFs.opts.safe;
+        gridFs.opts.safe = true;
+        fn.apply(gridFs, args);
+        gridFs.opts.safe = safe;
+    });
+};
+
+// functions
 
 var toConnectionString = function(conf) { // backwards compat config map (use a connection string instead)
 	var options = [];
@@ -316,4 +339,5 @@ connect.connect = connect; // backwards compat
 connect.ObjectId = mongodb.ObjectID;
 connect.Cursor = Cursor;
 connect.Collection = Collection;
+connect.GridFs = GridFs;
 module.exports = connect;
