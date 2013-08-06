@@ -270,7 +270,16 @@ Database.prototype.runCommand = function(opts, callback) {
 
 Database.prototype.collection = function(name) {
 	var self = this;
-	if (this[name]) return this[name];
+    var separator = '.';
+    var index = name.indexOf(separator);
+
+    if (index > 0){
+        var arr = name.split(separator);
+
+        if (this[arr[0]] && this[arr[0]][arr[1]]) return this[arr[0]][arr[1]];
+    } else{
+	    if (this[name]) return this[name];
+    }
 
 	var oncollection = thunky(function(callback) {
 		self._get(function(err, db) {
@@ -279,7 +288,13 @@ Database.prototype.collection = function(name) {
 		});
 	});
 
-	return this[name] = new Collection(oncollection);
+    if (index > 0){
+        var arr = name.split(separator);
+
+        return this[arr[0]][arr[1]] = new Collection(oncollection);
+    } else {
+	    return this[name] = new Collection(oncollection);
+    }
 };
 
 Database.prototype.gridCollection = function (name) {

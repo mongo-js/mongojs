@@ -8,7 +8,7 @@ db.fs.put(new Buffer('Hello world'), {metadata: {'type': 'customer'}}, function 
     assert.ok(result._id != null);
 
     // Get count
-    db['fs.files'].count({'metadata.type': 'customer'}, function (err, data) {
+    db.fs.files.count({'metadata.type': 'customer'}, function (err, data) {
         assert.equal(null, err);
         assert.ok(data === 1);
 
