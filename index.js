@@ -290,7 +290,8 @@ Database.prototype.collection = function(name) {
 
     if (index > 0){
         var arr = name.split(separator);
-
+        
+        this[arr[0]] = this[arr[0]] || {};
         return this[arr[0]][arr[1]] = new Collection(oncollection);
     } else {
 	    return this[name] = new Collection(oncollection);
