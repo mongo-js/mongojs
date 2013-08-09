@@ -1,5 +1,5 @@
 var assert = require('assert');
-var mongojs = require('mongojs');
+var mongojs = require('../index');
 var db = mongojs('localhost', ['test']);
 
 process.once('uncaughtException', function(err) {
