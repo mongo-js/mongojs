@@ -1,6 +1,7 @@
 var mongodb = require('mongodb');
 var thunky = require('thunky');
 var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
@@ -234,8 +235,11 @@ var parseConfig = function(cs) {
 };
 
 var Database = function(ondb) {
+	EventEmitter.call(this);
 	this._get = ondb;
 };
+
+util.inherits(Database, EventEmitter);
 
 Database.prototype.runCommand = function(opts, callback) {
 	callback = callback || noop;
@@ -276,6 +280,11 @@ var connect = function(config, collections) {
 		mongodb.Db.connect(connectionString, function(err, db) {
 			if (err) return callback(err);
 			that.client = db;
+			db.on('error', function(err) {
+				process.nextTick(function() {
+					that.emit('error', err);
+				});
+			});
 			callback(null, db);
 		});
 	});
