@@ -262,14 +262,16 @@ Database.prototype.collection = function(name) {
 	return new Collection(oncollection);
 };
 
+Database.prototype._apply = function(fn, args) {
+	this._get(function(err, db) {
+		if (err) return getCallback(args)(err);
+		fn.apply(db, args);
+	});
+};
+
 forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 	Database.prototype[methodName] = function() {
-		var args = arguments;
-
-		this._get(function(err, db) {
-			if (err) return getCallback(args)(err);
-			fn.apply(db, args);
-		});
+		this._apply(fn, arguments);
 	};
 });
 
