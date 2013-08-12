@@ -164,7 +164,7 @@ Collection.prototype.remove = function() {
 
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
-			if (err) return callback(err);
+			if (err || !doc) return callback(err);
 			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
 		});
 		return;
