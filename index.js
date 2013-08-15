@@ -315,4 +315,5 @@ connect.connect = connect; // backwards compat
 connect.ObjectId = mongodb.ObjectID;
 connect.Cursor = Cursor;
 connect.Collection = Collection;
+connect.Database = Database;
 module.exports = connect;
