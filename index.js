@@ -253,7 +253,9 @@ Database.prototype.runCommand = function(opts, callback) {
 Database.prototype.getCollectionNames = function(callback) {
 	this.collections(function(err, cols) {
 		if (err) return callback(err);
-		callback(null, cols.map(function(c) { return c.collectionName}));
+		callback(null, cols.map(function(c) {
+			return c.collectionName;
+		}));
 	});
 };
 
