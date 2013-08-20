@@ -1,6 +1,6 @@
 var assert = require('assert');
 var mongojs = require('../index');
-var db = mongojs('test', ['fs.files'], ['fs']);
+var db = mongojs('test', ['customers', 'products', 'fs.files'], ['fs']);
 
 db.fs.put(new Buffer('Hello world'), {metadata: {'type': 'customer'}}, function (err, result) {
     assert.equal(null, err);

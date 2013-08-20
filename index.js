@@ -348,12 +348,22 @@ var connect = function(config, collections, gridFsCollections) {
 
     gridFsCollections = gridFsCollections || config.gridFsCollections || [];
     gridFsCollections.forEach(function (colName) {
-        that.gridCollection(colName);
+        that[colName] = that.gridCollection(colName);
     });
+
+    var separator = '.';
 
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-		that[colName] = that.collection(colName);
+        var index = colName.indexOf(separator);
+
+        if (index > 0){
+            var arr = colName.split(separator);
+
+            that[arr[0]][arr[1]] = that.collection(colName);
+        } else{
+            that[colName] = that.collection(colName);
+        }
 	});
 
 	return that;
