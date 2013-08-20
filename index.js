@@ -1,6 +1,8 @@
 var mongodb = require('mongodb');
 var Grid = mongodb.Grid;
 var thunky = require('thunky');
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
@@ -38,7 +40,7 @@ var Cursor = function(oncursor) {
 	this._get = oncursor;
 };
 
-Cursor.prototype.__proto__ = Readable.prototype;
+util.inherits(Cursor, Readable);
 
 Cursor.prototype.toArray = function() {
 	this._apply(DRIVER_CURSOR_PROTO.toArray, arguments);
@@ -54,6 +56,10 @@ Cursor.prototype.forEach = function() {
 
 Cursor.prototype.count = function() {
 	this._apply(DRIVER_CURSOR_PROTO.count, arguments);
+};
+
+Cursor.prototype.explain = function() {
+	this._apply(DRIVER_CURSOR_PROTO.explain, arguments);
 };
 
 Cursor.prototype.limit = function() {
@@ -160,6 +166,7 @@ Collection.prototype.remove = function() {
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
 			if (err) return callback(err);
+			if (!doc) return callback(null, 0);
 			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
 		});
 		return;
@@ -257,8 +264,11 @@ var parseConfig = function(cs) {
 };
 
 var Database = function(ondb) {
+	EventEmitter.call(this);
 	this._get = ondb;
 };
+
+util.inherits(Database, EventEmitter);
 
 Database.prototype.runCommand = function(opts, callback) {
 	callback = callback || noop;
@@ -268,18 +278,17 @@ Database.prototype.runCommand = function(opts, callback) {
 	});
 };
 
+Database.prototype.getCollectionNames = function(callback) {
+	this.collections(function(err, cols) {
+		if (err) return callback(err);
+		callback(null, cols.map(function(c) {
+			return c.collectionName;
+		}));
+	});
+};
+
 Database.prototype.collection = function(name) {
 	var self = this;
-    var separator = '.';
-    var index = name.indexOf(separator);
-
-    if (index > 0){
-        var arr = name.split(separator);
-
-        if (this[arr[0]] && this[arr[0]][arr[1]]) return this[arr[0]][arr[1]];
-    } else{
-	    if (this[name]) return this[name];
-    }
 
 	var oncollection = thunky(function(callback) {
 		self._get(function(err, db) {
@@ -288,19 +297,18 @@ Database.prototype.collection = function(name) {
 		});
 	});
 
-    if (index > 0){
-        var arr = name.split(separator);
-        
-        this[arr[0]] = this[arr[0]] || {};
-        return this[arr[0]][arr[1]] = new Collection(oncollection);
-    } else {
-	    return this[name] = new Collection(oncollection);
-    }
+	return new Collection(oncollection);
+};
+
+Database.prototype._apply = function(fn, args) {
+	this._get(function(err, db) {
+		if (err) return getCallback(args)(err);
+		fn.apply(db, args);
+	});
 };
 
 Database.prototype.gridCollection = function (name) {
     var self = this;
-    if (this[name]) return this[name];
 
     var oncollection = thunky(function (callback) {
         self._get(function (err, db) {
@@ -309,17 +317,12 @@ Database.prototype.gridCollection = function (name) {
         });
     });
 
-    return this[name] = new GridFs(oncollection);
+    return new GridFs(oncollection);
 };
 
 forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 	Database.prototype[methodName] = function() {
-		var args = arguments;
-
-		this._get(function(err, db) {
-			if (err) return getCallback(args)(err);
-			fn.apply(db, args);
-		});
+		this._apply(fn, arguments);
 	};
 });
 
@@ -330,6 +333,11 @@ var connect = function(config, collections, gridFsCollections) {
 		mongodb.Db.connect(connectionString, function(err, db) {
 			if (err) return callback(err);
 			that.client = db;
+			db.on('error', function(err) {
+				process.nextTick(function() {
+					that.emit('error', err);
+				});
+			});
 			callback(null, db);
 		});
 	});
@@ -345,7 +353,7 @@ var connect = function(config, collections, gridFsCollections) {
 
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-		that.collection(colName);
+		that[colName] = that.collection(colName);
 	});
 
 	return that;
@@ -356,4 +364,5 @@ connect.ObjectId = mongodb.ObjectID;
 connect.Cursor = Cursor;
 connect.Collection = Collection;
 connect.GridFs = GridFs;
+connect.Database = Database;
 module.exports = connect;

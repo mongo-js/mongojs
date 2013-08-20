@@ -6,7 +6,7 @@ It is available through npm:
 
 ## Usage
 
-mongojs is very simple to use:
+mongojs is easy to use:
 
 ``` js
 var mongojs = require('mongojs');

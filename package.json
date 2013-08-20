@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "0.7.9",
+  "version": "0.7.16",
   "repository": "git://github.com/gett/mongojs.git",
   "contributors": [
     "Mathias Buus Madsen <mathiasbuus@gmail.com>",
