@@ -34,7 +34,7 @@ var getCallback = function(args) {
 // arguments to fit the mongo shell.
 
 var Cursor = function(oncursor) {
-	Readable.call(this, {objectMode:true});
+	Readable.call(this, {objectMode:true, highWaterMark:0});
 	this._get = oncursor;
 };
 
