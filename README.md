@@ -134,7 +134,7 @@ db.runCommand({ping:1}, function(err, result) {
 or `db.collection.runCommand()`
 
 ```js
-db.things.runCommand('count', {}, function(err, res) {
+db.things.runCommand('count', function(err, res) {
 	console.log(res);
 });
 ```
