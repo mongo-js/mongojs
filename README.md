@@ -121,6 +121,24 @@ cursor.on('data', function(doc) {
 
 Note that you need to explicitly set the selection parameter in the `find` call.
 
+## Database commands
+
+With mongojs you can run database commands just like with the mongo shell using `db.runCommand()` 
+
+```js
+db.runCommand({ping:1}, function(err, result) {
+	if(!err && result.ok) console.log("we're up");
+});
+```
+
+or `db.collection.runCommand()`
+
+```js
+db.things.runCommand('count', {}, function(err, res) {
+	console.log(res);
+});
+```
+
 ## Replication Sets
 
 Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
