@@ -259,6 +259,10 @@ Database.prototype.runCommand = function(opts, callback) {
 	});
 };
 
+Database.prototype.open = function(callback) {
+	this._get(callback); // a way to force open the db, 99.9% of the times this is not needed
+};
+
 Database.prototype.getCollectionNames = function(callback) {
 	this.collections(function(err, cols) {
 		if (err) return callback(err);
@@ -311,7 +315,7 @@ var connect = function(config, collections) {
 	});
 	var that = new Database(ondb);
 
-	that.bson = mongodb.BSONPure; // backwards compat
+	that.bson = mongodb.BSONPure; // backwards compat (require('bson') instead)
 	that.ObjectId = mongodb.ObjectID; // backwards compat
 
 	collections = collections || config.collections || [];
@@ -327,4 +331,5 @@ connect.ObjectId = mongodb.ObjectID;
 connect.Cursor = Cursor;
 connect.Collection = Collection;
 connect.Database = Database;
+
 module.exports = connect;
