@@ -70,7 +70,7 @@ db.mycollection.findAndModify({
 });
 
 
-// use the save function to just save a document (the callback is optional for all writes)
+// use the save function to just save a document (callback is optional for all writes)
 db.mycollection.save({created:'just now'});
 ```
 
