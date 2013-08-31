@@ -320,7 +320,13 @@ var connect = function(config, collections) {
 
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-		that[colName] = that.collection(colName);
+		var parts = colName.split('.');
+		var last = parts.pop();
+		var parent = parts.reduce(function(parent, prefix) {
+			return parent[prefix] = parent[prefix] || {};
+		}, that);
+
+		parent[last] = that.collection(colName);
 	});
 
 	return that;
