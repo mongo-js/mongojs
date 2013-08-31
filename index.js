@@ -180,7 +180,8 @@ Collection.prototype.getIndexes = function() {
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
 	callback = callback || noop;
-	if (callback === noop && typeof opts === 'function') {
+	opts = opts || {};
+	if (typeof opts === 'function') {
 		callback = opts;
 	};
 	this._get(function(err, collection) {
