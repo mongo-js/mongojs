@@ -55,12 +55,11 @@ db.mycollection.find({level:{$gt:90}}).forEach(function(err, doc) {
 });
 
 // find all named 'mathias' and increment their level
-db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function(err) {
+db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function() {
 	// the update is complete
 });
 
 // find one named 'mathias', tag him as a contributor and return the modified doc
-
 db.mycollection.findAndModify({
 	query: { name: 'mathias' },
 	update: { $set: { tag:'maintainer' } },
