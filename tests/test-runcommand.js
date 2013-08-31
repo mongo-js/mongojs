@@ -19,7 +19,14 @@ insert([{
 				assert.equal(docs.values.length, 3);
 				db.runCommand({distinct:'a', key:"hello", query:{hello:"world"}}, function(err, docs) {
 					assert.equal(docs.values.length, 1);
-					done();
+					db.runCommand("ping", function(err, res) {
+						assert.equal(res.ok,1);
+						db.a.runCommand("count", function(err, res) {
+							assert.equal(res.n, 4);
+							done();
+						});
+					});
+
 				});
 			});
 		});
