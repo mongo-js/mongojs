@@ -180,6 +180,10 @@ Collection.prototype.getIndexes = function() {
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
 	callback = callback || noop;
+	opts = opts || {};
+	if (typeof opts === 'function') {
+		callback = opts;
+	};
 	this._get(function(err, collection) {
 		if (err) return callback(err);
 		var commandObject = {};
@@ -244,6 +248,11 @@ util.inherits(Database, EventEmitter);
 
 Database.prototype.runCommand = function(opts, callback) {
 	callback = callback || noop;
+	if (typeof opts === 'string') {
+		var tmp = opts;
+		opts = {};
+		opts[tmp] = 1;
+	};
 	this._get(function(err, db) {
 		if (err) return callback(err);
 		db.command(opts, callback);
