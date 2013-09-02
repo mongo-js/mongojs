@@ -1,10 +1,7 @@
-# mongojs
-A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible. It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native/).
-It is available through npm:
+# mongojs [![build status](https://secure.travis-ci.org/mafintosh/mongojs.png)](http://travis-ci.org/mafintosh/mongojs.png)
+A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible. It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native/) and is available through npm:
 
 	npm install mongojs
-
-[![build status](https://secure.travis-ci.org/mafintosh/mongojs.png)](http://travis-ci.org/mafintosh/mongojs.png)
 
 ## Usage
 
