@@ -4,6 +4,8 @@ It is available through npm:
 
 	npm install mongojs
 
+[![build status](https://secure.travis-ci.org/mafintosh/mongojs.png)](http://travis-ci.org/mafintosh/mongojs.png)
+
 ## Usage
 
 mongojs is easy to use:
