@@ -272,6 +272,16 @@ Database.prototype.getCollectionNames = function(callback) {
 	});
 };
 
+Database.prototype.createCollection = function(name, opts, callback) {
+	if (typeof opts === 'function') {
+		callback = opts;
+		opts = {};
+	}
+	opts = opts || {};
+	opts.strict = opts.strict !== false;
+	this._apply(DRIVER_DB_PROTO.createCollection, [name, opts, callback || noop]);
+};
+
 Database.prototype.collection = function(name) {
 	var self = this;
 
