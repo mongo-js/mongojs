@@ -252,7 +252,7 @@ Database.prototype.runCommand = function(opts, callback) {
 		var tmp = opts;
 		opts = {};
 		opts[tmp] = 1;
-	};
+	}
 	this._get(function(err, db) {
 		if (err) return callback(err);
 		db.command(opts, callback);
