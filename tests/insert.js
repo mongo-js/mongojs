@@ -6,20 +6,15 @@ module.exports = function(docs, test) {
 	db.a.remove(function(err) {
 		assert.ok(!err);
 
-		var insertNextDoc = function() {
+		db.a.insert(docs, function(err) {
 			assert.ok(!err);
-			if (!docs.length) {
-				test(db, function() {
-					db.a.remove(function(err) {
-						assert.ok(!err);
-						db.close();
-					});
+			test(db, function() {
+				db.a.remove(function(err) {
+					assert.ok(!err);
+					db.close();
 				});
-				return;
-			}
-			db.a.save(docs.shift(), insertNextDoc);
-		};
+			});
+		});
 
-		insertNextDoc();
 	});
 };
