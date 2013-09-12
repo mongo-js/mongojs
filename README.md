@@ -57,6 +57,13 @@ db.mycollection.find({level:{$gt:90}}).forEach(function(err, doc) {
 	// doc is a document in the collection
 });
 
+// find a document using a native ObjectId
+db.mycollection.findOne({
+	_id:mongojs.ObjectId('523209c4561c640000000001')
+}, function(err, doc) {
+	// doc._id.toString() === '523209c4561c640000000001'
+});
+
 // find all named 'mathias' and increment their level
 db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function() {
 	// the update is complete
@@ -74,13 +81,6 @@ db.mycollection.findAndModify({
 
 // use the save function to just save a document (callback is optional for all writes)
 db.mycollection.save({created:'just now'});
-
-// find a document using a native ObjectId
-db.mycollection.findOne({
-	_id:mongojs.ObjectId('523209c4561c640000000001')
-}, function(err, doc) {
-	// doc._id.toString() === '523209c4561c640000000001'
-});
 
 ```
 
