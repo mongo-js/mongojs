@@ -74,6 +74,12 @@ db.mycollection.findAndModify({
 
 // use the save function to just save a document (callback is optional for all writes)
 db.mycollection.save({created:'just now'});
+
+// find a document using a native ObjectId
+db.mycollection.findOne({_id:mongojs.ObjectId('523209c4561c640000000001')}, function(err, doc) {
+	// doc._id.toString() === '523209c4561c640000000001'
+});
+
 ```
 
 If you provide a callback to `find` or any cursor config operation mongojs will call `toArray` for you
@@ -90,7 +96,6 @@ db.mycollection.find({}).toArray(function(err, docs) { ... });
 
 db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
 ```
-
 
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
