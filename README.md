@@ -76,7 +76,9 @@ db.mycollection.findAndModify({
 db.mycollection.save({created:'just now'});
 
 // find a document using a native ObjectId
-db.mycollection.findOne({_id:mongojs.ObjectId('523209c4561c640000000001')}, function(err, doc) {
+db.mycollection.findOne({
+	_id:mongojs.ObjectId('523209c4561c640000000001')
+}, function(err, doc) {
 	// doc._id.toString() === '523209c4561c640000000001'
 });
 
