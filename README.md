@@ -135,8 +135,8 @@ Note that you need to explicitly set the selection parameter in the `find` call.
 With mongojs you can run database commands just like with the mongo shell using `db.runCommand()` 
 
 ```js
-db.runCommand({ping:1}, function(err, result) {
-	if(!err && result.ok) console.log("we're up");
+db.runCommand({ping:1}, function(err, res) {
+	if(!err && res.ok) console.log("we're up");
 });
 ```
 
