@@ -258,7 +258,6 @@ Database.prototype.runCommand = function(opts, callback) {
 		if (opts.shutdown === undefined) return db.command(opts, callback);
 		// If the command in question is a shutdown, mongojs should shut down the server without crashing.
 		db.command(opts, function(err) {
-			if (err) return callback(err);
 			db.close();
 			callback.apply(this, arguments);
 		});
