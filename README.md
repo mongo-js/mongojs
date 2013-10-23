@@ -1,8 +1,11 @@
 # mongojs
-A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible. It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native/).
-It is available through npm:
+
+A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible. 
+It wraps [mongodb-native](https://github.com/mongodb/node-mongodb-native/) and is available through [npm](http://npmjs.org)
 
 	npm install mongojs
+
+[![build status](https://secure.travis-ci.org/mafintosh/mongojs.png)](http://travis-ci.org/mafintosh/mongojs)
 
 ## Usage
 
@@ -54,13 +57,19 @@ db.mycollection.find({level:{$gt:90}}).forEach(function(err, doc) {
 	// doc is a document in the collection
 });
 
+// find a document using a native ObjectId
+db.mycollection.findOne({
+	_id:mongojs.ObjectId('523209c4561c640000000001')
+}, function(err, doc) {
+	// doc._id.toString() === '523209c4561c640000000001'
+});
+
 // find all named 'mathias' and increment their level
-db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function(err) {
+db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function() {
 	// the update is complete
 });
 
 // find one named 'mathias', tag him as a contributor and return the modified doc
-
 db.mycollection.findAndModify({
 	query: { name: 'mathias' },
 	update: { $set: { tag:'maintainer' } },
@@ -70,8 +79,9 @@ db.mycollection.findAndModify({
 });
 
 
-// use the save function to just save a document (the callback is optional for all writes)
+// use the save function to just save a document (callback is optional for all writes)
 db.mycollection.save({created:'just now'});
+
 ```
 
 If you provide a callback to `find` or any cursor config operation mongojs will call `toArray` for you
@@ -88,7 +98,6 @@ db.mycollection.find({}).toArray(function(err, docs) { ... });
 
 db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
 ```
-
 
 For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
@@ -121,6 +130,24 @@ cursor.on('data', function(doc) {
 
 Note that you need to explicitly set the selection parameter in the `find` call.
 
+## Database commands
+
+With mongojs you can run database commands just like with the mongo shell using `db.runCommand()` 
+
+```js
+db.runCommand({ping:1}, function(err, res) {
+	if(!err && res.ok) console.log("we're up");
+});
+```
+
+or `db.collection.runCommand()`
+
+```js
+db.things.runCommand('count', function(err, res) {
+	console.log(res);
+});
+```
+
 ## Replication Sets
 
 Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
@@ -149,7 +176,3 @@ db.documents.getGridFs(function (error, gridFs) {
 ```
 
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
-
-## License
-
-MIT

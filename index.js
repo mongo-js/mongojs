@@ -36,7 +36,7 @@ var getCallback = function(args) {
 // arguments to fit the mongo shell.
 
 var Cursor = function(oncursor) {
-	Readable.call(this, {objectMode:true});
+	Readable.call(this, {objectMode:true, highWaterMark:0});
 	this._get = oncursor;
 };
 
@@ -181,6 +181,10 @@ Collection.prototype.getIndexes = function() {
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
 	callback = callback || noop;
+	opts = opts || {};
+	if (typeof opts === 'function') {
+		callback = opts;
+	};
 	this._get(function(err, collection) {
 		if (err) return callback(err);
 		var commandObject = {};
@@ -272,10 +276,24 @@ util.inherits(Database, EventEmitter);
 
 Database.prototype.runCommand = function(opts, callback) {
 	callback = callback || noop;
+	if (typeof opts === 'string') {
+		var tmp = opts;
+		opts = {};
+		opts[tmp] = 1;
+	}
 	this._get(function(err, db) {
 		if (err) return callback(err);
-		db.command(opts, callback);
+		if (opts.shutdown === undefined) return db.command(opts, callback);
+		// If the command in question is a shutdown, mongojs should shut down the server without crashing.
+		db.command(opts, function(err) {
+			db.close();
+			callback.apply(this, arguments);
+		});
 	});
+};
+
+Database.prototype.open = function(callback) {
+	this._get(callback); // a way to force open the db, 99.9% of the times this is not needed
 };
 
 Database.prototype.getCollectionNames = function(callback) {
@@ -285,6 +303,16 @@ Database.prototype.getCollectionNames = function(callback) {
 			return c.collectionName;
 		}));
 	});
+};
+
+Database.prototype.createCollection = function(name, opts, callback) {
+	if (typeof opts === 'function') {
+		callback = opts;
+		opts = {};
+	}
+	opts = opts || {};
+	opts.strict = opts.strict !== false;
+	this._apply(DRIVER_DB_PROTO.createCollection, [name, opts, callback || noop]);
 };
 
 Database.prototype.collection = function(name) {
@@ -343,7 +371,7 @@ var connect = function(config, collections, gridFsCollections) {
 	});
 	var that = new Database(ondb);
 
-	that.bson = mongodb.BSONPure; // backwards compat
+	that.bson = mongodb.BSONPure; // backwards compat (require('bson') instead)
 	that.ObjectId = mongodb.ObjectID; // backwards compat
 
     gridFsCollections = gridFsCollections || config.gridFsCollections || [];
@@ -375,4 +403,5 @@ connect.Cursor = Cursor;
 connect.Collection = Collection;
 connect.GridFs = GridFs;
 connect.Database = Database;
+
 module.exports = connect;

@@ -6,8 +6,8 @@
     "db",
     "mongodb"
   ],
-  "version": "0.7.16",
-  "repository": "git://github.com/gett/mongojs.git",
+  "version": "0.9.6",
+  "repository": "git://github.com/mafintosh/mongojs.git",
   "contributors": [
     "Mathias Buus Madsen <mathiasbuus@gmail.com>",
     "Ian Jorgensen",
@@ -24,9 +24,9 @@
     "Kevin McTigue"
   ],
   "dependencies": {
-    "mongodb": ">=1.2.8",
     "thunky": "~0.1.0",
-    "readable-stream": "~1.0.2"
+    "readable-stream": "~1.1.8",
+    "mongodb": "~1.3.19"
   },
   "scripts": {
     "test": "node ./tests"
