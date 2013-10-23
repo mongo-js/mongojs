@@ -379,19 +379,15 @@ var connect = function(config, collections, gridFsCollections) {
         that[colName] = that.gridCollection(colName);
     });
 
-    var separator = '.';
-
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-        var index = colName.indexOf(separator);
+        var parts = colName.split('.');
+        var last = parts.pop();
+        var parent = parts.reduce(function(parent, prefix) {
+            return parent[prefix] = parent[prefix] || {};
+        }, that);
 
-        if (index > 0){
-            var arr = colName.split(separator);
-
-            that[arr[0]][arr[1]] = that.collection(colName);
-        } else{
-            that[colName] = that.collection(colName);
-        }
+        parent[last] = that.collection(colName);
 	});
 
 	return that;
