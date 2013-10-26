@@ -1,4 +1,5 @@
 var mongodb = require('mongodb');
+var Grid = mongodb.Grid;
 var thunky = require('thunky');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
@@ -7,6 +8,7 @@ var Readable = require('stream').Readable || require('readable-stream');
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
 var DRIVER_CURSOR_PROTO = mongodb.Cursor.prototype;
 var DRIVER_DB_PROTO = mongodb.Db.prototype;
+var DRIVER_GRID_PROTO = mongodb.Grid.prototype;
 
 var noop = function() {};
 
@@ -105,7 +107,6 @@ Cursor.prototype._config = function(fn, args) {
 	var callback = args.pop();
 	return this._apply(fn, args).toArray(callback);
 };
-
 
 // Proxy for the native collection prototype that normalizes method names and
 // arguments to fit the mongo shell.
@@ -213,6 +214,33 @@ Collection.prototype._apply = function(fn, args) {
 	});
 };
 
+// Proxy for the native gridFs prototype that normalizes method names and
+// arguments to fit the mongo shell.
+
+var GridFs = function (oncollection) {
+    this._get = oncollection;
+};
+
+forEachMethod(DRIVER_GRID_PROTO, GridFs.prototype, function(methodName, fn) {
+    GridFs.prototype[methodName] = function() { // we just proxy the rest of the methods directly
+        this._apply(fn, ensureCallback(arguments));
+    };
+});
+
+GridFs.prototype._apply = function(fn, args) {
+    this._get(function (err, gridFs) {
+        if (err) return getCallback(args)(err);
+        if (!gridFs.opts || getCallback(args) === noop) return fn.apply(gridFs, args);
+
+        var safe = gridFs.opts.safe;
+        gridFs.opts.safe = true;
+        fn.apply(gridFs, args);
+        gridFs.opts.safe = safe;
+    });
+};
+
+// functions
+
 var toConnectionString = function(conf) { // backwards compat config map (use a connection string instead)
 	var options = [];
 	var hosts = conf.replSet ? conf.replSet.members || conf.replSet : [conf];
@@ -307,13 +335,26 @@ Database.prototype._apply = function(fn, args) {
 	});
 };
 
+Database.prototype.gridCollection = function (name) {
+    var self = this;
+
+    var oncollection = thunky(function (callback) {
+        self._get(function (err, db) {
+            if (err) return callback(err);
+            callback(null, new Grid(db, name));
+        });
+    });
+
+    return new GridFs(oncollection);
+};
+
 forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 	Database.prototype[methodName] = function() {
 		this._apply(fn, arguments);
 	};
 });
 
-var connect = function(config, collections) {
+var connect = function(config, collections, gridFsCollections) {
 	var connectionString = parseConfig(config);
 
 	var ondb = thunky(function(callback) {
@@ -334,15 +375,20 @@ var connect = function(config, collections) {
 	that.bson = mongodb.BSONPure; // backwards compat (require('bson') instead)
 	that.ObjectId = mongodb.ObjectID; // backwards compat
 
+    gridFsCollections = gridFsCollections || config.gridFsCollections || [];
+    gridFsCollections.forEach(function (colName) {
+        that[colName] = that.gridCollection(colName);
+    });
+
 	collections = collections || config.collections || [];
 	collections.forEach(function(colName) {
-		var parts = colName.split('.');
-		var last = parts.pop();
-		var parent = parts.reduce(function(parent, prefix) {
-			return parent[prefix] = parent[prefix] || {};
-		}, that);
+        var parts = colName.split('.');
+        var last = parts.pop();
+        var parent = parts.reduce(function(parent, prefix) {
+            return parent[prefix] = parent[prefix] || {};
+        }, that);
 
-		parent[last] = that.collection(colName);
+        parent[last] = that.collection(colName);
 	});
 
 	return that;
@@ -352,6 +398,7 @@ connect.connect = connect; // backwards compat
 connect.ObjectId = mongodb.ObjectID;
 connect.Cursor = Cursor;
 connect.Collection = Collection;
+connect.GridFs = GridFs;
 connect.Database = Database;
 
 module.exports = connect;

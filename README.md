@@ -156,4 +156,23 @@ Mongojs can also connect to a mongo replication set by providing a connection st
 var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection']);
 ```
 
+## GridFS support
+
+Mongojs also supports GridFS. Third argument is array of gridFS collections:
+
+``` js
+var mongojs = require('mongojs');
+var db = mongojs(connectionString, [collections], [gridFsCollections]);
+```
+
+Example:
+
+``` js
+var db = mongojs('test', [], ['documents']);
+db.documents.getGridFs(function (error, gridFs) {
+    gridFs.put(new Buffer('Hello world'), {}, function(err, result) {
+    console.log(result);
+});
+```
+
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
