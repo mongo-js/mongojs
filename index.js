@@ -175,7 +175,7 @@ Collection.prototype.remove = function() {
 };
 
 Collection.prototype.getIndexes = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.indexes, arguments);
+	this._apply(DRIVER_COLLECTION_PROTO.indexes, ensureCallback(arguments));
 };
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
