@@ -1,4 +1,3 @@
-
 var assert = require('assert');
 var insert = require('./insert');
 

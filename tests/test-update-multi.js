@@ -8,6 +8,8 @@ insert([{
 }], function(db, done) {
 	db.a.update({}, {$set:{updated:true}}, {multi:true}, function(err) {
 		assert.ok(!err);
+		assert.ok(arguments.length <= 1);
+
 		db.a.find(function(err, docs) {
 			assert.ok(!err);
 			assert.equal(docs.length, 2);

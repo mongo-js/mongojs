@@ -25,9 +25,21 @@ var ensureCallback = function(args) {
 	return args;
 };
 
+var ensureTruncatedCallback =  function(args) {
+	args = ensureCallback(args);
+	args[args.length - 1] = truncateCallback(args[args.length - 1]);
+	return args;
+};
+
 var getCallback = function(args) {
 	var callback = args[args.length-1];
 	return typeof callback === 'function' ? callback : noop;
+};
+
+var truncateCallback = function(callback) {
+	return function(err) {
+		callback(err);
+	};
 };
 
 // Proxy for the native cursor prototype that normalizes method names and
@@ -152,7 +164,10 @@ Collection.prototype.findAndModify = function(options, callback) {
 		remove:!!options.remove,
 		upsert:!!options.upsert,
 		fields:options.fields
-	}, callback || noop]);
+	}, function(err, doc) {
+		// Ensure arity
+		(callback || noop)(err, doc);
+	}]);
 };
 
 Collection.prototype.group = function(group, callback) {
@@ -166,13 +181,25 @@ Collection.prototype.remove = function() {
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
 			if (err) return callback(err);
-			if (!doc) return callback(null, 0);
-			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
+			if (!doc) return callback();
+			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, truncateCallback(callback)]);
 		});
 		return;
 	}
 
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureTruncatedCallback(arguments));
+};
+
+Collection.prototype.insert = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.insert, ensureTruncatedCallback(arguments));
+};
+
+Collection.prototype.save = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.save, ensureTruncatedCallback(arguments));
+};
+
+Collection.prototype.update = function() {
+	this._apply(DRIVER_COLLECTION_PROTO.update, ensureTruncatedCallback(arguments));
 };
 
 Collection.prototype.getIndexes = function() {

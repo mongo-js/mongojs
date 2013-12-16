@@ -8,6 +8,7 @@ insert([{
 	db.a.update({hello:'world'}, {$set:{hello:'verden'}}, function(err) {
 		assert.ok(!sync);
 		assert.ok(!err);
+		assert.ok(arguments.length <= 1);
 		done();
 	});
 	sync = false;
