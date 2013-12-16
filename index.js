@@ -110,8 +110,9 @@ Cursor.prototype._config = function(fn, args) {
 // Proxy for the native collection prototype that normalizes method names and
 // arguments to fit the mongo shell.
 
-var Collection = function(oncollection) {
+var Collection = function(name, oncollection) {
 	this._get = oncollection;
+	this._name = name;
 };
 
 Collection.prototype.find = function() {
@@ -195,6 +196,10 @@ Collection.prototype.runCommand = function(cmd, opts, callback) {
 	});
 };
 
+Collection.prototype.toString = function() {
+	return this._name;
+};
+
 forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
 	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
 		this._apply(fn, ensureCallback(arguments));
@@ -239,9 +244,10 @@ var parseConfig = function(cs) {
 	return cs;
 };
 
-var Database = function(ondb) {
+var Database = function(name, ondb) {
 	EventEmitter.call(this);
 	this._get = ondb;
+	this._name = name;
 };
 
 util.inherits(Database, EventEmitter);
@@ -297,7 +303,11 @@ Database.prototype.collection = function(name) {
 		});
 	});
 
-	return new Collection(oncollection);
+	return new Collection(this._name+'.'+name, oncollection);
+};
+
+Database.prototype.toString = function() {
+	return this._name;
 };
 
 Database.prototype._apply = function(fn, args) {
@@ -315,6 +325,7 @@ forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 
 var connect = function(config, collections) {
 	var connectionString = parseConfig(config);
+	var dbName = (connectionString.match(/\/([^\/]+)(\?|$)/) || [])[1] || 'db';
 
 	var ondb = thunky(function(callback) {
 		mongodb.Db.connect(connectionString, function(err, db) {
@@ -329,7 +340,7 @@ var connect = function(config, collections) {
 			callback(null, db);
 		});
 	});
-	var that = new Database(ondb);
+	var that = new Database(dbName, ondb);
 
 	that.bson = mongodb.BSONPure; // backwards compat (require('bson') instead)
 	that.ObjectId = mongodb.ObjectID; // backwards compat
