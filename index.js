@@ -325,7 +325,7 @@ forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
 
 var connect = function(config, collections) {
 	var connectionString = parseConfig(config);
-	var dbName = (connectionString.match(/\/([^\/]+)(\?|$)/) || [])[1] || 'db';
+	var dbName = (connectionString.match(/\/([^\/\?]+)(\?|$)/) || [])[1] || 'db';
 
 	var ondb = thunky(function(callback) {
 		mongodb.Db.connect(connectionString, function(err, db) {
