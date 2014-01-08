@@ -25,9 +25,10 @@ var ensureCallback = function(args) {
 	return args;
 };
 
-var ensureTruncatedCallback =  function(args) {
+var replaceCallback = function(args, fn) {
 	args = ensureCallback(args);
-	args[args.length - 1] = truncateCallback(args[args.length - 1]);
+	args[args.length - 1] = fn;
+
 	return args;
 };
 
@@ -164,9 +165,10 @@ Collection.prototype.findAndModify = function(options, callback) {
 		remove:!!options.remove,
 		upsert:!!options.upsert,
 		fields:options.fields
-	}, function(err, doc) {
-		// Ensure arity
-		(callback || noop)(err, doc);
+	}, function(err, doc, obj) {
+		// If the findAndModify command finds no matching document, when performing update or remove,
+		// no lastErrorObject is included (so we fake it).
+		(callback || noop)(err, doc, obj.lastErrorObject || { n: 0 });
 	}]);
 };
 
@@ -176,30 +178,41 @@ Collection.prototype.group = function(group, callback) {
 
 Collection.prototype.remove = function() {
 	var self = this;
-	var callback = getCallback(arguments);
+	var fn = getCallback(arguments);
+
+	var callback = function(err, count) {
+		fn(err, err ? null : { n: count });
+	};
 
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
 			if (err) return callback(err);
-			if (!doc) return callback();
-			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, truncateCallback(callback)]);
+			if (!doc) return callback(null, 0);
+			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
 		});
 		return;
 	}
 
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureTruncatedCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
 };
 
 Collection.prototype.insert = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.insert, ensureTruncatedCallback(arguments));
+	var callback = truncateCallback(getCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.save = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.save, ensureTruncatedCallback(arguments));
+	var callback = truncateCallback(getCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.save, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.update = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.update, ensureTruncatedCallback(arguments));
+	var fn = getCallback(arguments);
+	var callback = function(err, count, lastErrorObject) {
+		fn(err, lastErrorObject);
+	};
+
+	this._apply(DRIVER_COLLECTION_PROTO.update, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.getIndexes = function() {
