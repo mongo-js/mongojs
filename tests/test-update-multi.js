@@ -6,8 +6,11 @@ insert([{
 },{
 	hello:'world2'
 }], function(db, done) {
-	db.a.update({}, {$set:{updated:true}}, {multi:true}, function(err) {
+	db.a.update({}, {$set:{updated:true}}, {multi:true}, function(err, lastErrorObject) {
 		assert.ok(!err);
+		assert.equal(lastErrorObject.updatedExisting, true);
+		assert.equal(lastErrorObject.n, 2);
+
 		db.a.find(function(err, docs) {
 			assert.ok(!err);
 			assert.equal(docs.length, 2);

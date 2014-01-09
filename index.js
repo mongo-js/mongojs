@@ -25,9 +25,22 @@ var ensureCallback = function(args) {
 	return args;
 };
 
+var replaceCallback = function(args, fn) {
+	args = ensureCallback(args);
+	args[args.length - 1] = fn;
+
+	return args;
+};
+
 var getCallback = function(args) {
 	var callback = args[args.length-1];
 	return typeof callback === 'function' ? callback : noop;
+};
+
+var truncateCallback = function(callback) {
+	return function(err) {
+		callback(err);
+	};
 };
 
 // Proxy for the native cursor prototype that normalizes method names and
@@ -152,7 +165,11 @@ Collection.prototype.findAndModify = function(options, callback) {
 		remove:!!options.remove,
 		upsert:!!options.upsert,
 		fields:options.fields
-	}, callback || noop]);
+	}, function(err, doc, obj) {
+		// If the findAndModify command finds no matching document, when performing update or remove,
+		// no lastErrorObject is included (so we fake it).
+		(callback || noop)(err, doc, obj.lastErrorObject || { n: 0 });
+	}]);
 };
 
 Collection.prototype.group = function(group, callback) {
@@ -161,7 +178,11 @@ Collection.prototype.group = function(group, callback) {
 
 Collection.prototype.remove = function() {
 	var self = this;
-	var callback = getCallback(arguments);
+	var fn = getCallback(arguments);
+
+	var callback = function(err, count) {
+		fn(err, err ? null : { n: count });
+	};
 
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
@@ -172,7 +193,26 @@ Collection.prototype.remove = function() {
 		return;
 	}
 
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : ensureCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
+};
+
+Collection.prototype.insert = function() {
+	var callback = truncateCallback(getCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
+};
+
+Collection.prototype.save = function() {
+	var callback = truncateCallback(getCallback(arguments));
+	this._apply(DRIVER_COLLECTION_PROTO.save, replaceCallback(arguments, callback));
+};
+
+Collection.prototype.update = function() {
+	var fn = getCallback(arguments);
+	var callback = function(err, count, lastErrorObject) {
+		fn(err, lastErrorObject);
+	};
+
+	this._apply(DRIVER_COLLECTION_PROTO.update, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.getIndexes = function() {
