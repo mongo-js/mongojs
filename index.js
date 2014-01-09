@@ -37,12 +37,6 @@ var getCallback = function(args) {
 	return typeof callback === 'function' ? callback : noop;
 };
 
-var truncateCallback = function(callback) {
-	return function(err) {
-		callback(err);
-	};
-};
-
 // Proxy for the native cursor prototype that normalizes method names and
 // arguments to fit the mongo shell.
 
@@ -196,13 +190,19 @@ Collection.prototype.remove = function() {
 	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
 };
 
-Collection.prototype.insert = function() {
-	var callback = truncateCallback(getCallback(arguments));
-	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
-};
-
 Collection.prototype.save = function() {
-	var callback = truncateCallback(getCallback(arguments));
+	var self = this;
+	var args = arguments;
+	var fn = getCallback(arguments);
+
+	var callback = function(err, doc) {
+		if (err) return fn(err);
+		if (doc === 1) {
+			fn(err, args[0]);
+		} else {
+			fn(err, doc);
+		}
+	}
 	this._apply(DRIVER_COLLECTION_PROTO.save, replaceCallback(arguments, callback));
 };
 
