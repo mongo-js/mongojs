@@ -195,12 +195,13 @@ Collection.prototype.save = function() {
 	var args = arguments;
 	var fn = getCallback(arguments);
 
-	var callback = function(err, doc) {
+	var callback = function(err, doc, lastErrorObject) {
 		if (err) return fn(err);
 		if (doc === 1) {
-			fn(err, args[0]);
+			fn(err, args[0], lastErrorObject);
 		} else {
-			fn(err, doc);
+			// The third parameter is a faked lastErrorObject
+			fn(err, doc, { n : 0});
 		}
 	}
 	this._apply(DRIVER_COLLECTION_PROTO.save, replaceCallback(arguments, callback));
