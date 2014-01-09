@@ -6,5 +6,7 @@ db.a.insert([{name: "Squirtle"}, {name: "Charmander"}, {name: "Bulbasaur"}], fun
 	assert.ok(docs[0]._id);
 	assert.ok(docs[1]._id);
 	assert.ok(docs[2]._id);
-	db.close();
+	db.a.remove(function() {
+		db.close();
+	});
 });
