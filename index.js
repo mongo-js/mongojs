@@ -190,6 +190,21 @@ Collection.prototype.remove = function() {
 	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
 };
 
+Collection.prototype.insert = function() {
+	var args = arguments;
+	var fn = getCallback(arguments);
+
+	var callback = function(err, docs) {
+		if (Array.isArray(args[0])) {
+			console.log(args[0]);
+			fn(err, docs);
+		} else {
+			fn(err, docs[0]);
+		}
+	};
+	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
+};
+
 Collection.prototype.save = function() {
 	var self = this;
 	var args = arguments;
