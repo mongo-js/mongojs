@@ -196,7 +196,6 @@ Collection.prototype.insert = function() {
 
 	var callback = function(err, docs) {
 		if (Array.isArray(args[0])) {
-			console.log(args[0]);
 			fn(err, docs);
 		} else {
 			fn(err, docs[0]);
