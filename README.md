@@ -1,6 +1,6 @@
 # mongojs
 
-A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible. 
+A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible.
 It wraps [mongodb-native](https://github.com/mongodb/node-mongodb-native/) and is available through [npm](http://npmjs.org)
 
 	npm install mongojs
@@ -34,8 +34,8 @@ var db = mongojs('mydb');
 var mycollection = db.collection('mycollection');
 ```
 
-After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback
-The format for callbacks is always `callback(error, value)` where error is null if no exception has occured.
+After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
+The format for callbacks is always `callback(error, value)` where error is null if no exception has occured. The update methods `save`, `remove`, `update` and `findAndModify` also pass the `lastErrorObject` as the last argument to the callback function.
 
 ``` js
 // find everything
@@ -74,7 +74,7 @@ db.mycollection.findAndModify({
 	query: { name: 'mathias' },
 	update: { $set: { tag:'maintainer' } },
 	new: true
-}, function(err, doc) {
+}, function(err, doc, lastErrorObject) {
 	// doc.tag === 'maintainer'
 });
 
@@ -132,7 +132,7 @@ Note that you need to explicitly set the selection parameter in the `find` call.
 
 ## Database commands
 
-With mongojs you can run database commands just like with the mongo shell using `db.runCommand()` 
+With mongojs you can run database commands just like with the mongo shell using `db.runCommand()`
 
 ```js
 db.runCommand({ping:1}, function(err, res) {
