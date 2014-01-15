@@ -176,13 +176,13 @@ Collection.prototype.remove = function() {
 
 	var callback = function(err, count) {
 		if (err) return fn(err);
-		fn(err, err ? null : { n: count }, { n: 0 });
+		fn(err, { n: count });
 	};
 
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
 		this.findOne(arguments[0], function(err, doc) {
 			if (err) return callback(err);
-			if (!doc) return callback(null, 0);
+			if (!doc) return callback(null, {n : 0});
 			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
 		});
 		return;
