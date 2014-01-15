@@ -175,7 +175,8 @@ Collection.prototype.remove = function() {
 	var fn = getCallback(arguments);
 
 	var callback = function(err, count) {
-		fn(err, err ? null : { n: count });
+		if (err) return fn(err);
+		fn(err, err ? null : { n: count }, { n: 0 });
 	};
 
 	if (arguments.length > 1 && arguments[1] === true) { // the justOne parameter
@@ -197,9 +198,9 @@ Collection.prototype.insert = function() {
 	var callback = function(err, docs) {
 		if (err) return fn(err);
 		if (Array.isArray(args[0])) {
-			fn(err, docs);
+			fn(err, docs, { n : 0});
 		} else {
-			fn(err, docs[0]);
+			fn(err, docs[0], { n : 0});
 		}
 	};
 	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
@@ -364,6 +365,17 @@ Database.prototype.collection = function(name) {
 
 Database.prototype.toString = function() {
 	return this._name;
+};
+
+Database.prototype.getLastError = function (callback) {
+	this.runCommand('getLastError', function(err, res) {
+		if (err) return callback(err);
+		callback(err, res.err);
+	});
+};
+
+Database.prototype.getLastErrorObj = function (callback) {
+	this.runCommand('getLastError', callback);
 };
 
 Database.prototype._apply = function(fn, args) {
