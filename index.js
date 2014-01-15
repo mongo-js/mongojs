@@ -195,6 +195,7 @@ Collection.prototype.insert = function() {
 	var fn = getCallback(arguments);
 
 	var callback = function(err, docs) {
+		if (err) return fn(err);
 		if (Array.isArray(args[0])) {
 			fn(err, docs);
 		} else {
