@@ -63,7 +63,17 @@ insert([{
 						assert.ok(!err);
 						assert.equal(lastErrorObject.n, 0);
 
-						done();
+						// Correct error handling
+						db.a.findAndModify({
+							update: { $illigal: 1 }
+						}, function(err, doc, lastErrorObject) {
+							assert(err instanceof Error);
+							assert.equal(doc, null);
+							assert.equal(lastErrorObject.n, 0);
+							assert.equal(typeof lastErrorObject.err, 'string');
+
+							done();
+						});
 					});
 				});
 			});

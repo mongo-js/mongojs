@@ -160,9 +160,11 @@ Collection.prototype.findAndModify = function(options, callback) {
 		upsert:!!options.upsert,
 		fields:options.fields
 	}, function(err, doc, obj) {
+		// If the findAndModify command returns an error, obj is undefined and the lastErrorObject
+		// property is added to the err argument instead.
 		// If the findAndModify command finds no matching document, when performing update or remove,
 		// no lastErrorObject is included (so we fake it).
-		(callback || noop)(err, doc, obj.lastErrorObject || { n: 0 });
+		(callback || noop)(err, doc, (err && err.lastErrorObject) || (obj && obj.lastErrorObject) || { n: 0 });
 	}]);
 };
 
