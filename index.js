@@ -248,10 +248,15 @@ Collection.prototype.runCommand = function(cmd, opts, callback) {
 		if (err) return callback(err);
 		var commandObject = {};
 		commandObject[cmd] = collection.collectionName;
-		Object.keys(opts).forEach(function(key) {
-			commandObject[key] = opts[key];
-		});
-		collection.db.command(commandObject, callback);
+		if(Object.prototype.toString.call(opts) === '[object Array]') {
+			// To enable commands like aggregate([...])
+			collection.db.command(commandObject, opts, callback);
+		} else {
+			Object.keys(opts).forEach(function(key) {
+				commandObject[key] = opts[key];
+			});
+			collection.db.command(commandObject, callback);
+		}
 	});
 };
 
