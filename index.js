@@ -91,7 +91,7 @@ Cursor.prototype.destroy = function() {
 Cursor.prototype.map = function(mapfn, callback) {
 	this.toArray(function(err, arr) {
 		if (err) return callback(err);
-		callback(null, arr.map(mapfn))
+		callback(null, arr.map(mapfn));
 	});
 };
 
