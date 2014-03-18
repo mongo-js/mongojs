@@ -88,6 +88,13 @@ Cursor.prototype.destroy = function() {
 	this.push(null);
 };
 
+Cursor.prototype.map = function(mapfn, callback) {
+	this.toArray(function(err, arr) {
+		if (err) return callback(err);
+		callback(null, arr.map(mapfn))
+	});
+};
+
 Cursor.prototype._apply = function(fn, args) {
 	this._get(function(err, cursor) {
 		if (err) return getCallback(args)(err);
