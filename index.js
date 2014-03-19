@@ -95,6 +95,10 @@ Cursor.prototype.map = function(mapfn, callback) {
 	});
 };
 
+Cursor.prototype.size = function(callback) {
+	this.count(true, callback);
+};
+
 Cursor.prototype._apply = function(fn, args) {
 	this._get(function(err, cursor) {
 		if (err) return getCallback(args)(err);
