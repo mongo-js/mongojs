@@ -157,3 +157,46 @@ var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection'
 ```
 
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
+
+# API
+
+This API documentation is a work in progress.
+
+### Collection
+
+#### `db.collection.aggregate([pipeline], callback)`
+
+#### `db.collection.count([query], callback)`
+
+#### `db.collection.find([criteria], [projection], [callback])`
+
+This function applies a query to a collection. You can get the return value, which is a cursor, or pass a callback
+as the last parameter. Said callback receives `(err, documents)`
+
+#### `db.collection.findOne([criteria], [projection], callback)`
+
+Apply a query and get one single document passed as a callback. The callback receives `(err, document)`
+
+#### `db.collection.insert(docOrDocs, callback)`
+
+#### `db.collection.runCommand(command, callback)`
+
+#### `db.collection.save(doc, callback)`
+
+#### `db.collection.update(query, update, [options], callback)`
+
+### Cursor
+
+#### `cursor.toArray(callback)`
+
+#### `cursor.forEach(function)`
+
+#### `cursor.limit(n, [callback])`
+
+#### `cursor.map(function, [callback])`
+
+#### `cursor.next(callback)`
+
+#### `cursor.skip(n, [callback])`
+
+#### `cursor.sort(sortOptions, [callback])`
