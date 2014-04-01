@@ -83,6 +83,10 @@ Cursor.prototype.sort = function() {
 	return this._config(DRIVER_CURSOR_PROTO.sort, arguments);
 };
 
+Cursor.prototype.rewind = function() {
+	return this._config(DRIVER_CURSOR_PROTO.rewind, arguments);
+};
+
 Cursor.prototype.destroy = function() {
 	this._apply(DRIVER_CURSOR_PROTO.close, arguments);
 	this.push(null);
