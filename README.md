@@ -162,41 +162,97 @@ For more detailed information about replica sets see [the mongo replication docs
 
 This API documentation is a work in progress.
 
-### Collection
+#### Collection
 
-#### `db.collection.aggregate([pipeline], callback)`
+#####`db.collection.aggregate([pipeline], callback)`
 
-#### `db.collection.count([query], callback)`
+#####`db.collection.count([query], callback)`
 
-#### `db.collection.find([criteria], [projection], [callback])`
+#####`db.collection.createIndex(keys, options, [callback])`
+
+#####`db.collection.distinct(field, query, callback)`
+
+#####`db.collection.drop([callback])`
+
+#####`db.collection.dropIndex(index, [callback])`
+
+#####`db.collection.dropIndexes([callback])`
+
+#####`db.collection.ensureIndex(keys, options, [callback])`
+
+#####`db.collection.find([criteria], [projection], [callback])`
 
 This function applies a query to a collection. You can get the return value, which is a cursor, or pass a callback
 as the last parameter. Said callback receives `(err, documents)`
 
-#### `db.collection.findOne([criteria], [projection], callback)`
+#####`db.collection.findOne([criteria], [projection], callback)`
 
 Apply a query and get one single document passed as a callback. The callback receives `(err, document)`
 
-#### `db.collection.insert(docOrDocs, callback)`
+#####`db.collection.findAndModify(document, callback)`
 
-#### `db.collection.runCommand(command, callback)`
+#####`db.collection.getIndexes(callback)`
 
-#### `db.collection.save(doc, callback)`
+#####`db.collection.group(document, callback)`
 
-#### `db.collection.update(query, update, [options], callback)`
+#####`db.collection.insert(docOrDocs, callback)`
 
-### Cursor
+#####`db.collection.isCapped(callback)`
 
-#### `cursor.toArray(callback)`
+#####`db.collection.mapReduce(map, reduce, options, callback)`
 
-#### `cursor.forEach(function)`
+#####`db.collection.reIndex(callback)`
 
-#### `cursor.limit(n, [callback])`
+#####`db.collection.remove(query, [justOne], [callback])`
 
-#### `cursor.map(function, [callback])`
+#####`db.collection.runCommand(command, callback)`
 
-#### `cursor.next(callback)`
+#####`db.collection.save(doc, callback)`
 
-#### `cursor.skip(n, [callback])`
+#####`db.collection.stats(callback)`
 
-#### `cursor.sort(sortOptions, [callback])`
+#####`db.collection.update(query, update, [options], callback)`
+
+#### Cursor
+
+#####`cursor.batchSize(size, [callback])`
+
+#####`cursor.count(callback)`
+
+#####`cursor.explain(callback)`
+
+#####`cursor.forEach(function)`
+
+#####`cursor.limit(n, [callback])`
+
+#####`cursor.map(function, [callback])`
+
+#####`cursor.next(callback)`
+
+#####`cursor.skip(n, [callback])`
+
+#####`cursor.sort(sortOptions, [callback])`
+
+#####`cursor.toArray(callback)`
+
+#### Database
+
+#####`db.addUser(document)`
+
+#####`db.createCollection(name, options, [callback])`
+
+#####`db.dropDatabase([callback])`
+
+#####`db.eval(function, arguments)`
+
+#####`db.getCollectionNames([callback])`
+
+#####`db.getLastError([callback])`
+
+#####`db.getLastErrorObj([callback])`
+
+#####`db.removeUser(username, [callback])`
+
+#####`db.runCommand(command, [callback])`
+
+#####`db.stats([callback])`
