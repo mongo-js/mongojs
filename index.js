@@ -5,7 +5,6 @@ var EventEmitter = require('events').EventEmitter;
 var Readable = require('stream').Readable || require('readable-stream');
 
 var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
-var DRIVER_CURSOR_PROTO = mongodb.Cursor.prototype;
 var DRIVER_DB_PROTO = mongodb.Db.prototype;
 
 var noop = function() {};
@@ -48,47 +47,47 @@ var Cursor = function(oncursor) {
 util.inherits(Cursor, Readable);
 
 Cursor.prototype.toArray = function() {
-	this._apply(DRIVER_CURSOR_PROTO.toArray, arguments);
+	this._apply('toArray', arguments);
 };
 
 Cursor.prototype.next = function() {
-	this._apply(DRIVER_CURSOR_PROTO.nextObject, arguments);
+	this._apply('nextObject', arguments);
 };
 
 Cursor.prototype.forEach = function() {
-	this._apply(DRIVER_CURSOR_PROTO.each, arguments);
+	this._apply('each', arguments);
 };
 
 Cursor.prototype.count = function() {
-	this._apply(DRIVER_CURSOR_PROTO.count, arguments);
+	this._apply('count', arguments);
 };
 
 Cursor.prototype.explain = function() {
-	this._apply(DRIVER_CURSOR_PROTO.explain, arguments);
+	this._apply('explain', arguments);
 };
 
 Cursor.prototype.limit = function() {
-	return this._config(DRIVER_CURSOR_PROTO.limit, arguments);
+	return this._config('limit', arguments);
 };
 
 Cursor.prototype.skip = function() {
-	return this._config(DRIVER_CURSOR_PROTO.skip, arguments);
+	return this._config('skip', arguments);
 };
 
 Cursor.prototype.batchSize = function() {
-	return this._config(DRIVER_CURSOR_PROTO.batchSize, arguments);
+	return this._config('batchSize', arguments);
 };
 
 Cursor.prototype.sort = function() {
-	return this._config(DRIVER_CURSOR_PROTO.sort, arguments);
+	return this._config('sort', arguments);
 };
 
 Cursor.prototype.rewind = function() {
-	return this._config(DRIVER_CURSOR_PROTO.rewind, arguments);
+	return this._config('rewind', arguments);
 };
 
 Cursor.prototype.destroy = function() {
-	this._apply(DRIVER_CURSOR_PROTO.close, arguments);
+	this._apply('close', arguments);
 	this.push(null);
 };
 
@@ -106,7 +105,7 @@ Cursor.prototype.size = function(callback) {
 Cursor.prototype._apply = function(fn, args) {
 	this._get(function(err, cursor) {
 		if (err) return getCallback(args)(err);
-		fn.apply(cursor, args);
+		cursor[fn].apply(cursor, args);
 	});
 
 	return this;
