@@ -4,8 +4,8 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var Readable = require('stream').Readable || require('readable-stream');
 
-var DRIVER_COLLECTION_PROTO = mongodb.Collection.prototype;
-var DRIVER_DB_PROTO = mongodb.Db.prototype;
+var DriverCollection = mongodb.Collection.prototype;
+var DriverDb = mongodb.Db.prototype;
 
 var noop = function() {};
 
@@ -168,7 +168,7 @@ Collection.prototype.findOne = function() { // see http://www.mongodb.org/displa
 };
 
 Collection.prototype.findAndModify = function(options, callback) {
-	this._apply(DRIVER_COLLECTION_PROTO.findAndModify, [options.query, options.sort || [], options.update || {}, {
+	this._apply(DriverCollection.findAndModify, [options.query, options.sort || [], options.update || {}, {
 		new:!!options.new,
 		remove:!!options.remove,
 		upsert:!!options.upsert,
@@ -183,7 +183,7 @@ Collection.prototype.findAndModify = function(options, callback) {
 };
 
 Collection.prototype.group = function(group, callback) {
-	this._apply(DRIVER_COLLECTION_PROTO.group, [group.key ? group.key : group.keyf, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
+	this._apply(DriverCollection.group, [group.key ? group.key : group.keyf, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
 };
 
 Collection.prototype.remove = function() {
@@ -199,12 +199,12 @@ Collection.prototype.remove = function() {
 		this.findOne(arguments[0], function(err, doc) {
 			if (err) return callback(err);
 			if (!doc) return callback(null, {n : 0});
-			self._apply(DRIVER_COLLECTION_PROTO.remove, [doc, callback]);
+			self._apply(DriverCollection.remove, [doc, callback]);
 		});
 		return;
 	}
 
-	this._apply(DRIVER_COLLECTION_PROTO.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
+	this._apply(DriverCollection.remove, arguments.length === 0 ? [{}, noop] : replaceCallback(arguments, callback));
 };
 
 Collection.prototype.insert = function() {
@@ -219,7 +219,7 @@ Collection.prototype.insert = function() {
 			fn(err, docs[0], { n : 0});
 		}
 	};
-	this._apply(DRIVER_COLLECTION_PROTO.insert, replaceCallback(arguments, callback));
+	this._apply(DriverCollection.insert, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.save = function() {
@@ -236,7 +236,7 @@ Collection.prototype.save = function() {
 			fn(err, doc, { n : 0});
 		}
 	}
-	this._apply(DRIVER_COLLECTION_PROTO.save, replaceCallback(arguments, callback));
+	this._apply(DriverCollection.save, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.update = function() {
@@ -245,11 +245,11 @@ Collection.prototype.update = function() {
 		fn(err, lastErrorObject);
 	};
 
-	this._apply(DRIVER_COLLECTION_PROTO.update, replaceCallback(arguments, callback));
+	this._apply(DriverCollection.update, replaceCallback(arguments, callback));
 };
 
 Collection.prototype.getIndexes = function() {
-	this._apply(DRIVER_COLLECTION_PROTO.indexes, ensureCallback(arguments));
+	this._apply(DriverCollection.indexes, ensureCallback(arguments));
 };
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
@@ -273,7 +273,7 @@ Collection.prototype.toString = function() {
 	return this._name;
 };
 
-forEachMethod(DRIVER_COLLECTION_PROTO, Collection.prototype, function(methodName, fn) {
+forEachMethod(DriverCollection, Collection.prototype, function(methodName, fn) {
 	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
 		this._apply(fn, ensureCallback(arguments));
 	};
@@ -363,7 +363,7 @@ Database.prototype.createCollection = function(name, opts, callback) {
 	}
 	opts = opts || {};
 	opts.strict = opts.strict !== false;
-	this._apply(DRIVER_DB_PROTO.createCollection, [name, opts, callback || noop]);
+	this._apply(DriverDb.createCollection, [name, opts, callback || noop]);
 };
 
 Database.prototype.collection = function(name) {
@@ -401,7 +401,7 @@ Database.prototype._apply = function(fn, args) {
 	});
 };
 
-forEachMethod(DRIVER_DB_PROTO, Database.prototype, function(methodName, fn) {
+forEachMethod(DriverDb, Database.prototype, function(methodName, fn) {
 	Database.prototype[methodName] = function() {
 		this._apply(fn, arguments);
 	};
