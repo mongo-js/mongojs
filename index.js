@@ -9,14 +9,6 @@ var DriverDb = mongodb.Db.prototype;
 
 var noop = function() {};
 
-var forEachMethod = function(oldProto, newProto, fn) {
-	Object.keys(oldProto).forEach(function(methodName) {
-		if (oldProto.__lookupGetter__(methodName) || newProto[methodName]) return;
-		if (methodName[0] === '_' || typeof oldProto[methodName] !== 'function') return;
-		fn(methodName, oldProto[methodName]);
-	});
-};
-
 var ensureCallback = function(args) {
 	if (getCallback(args) !== noop) return args;
 	args = Array.prototype.slice.call(args);
@@ -134,6 +126,50 @@ Cursor.prototype._config = function(fn, args) {
 var Collection = function(name, oncollection) {
 	this._get = oncollection;
 	this._name = name;
+};
+
+Collection.prototype.aggregate = function() {
+	return this._apply(DriverCollection.aggregate, arguments);
+};
+
+Collection.prototype.count = function() {
+	return this._apply(DriverCollection.count, arguments);
+};
+
+Collection.prototype.createIndex = function() {
+	return this._apply(DriverCollection.createIndex, arguments);
+};
+
+Collection.prototype.distinct = function() {
+	return this._apply(DriverCollection.distinct, arguments);
+};
+
+Collection.prototype.drop = function() {
+	return this._apply(DriverCollection.drop, arguments);
+};
+
+Collection.prototype.dropIndex = function() {
+	return this._apply(DriverCollection.dropIndex, arguments);
+};
+
+Collection.prototype.ensureIndex = function() {
+	return this._apply(DriverCollection.ensureIndex, arguments);
+};
+
+Collection.prototype.isCapped = function() {
+	return this._apply(DriverCollection.isCapped, arguments);
+};
+
+Collection.prototype.mapReduce = function() {
+	return this._apply(DriverCollection.mapReduce, arguments);
+};
+
+Collection.prototype.reIndex = function() {
+	return this._apply(DriverCollection.reIndex, arguments);
+};
+
+Collection.prototype.stats = function() {
+	return this._apply(DriverCollection.stats, arguments);
 };
 
 Collection.prototype.find = function() {
@@ -272,12 +308,6 @@ Collection.prototype.runCommand = function(cmd, opts, callback) {
 Collection.prototype.toString = function() {
 	return this._name;
 };
-
-forEachMethod(DriverCollection, Collection.prototype, function(methodName, fn) {
-	Collection.prototype[methodName] = function() { // we just proxy the rest of the methods directly
-		this._apply(fn, ensureCallback(arguments));
-	};
-});
 
 Collection.prototype._apply = function(fn, args) {
 	this._get(function(err, collection) {
