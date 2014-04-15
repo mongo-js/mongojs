@@ -325,6 +325,30 @@ var Database = function(name, ondb) {
 
 util.inherits(Database, EventEmitter);
 
+Database.prototype.close = function() {
+	return this._apply(DriverDb.close, arguments);
+};
+
+Database.prototype.addUser = function() {
+	return this._apply(DriverDb.addUser, arguments);
+};
+
+Database.prototype.dropDatabase = function() {
+	return this._apply(DriverDb.dropDatabase, arguments);
+};
+
+Database.prototype.eval = function() {
+	return this._apply(DriverDb.eval, arguments);
+};
+
+Database.prototype.removeUser = function() {
+	return this._apply(DriverDb.removeUser, arguments);
+};
+
+Database.prototype.stats = function() {
+	return this._apply(DriverDb.stats, arguments);
+};
+
 Database.prototype.runCommand = function(opts, callback) {
 	callback = callback || noop;
 	if (typeof opts === 'string') {
@@ -348,11 +372,13 @@ Database.prototype.open = function(callback) {
 };
 
 Database.prototype.getCollectionNames = function(callback) {
-	this.collections(function(err, cols) {
-		if (err) return callback(err);
-		callback(null, cols.map(function(c) {
-			return c.collectionName;
-		}));
+	this._get(function(err, db) {
+		db.collections(function(err, cols) {
+			if (err) return callback(err);
+			callback(null, cols.map(function(c) {
+				return c.collectionName;
+			}));
+		});
 	});
 };
 
@@ -400,12 +426,6 @@ Database.prototype._apply = function(fn, args) {
 		fn.apply(db, args);
 	});
 };
-
-forEachMethod(DriverDb, Database.prototype, function(methodName, fn) {
-	Database.prototype[methodName] = function() {
-		this._apply(fn, arguments);
-	};
-});
 
 var connect = function(config, collections) {
 	var connectionString = parseConfig(config);
