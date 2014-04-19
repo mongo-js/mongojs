@@ -164,7 +164,7 @@ This API documentation is a work in progress.
 
 #### Collection
 
-#####`db.collection.aggregate([pipeline], callback)`
+#####`db.collection.aggregate([pipeline], [callback])`
 
 #####`db.collection.count([query], callback)`
 
@@ -195,23 +195,23 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.collection.group(document, callback)`
 
-#####`db.collection.insert(docOrDocs, callback)`
+#####`db.collection.insert(docOrDocs, [callback])`
 
 #####`db.collection.isCapped(callback)`
 
-#####`db.collection.mapReduce(map, reduce, options, callback)`
+#####`db.collection.mapReduce(map, reduce, options, [callback])`
 
-#####`db.collection.reIndex(callback)`
+#####`db.collection.reIndex([callback])`
 
 #####`db.collection.remove(query, [justOne], [callback])`
 
-#####`db.collection.runCommand(command, callback)`
+#####`db.collection.runCommand(command, [callback])`
 
-#####`db.collection.save(doc, callback)`
+#####`db.collection.save(doc, [callback])`
 
 #####`db.collection.stats(callback)`
 
-#####`db.collection.update(query, update, [options], callback)`
+#####`db.collection.update(query, update, [options], [callback])`
 
 #### Cursor
 
@@ -243,13 +243,13 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.dropDatabase([callback])`
 
-#####`db.eval(function, arguments)`
+#####`db.eval(code, [params], [options], [callback])`
 
 #####`db.getCollectionNames([callback])`
 
-#####`db.getLastError([callback])`
+#####`db.getLastError(callback)`
 
-#####`db.getLastErrorObj([callback])`
+#####`db.getLastErrorObj(callback)`
 
 #####`db.removeUser(username, [callback])`
 
