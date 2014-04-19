@@ -129,7 +129,7 @@ var Collection = function(name, oncollection) {
 };
 
 Collection.prototype.aggregate = function() {
-	return this._apply(DriverCollection.aggregate, arguments);
+	return this._apply(DriverCollection.aggregate, ensureCallback(arguments));
 };
 
 Collection.prototype.count = function() {
@@ -137,7 +137,7 @@ Collection.prototype.count = function() {
 };
 
 Collection.prototype.createIndex = function() {
-	return this._apply(DriverCollection.createIndex, arguments);
+	return this._apply(DriverCollection.createIndex, ensureCallback(arguments));
 };
 
 Collection.prototype.distinct = function() {
@@ -145,15 +145,15 @@ Collection.prototype.distinct = function() {
 };
 
 Collection.prototype.drop = function() {
-	return this._apply(DriverCollection.drop, arguments);
+	return this._apply(DriverCollection.drop, ensureCallback(arguments));
 };
 
 Collection.prototype.dropIndex = function() {
-	return this._apply(DriverCollection.dropIndex, arguments);
+	return this._apply(DriverCollection.dropIndex, ensureCallback(arguments));
 };
 
 Collection.prototype.ensureIndex = function() {
-	return this._apply(DriverCollection.ensureIndex, arguments);
+	return this._apply(DriverCollection.ensureIndex, ensureCallback(arguments));
 };
 
 Collection.prototype.isCapped = function() {
@@ -161,11 +161,11 @@ Collection.prototype.isCapped = function() {
 };
 
 Collection.prototype.mapReduce = function() {
-	return this._apply(DriverCollection.mapReduce, arguments);
+	return this._apply(DriverCollection.mapReduce, ensureCallback(arguments));
 };
 
 Collection.prototype.reIndex = function() {
-	return this._apply(DriverCollection.reIndex, arguments);
+	return this._apply(DriverCollection.reIndex, ensureCallback(arguments));
 };
 
 Collection.prototype.stats = function() {
@@ -285,7 +285,7 @@ Collection.prototype.update = function() {
 };
 
 Collection.prototype.getIndexes = function() {
-	this._apply(DriverCollection.indexes, ensureCallback(arguments));
+	this._apply(DriverCollection.indexes, arguments);
 };
 
 Collection.prototype.runCommand = function(cmd, opts, callback) {
@@ -356,23 +356,23 @@ var Database = function(name, ondb) {
 util.inherits(Database, EventEmitter);
 
 Database.prototype.close = function() {
-	return this._apply(DriverDb.close, arguments);
+	return this._apply(DriverDb.close, ensureCallback(arguments));
 };
 
 Database.prototype.addUser = function() {
-	return this._apply(DriverDb.addUser, arguments);
+	return this._apply(DriverDb.addUser, ensureCallback(arguments));
 };
 
 Database.prototype.dropDatabase = function() {
-	return this._apply(DriverDb.dropDatabase, arguments);
+	return this._apply(DriverDb.dropDatabase, ensureCallback(arguments));
 };
 
 Database.prototype.eval = function() {
-	return this._apply(DriverDb.eval, arguments);
+	return this._apply(DriverDb.eval, ensureCallback(arguments));
 };
 
 Database.prototype.removeUser = function() {
-	return this._apply(DriverDb.removeUser, arguments);
+	return this._apply(DriverDb.removeUser, ensureCallback(arguments));
 };
 
 Database.prototype.stats = function() {
