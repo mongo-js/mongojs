@@ -158,6 +158,17 @@ var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection'
 
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
 
+## Using with harmony
+
+If you run node.js with the `--harmony` option, then you can ommit the collection names array, and you can do stuff like.
+
+```js
+var mongojs = require('mongojs');
+var db = require('mydb');
+
+db.hackers.insert({name: 'Ed'});
+```
+
 # API
 
 This API documentation is a work in progress.
