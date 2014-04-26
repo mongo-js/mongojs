@@ -11,17 +11,32 @@ var tests = fs.readdirSync(__dirname).filter(function(file) {
 }).filter(function(file) {
 	return /^test(-|_|\.).*\.js$/i.test(file);
 }).sort();
+var copy = tests.slice(0);
+var harmony = false;
 
 var cnt = 0;
 var all = tests.length;
 
+var callback = function() {
+	if (harmony) return;
+	console.log('\nRunning tests with the --harmony flag.\n');
+
+	cnt = 0;
+	tests = copy;
+	harmony = true;
+	loop();
+};
+
 var loop = function() {
 	var next = tests.shift();
 
-	if (!next) return console.log('\033[32m[ok]\033[39m  all ok');
+	if (!next) {
+		console.log('\033[32m[ok]\033[39m  all ok');
+		return callback();
+	}
 
 	var command = 'node ';
-	if (process.version.substr(1,4) === '0.11') command += '--harmony '
+	if (harmony) command += '--harmony '
 
 	exec(command + path.join(__dirname,next), {timeout:TIMEOUT}, function(err) {
 		cnt++;
