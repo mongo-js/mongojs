@@ -20,7 +20,10 @@ var loop = function() {
 
 	if (!next) return console.log('\033[32m[ok]\033[39m  all ok');
 
-	exec('node '+path.join(__dirname,next), {timeout:TIMEOUT}, function(err) {
+	var command = 'node ';
+	if (process.version.substr(1,4) === '0.11') command += '--harmony '
+
+	exec(command + path.join(__dirname,next), {timeout:TIMEOUT}, function(err) {
 		cnt++;
 
 		if (err) {
