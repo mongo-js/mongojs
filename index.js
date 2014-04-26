@@ -490,6 +490,17 @@ var connect = function(config, collections) {
 		parent[last] = that.collection(colName);
 	});
 
+	if (typeof Proxy !== 'undefined') {
+		var p = Proxy.create({
+			get: function(obj, prop) {
+				if (that[prop]) return that[prop];
+				that[prop] = that.collection(prop);
+				return that[prop];
+			}
+		});
+
+		return p;
+	};
 	return that;
 };
 
