@@ -1,0 +1,397 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Mongojs by mafintosh</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Mongojs</h1>
+        <p>Node.js module that implements the offical mongo api</p>
+
+        <p class="view"><a href="https://github.com/mafintosh/mongojs">View the Project on GitHub <small>mafintosh/mongojs</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mafintosh/mongojs/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mafintosh/mongojs/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/mafintosh/mongojs">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="mongojs" class="anchor" href="#mongojs"><span class="octicon octicon-link"></span></a>mongojs</h1>
+
+<p>A <a href="http://nodejs.org">node.js</a> module for mongodb, that emulates <a href="http://www.mongodb.org/display/DOCS/Home">the official mongodb API</a> as much as possible.
+It wraps <a href="https://github.com/mongodb/node-mongodb-native/">mongodb-native</a> and is available through <a href="http://npmjs.org">npm</a></p>
+
+<pre><code>npm install mongojs
+</code></pre>
+
+<p><a href="http://travis-ci.org/mafintosh/mongojs"><img src="https://secure.travis-ci.org/mafintosh/mongojs.png" alt="build status"></a></p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>mongojs is easy to use:</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">mongojs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'mongojs'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="nx">connectionString</span><span class="p">,</span> <span class="p">[</span><span class="nx">collections</span><span class="p">]);</span>
+</pre></div>
+
+<p>The connection string should follow the format desribed in <a href="http://docs.mongodb.org/manual/reference/connection-string/">the mongo connection string docs</a>.
+Some examples of this could be:</p>
+
+<div class="highlight highlight-js"><pre><span class="c1">// simple usage for a local db</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="s1">'mydb'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mycollection'</span><span class="p">]);</span>
+
+<span class="c1">// the db is on a remote server (the port default to mongo)</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="s1">'example.com/mydb'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mycollection'</span><span class="p">]);</span>
+
+<span class="c1">// we can also provide some credentials</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="s1">'username:password@example.com/mydb'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mycollection'</span><span class="p">]);</span>
+
+<span class="c1">// connect now, and worry about collections later</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="s1">'mydb'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">mycollection</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s1">'mycollection'</span><span class="p">);</span>
+</pre></div>
+
+<p>After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
+The format for callbacks is always <code>callback(error, value)</code> where error is null if no exception has occured. The update methods <code>save</code>, <code>remove</code>, <code>update</code> and <code>findAndModify</code> also pass the <code>lastErrorObject</code> as the last argument to the callback function.</p>
+
+<div class="highlight highlight-js"><pre><span class="c1">// find everything</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// docs is an array of all the documents in mycollection</span>
+<span class="p">});</span>
+
+<span class="c1">// find everything, but sort by name</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">sort</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// docs is now a sorted array</span>
+<span class="p">});</span>
+
+<span class="c1">// iterate over all whose level is greater than 90.</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="nx">level</span><span class="o">:</span><span class="p">{</span><span class="nx">$gt</span><span class="o">:</span><span class="mi">90</span><span class="p">}}).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// we visited all docs in the collection</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// doc is a document in the collection</span>
+<span class="p">});</span>
+
+<span class="c1">// find a document using a native ObjectId</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span>
+    <span class="nx">_id</span><span class="o">:</span><span class="nx">mongojs</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="s1">'523209c4561c640000000001'</span><span class="p">)</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// doc._id.toString() === '523209c4561c640000000001'</span>
+<span class="p">});</span>
+
+<span class="c1">// find all named 'mathias' and increment their level</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s1">'mathias'</span><span class="p">},</span> <span class="p">{</span><span class="nx">$inc</span><span class="o">:</span><span class="p">{</span><span class="nx">level</span><span class="o">:</span><span class="mi">1</span><span class="p">}},</span> <span class="p">{</span><span class="nx">multi</span><span class="o">:</span><span class="kc">true</span><span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// the update is complete</span>
+<span class="p">});</span>
+
+<span class="c1">// find one named 'mathias', tag him as a contributor and return the modified doc</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">findAndModify</span><span class="p">({</span>
+    <span class="nx">query</span><span class="o">:</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">'mathias'</span> <span class="p">},</span>
+    <span class="nx">update</span><span class="o">:</span> <span class="p">{</span> <span class="nx">$set</span><span class="o">:</span> <span class="p">{</span> <span class="nx">tag</span><span class="o">:</span><span class="s1">'maintainer'</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="k">new</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">doc</span><span class="p">,</span> <span class="nx">lastErrorObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// doc.tag === 'maintainer'</span>
+<span class="p">});</span>
+
+
+<span class="c1">// use the save function to just save a document (callback is optional for all writes)</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">save</span><span class="p">({</span><span class="nx">created</span><span class="o">:</span><span class="s1">'just now'</span><span class="p">});</span>
+
+</pre></div>
+
+<p>If you provide a callback to <code>find</code> or any cursor config operation mongojs will call <code>toArray</code> for you</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">limit</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">skip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+</pre></div>
+
+<p>is the same as</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">toArray</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">limit</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">skip</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">toArray</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">docs</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+</pre></div>
+
+<p>For more detailed information about the different usages of update and quering see <a href="http://www.mongodb.org/display/DOCS/Manual">the mongo docs</a></p>
+
+<h2>
+<a name="streaming-cursors" class="anchor" href="#streaming-cursors"><span class="octicon octicon-link"></span></a>Streaming cursors</h2>
+
+<p>As of <code>0.7.0</code> all cursors are a <a href="http://nodejs.org/api/stream.html#stream_readable_stream">readable stream</a> of objects.</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">JSONStream</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'JSONStream'</span><span class="p">);</span>
+
+<span class="c1">// pipe all documents in mycollection to stdout</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({}).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">JSONStream</span><span class="p">.</span><span class="nx">stringify</span><span class="p">()).</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">);</span>
+</pre></div>
+
+<p>Notice that you should pipe the cursor through a stringifier (like <a href="https://github.com/dominictarr/JSONStream">JSONStream</a>)
+if you want to pipe it to a serial stream like a http response.</p>
+
+<h2>
+<a name="tailable-cursors" class="anchor" href="#tailable-cursors"><span class="octicon octicon-link"></span></a>Tailable cursors</h2>
+
+<p>If you are using a capped collection you can create a <a href="http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/">tailable cursor</a> to that collection by adding <code>tailable:true</code> to the find options</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">cursor</span> <span class="o">=</span> <span class="nx">db</span><span class="p">.</span><span class="nx">mycollection</span><span class="p">.</span><span class="nx">find</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{</span><span class="nx">tailable</span><span class="o">:</span><span class="kc">true</span><span class="p">,</span> <span class="nx">timeout</span><span class="o">:</span><span class="kc">false</span><span class="p">});</span>
+
+<span class="c1">// since all cursors are streams we can just listen for data</span>
+<span class="nx">cursor</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'data'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'new document'</span><span class="p">,</span> <span class="nx">doc</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Note that you need to explicitly set the selection parameter in the <code>find</code> call.</p>
+
+<h2>
+<a name="database-commands" class="anchor" href="#database-commands"><span class="octicon octicon-link"></span></a>Database commands</h2>
+
+<p>With mongojs you can run database commands just like with the mongo shell using <code>db.runCommand()</code></p>
+
+<div class="highlight highlight-js"><pre><span class="nx">db</span><span class="p">.</span><span class="nx">runCommand</span><span class="p">({</span><span class="nx">ping</span><span class="o">:</span><span class="mi">1</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span> <span class="o">&amp;&amp;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"we're up"</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>or <code>db.collection.runCommand()</code></p>
+
+<div class="highlight highlight-js"><pre><span class="nx">db</span><span class="p">.</span><span class="nx">things</span><span class="p">.</span><span class="nx">runCommand</span><span class="p">(</span><span class="s1">'count'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>
+<a name="replication-sets" class="anchor" href="#replication-sets"><span class="octicon octicon-link"></span></a>Replication Sets</h2>
+
+<p>Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">mongojs</span><span class="p">(</span><span class="s1">'rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'mycollection'</span><span class="p">]);</span>
+</pre></div>
+
+<p>For more detailed information about replica sets see <a href="http://www.mongodb.org/display/DOCS/Replica+Sets">the mongo replication docs</a></p>
+
+<h2>
+<a name="using-harmony-features" class="anchor" href="#using-harmony-features"><span class="octicon octicon-link"></span></a>Using harmony features</h2>
+
+<p>If you run node.js with the <code>--harmony</code> option, then you can ommit the collection names array, and you can do stuff like.</p>
+
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">mongojs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'mongojs'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">db</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'mydb'</span><span class="p">);</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">hackers</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span> <span class="s1">'Ed'</span><span class="p">});</span>
+</pre></div>
+
+<p>In the above example the <code>hackers</code> collection is enabled automagically (similar to the shell) using the <code>Proxy</code> feature in harmony</p>
+
+<h1>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h1>
+
+<p>This API documentation is a work in progress.</p>
+
+<h4>
+<a name="collection" class="anchor" href="#collection"><span class="octicon octicon-link"></span></a>Collection</h4>
+
+<h5>
+<a name="dbcollectionaggregatepipeline-callback" class="anchor" href="#dbcollectionaggregatepipeline-callback"><span class="octicon octicon-link"></span></a><code>db.collection.aggregate([pipeline], [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectioncountquery-callback" class="anchor" href="#dbcollectioncountquery-callback"><span class="octicon octicon-link"></span></a><code>db.collection.count([query], callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectioncreateindexkeys-options-callback" class="anchor" href="#dbcollectioncreateindexkeys-options-callback"><span class="octicon octicon-link"></span></a><code>db.collection.createIndex(keys, options, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectiondistinctfield-query-callback" class="anchor" href="#dbcollectiondistinctfield-query-callback"><span class="octicon octicon-link"></span></a><code>db.collection.distinct(field, query, callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectiondropcallback" class="anchor" href="#dbcollectiondropcallback"><span class="octicon octicon-link"></span></a><code>db.collection.drop([callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectiondropindexindex-callback" class="anchor" href="#dbcollectiondropindexindex-callback"><span class="octicon octicon-link"></span></a><code>db.collection.dropIndex(index, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectiondropindexescallback" class="anchor" href="#dbcollectiondropindexescallback"><span class="octicon octicon-link"></span></a><code>db.collection.dropIndexes([callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionensureindexkeys-options-callback" class="anchor" href="#dbcollectionensureindexkeys-options-callback"><span class="octicon octicon-link"></span></a><code>db.collection.ensureIndex(keys, options, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionfindcriteria-projection-callback" class="anchor" href="#dbcollectionfindcriteria-projection-callback"><span class="octicon octicon-link"></span></a><code>db.collection.find([criteria], [projection], [callback])</code>
+</h5>
+
+<p>This function applies a query to a collection. You can get the return value, which is a cursor, or pass a callback
+as the last parameter. Said callback receives <code>(err, documents)</code></p>
+
+<h5>
+<a name="dbcollectionfindonecriteria-projection-callback" class="anchor" href="#dbcollectionfindonecriteria-projection-callback"><span class="octicon octicon-link"></span></a><code>db.collection.findOne([criteria], [projection], callback)</code>
+</h5>
+
+<p>Apply a query and get one single document passed as a callback. The callback receives <code>(err, document)</code></p>
+
+<h5>
+<a name="dbcollectionfindandmodifydocument-callback" class="anchor" href="#dbcollectionfindandmodifydocument-callback"><span class="octicon octicon-link"></span></a><code>db.collection.findAndModify(document, callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectiongetindexescallback" class="anchor" href="#dbcollectiongetindexescallback"><span class="octicon octicon-link"></span></a><code>db.collection.getIndexes(callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectiongroupdocument-callback" class="anchor" href="#dbcollectiongroupdocument-callback"><span class="octicon octicon-link"></span></a><code>db.collection.group(document, callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectioninsertdocordocs-callback" class="anchor" href="#dbcollectioninsertdocordocs-callback"><span class="octicon octicon-link"></span></a><code>db.collection.insert(docOrDocs, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectioniscappedcallback" class="anchor" href="#dbcollectioniscappedcallback"><span class="octicon octicon-link"></span></a><code>db.collection.isCapped(callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectionmapreducemap-reduce-options-callback" class="anchor" href="#dbcollectionmapreducemap-reduce-options-callback"><span class="octicon octicon-link"></span></a><code>db.collection.mapReduce(map, reduce, options, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionreindexcallback" class="anchor" href="#dbcollectionreindexcallback"><span class="octicon octicon-link"></span></a><code>db.collection.reIndex([callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionremovequery-justone-callback" class="anchor" href="#dbcollectionremovequery-justone-callback"><span class="octicon octicon-link"></span></a><code>db.collection.remove(query, [justOne], [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionruncommandcommand-callback" class="anchor" href="#dbcollectionruncommandcommand-callback"><span class="octicon octicon-link"></span></a><code>db.collection.runCommand(command, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionsavedoc-callback" class="anchor" href="#dbcollectionsavedoc-callback"><span class="octicon octicon-link"></span></a><code>db.collection.save(doc, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbcollectionstatscallback" class="anchor" href="#dbcollectionstatscallback"><span class="octicon octicon-link"></span></a><code>db.collection.stats(callback)</code>
+</h5>
+
+<h5>
+<a name="dbcollectionupdatequery-update-options-callback" class="anchor" href="#dbcollectionupdatequery-update-options-callback"><span class="octicon octicon-link"></span></a><code>db.collection.update(query, update, [options], [callback])</code>
+</h5>
+
+<h4>
+<a name="cursor" class="anchor" href="#cursor"><span class="octicon octicon-link"></span></a>Cursor</h4>
+
+<h5>
+<a name="cursorbatchsizesize-callback" class="anchor" href="#cursorbatchsizesize-callback"><span class="octicon octicon-link"></span></a><code>cursor.batchSize(size, [callback])</code>
+</h5>
+
+<h5>
+<a name="cursorcountcallback" class="anchor" href="#cursorcountcallback"><span class="octicon octicon-link"></span></a><code>cursor.count(callback)</code>
+</h5>
+
+<h5>
+<a name="cursorexplaincallback" class="anchor" href="#cursorexplaincallback"><span class="octicon octicon-link"></span></a><code>cursor.explain(callback)</code>
+</h5>
+
+<h5>
+<a name="cursorforeachfunction" class="anchor" href="#cursorforeachfunction"><span class="octicon octicon-link"></span></a><code>cursor.forEach(function)</code>
+</h5>
+
+<h5>
+<a name="cursorlimitn-callback" class="anchor" href="#cursorlimitn-callback"><span class="octicon octicon-link"></span></a><code>cursor.limit(n, [callback])</code>
+</h5>
+
+<h5>
+<a name="cursormapfunction-callback" class="anchor" href="#cursormapfunction-callback"><span class="octicon octicon-link"></span></a><code>cursor.map(function, [callback])</code>
+</h5>
+
+<h5>
+<a name="cursornextcallback" class="anchor" href="#cursornextcallback"><span class="octicon octicon-link"></span></a><code>cursor.next(callback)</code>
+</h5>
+
+<h5>
+<a name="cursorskipn-callback" class="anchor" href="#cursorskipn-callback"><span class="octicon octicon-link"></span></a><code>cursor.skip(n, [callback])</code>
+</h5>
+
+<h5>
+<a name="cursorsortsortoptions-callback" class="anchor" href="#cursorsortsortoptions-callback"><span class="octicon octicon-link"></span></a><code>cursor.sort(sortOptions, [callback])</code>
+</h5>
+
+<h5>
+<a name="cursortoarraycallback" class="anchor" href="#cursortoarraycallback"><span class="octicon octicon-link"></span></a><code>cursor.toArray(callback)</code>
+</h5>
+
+<h4>
+<a name="database" class="anchor" href="#database"><span class="octicon octicon-link"></span></a>Database</h4>
+
+<h5>
+<a name="dbadduserdocument" class="anchor" href="#dbadduserdocument"><span class="octicon octicon-link"></span></a><code>db.addUser(document)</code>
+</h5>
+
+<h5>
+<a name="dbcreatecollectionname-options-callback" class="anchor" href="#dbcreatecollectionname-options-callback"><span class="octicon octicon-link"></span></a><code>db.createCollection(name, options, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbdropdatabasecallback" class="anchor" href="#dbdropdatabasecallback"><span class="octicon octicon-link"></span></a><code>db.dropDatabase([callback])</code>
+</h5>
+
+<h5>
+<a name="dbevalcode-params-options-callback" class="anchor" href="#dbevalcode-params-options-callback"><span class="octicon octicon-link"></span></a><code>db.eval(code, [params], [options], [callback])</code>
+</h5>
+
+<h5>
+<a name="dbgetcollectionnamescallback" class="anchor" href="#dbgetcollectionnamescallback"><span class="octicon octicon-link"></span></a><code>db.getCollectionNames([callback])</code>
+</h5>
+
+<h5>
+<a name="dbgetlasterrorcallback" class="anchor" href="#dbgetlasterrorcallback"><span class="octicon octicon-link"></span></a><code>db.getLastError(callback)</code>
+</h5>
+
+<h5>
+<a name="dbgetlasterrorobjcallback" class="anchor" href="#dbgetlasterrorobjcallback"><span class="octicon octicon-link"></span></a><code>db.getLastErrorObj(callback)</code>
+</h5>
+
+<h5>
+<a name="dbremoveuserusername-callback" class="anchor" href="#dbremoveuserusername-callback"><span class="octicon octicon-link"></span></a><code>db.removeUser(username, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbruncommandcommand-callback" class="anchor" href="#dbruncommandcommand-callback"><span class="octicon octicon-link"></span></a><code>db.runCommand(command, [callback])</code>
+</h5>
+
+<h5>
+<a name="dbstatscallback" class="anchor" href="#dbstatscallback"><span class="octicon octicon-link"></span></a><code>db.stats([callback])</code>
+</h5>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/mafintosh">mafintosh</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
