@@ -16,7 +16,7 @@ var mongojs = require('mongojs');
 var db = mongojs(connectionString, [collections]);
 ```
 
-The connection string should follow the format desribed in [the mongo connection string docs](http://docs.mongodb.org/manual/reference/connection-string/).
+The connection string should follow the format described in [the mongo connection string docs](http://docs.mongodb.org/manual/reference/connection-string/).
 Some examples of this could be:
 
 ``` js
@@ -99,7 +99,7 @@ db.mycollection.find({}).toArray(function(err, docs) { ... });
 db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
 ```
 
-For more detailed information about the different usages of update and quering see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
+For more detailed information about the different usages of update and querying see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
 ## Streaming cursors
 
