@@ -252,6 +252,10 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.addUser(document)`
 
+#####`db.createUser(user, writeConcern)`
+
+#####`db.updateUser(username, update, writeConcern)`
+
 #####`db.createCollection(name, options, [callback])`
 
 #####`db.dropDatabase([callback])`

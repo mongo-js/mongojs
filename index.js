@@ -360,7 +360,17 @@ Database.prototype.close = function() {
 };
 
 Database.prototype.addUser = function() {
+	// Deprecated since version 2.6: Use db.createUser() and db.updateUser() instead
+	// More info: http://docs.mongodb.org/manual/reference/method/db.addUser/
 	return this._apply(DriverDb.addUser, ensureCallback(arguments));
+};
+
+Database.prototype.createUser = function() {
+	return this._apply(DriverDb.createUser, ensureCallback(arguments));
+};
+
+Database.prototype.updateUser = function() {
+	return this._apply(DriverDb.updateUser, ensureCallback(arguments));
 };
 
 Database.prototype.dropDatabase = function() {
