@@ -214,7 +214,7 @@ Collection.prototype.findAndModify = function(options, callback) {
 		// property is added to the err argument instead.
 		// If the findAndModify command finds no matching document, when performing update or remove,
 		// no lastErrorObject is included (so we fake it).
-		(callback || noop)(err, doc, (err && err.lastErrorObject) || (obj && obj.lastErrorObject) || { n: 0 });
+		(callback || noop)(err, doc, (obj && obj.lastErrorObject) || { n: 0 });
 	}]);
 };
 
