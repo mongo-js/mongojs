@@ -493,8 +493,7 @@ var connect = function(config, collections) {
 	if (typeof Proxy !== 'undefined') {
 		var p = Proxy.create({
 			get: function(obj, prop) {
-				if (that[prop]) return that[prop];
-				that[prop] = that.collection(prop);
+				if (!that[prop]) that[prop] = that.collection(prop);
 				return that[prop];
 			}
 		});
