@@ -1,7 +1,6 @@
-var assert = require('assert');
 var insert = require('./insert');
 
-insert([{
+insert('cursor.size', [{
   hello:'world1'
 },{
   hello:'world2'
@@ -9,11 +8,11 @@ insert([{
   hello:'world3'
 },{
   hello:'world4'
-}], function(db, done) {
+}], function(db, t, done) {
   db.a.find().skip(1).size(function(err, thesize) {
-    assert.equal(thesize, 3);
+    t.equal(thesize, 3);
     db.a.find().limit(2).size(function(err, theothersize) {
-      assert.equal(theothersize, 2);
+      t.equal(theothersize, 2);
       done();
     });
   });

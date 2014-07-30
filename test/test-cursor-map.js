@@ -1,17 +1,16 @@
-var assert = require('assert');
 var insert = require('./insert');
 
-insert([{
+insert('cursor.map', [{
   hello:'world1'
 },{
   hello:'world2'
-}], function(db, done) {
+}], function(db, t, done) {
   var cursor = db.a.find();
   cursor.map(function(x) { 
     return x.hello 
   }, function(err, res) {
-    assert.equal(res[0], 'world1');
-    assert.equal(res[1], 'world2');
+    t.equal(res[0], 'world1');
+    t.equal(res[1], 'world2');
     done();
   });
 });

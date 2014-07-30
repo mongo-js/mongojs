@@ -1,15 +1,14 @@
-var assert = require('assert');
+var test = require('tape');
 var insert = require('./insert');
 
-insert([{
+insert('cursor.explain', [{
   hello:'world1'
 },{
   hello:'world2'
-}], function(db, done) {
+}], function(db, t, done) {
   var cursor = db.a.find();
   cursor.explain(function(err, result) {
-    assert.equal(result.nscannedObjects, 2);
+    t.equal(result.nscannedObjects, 2);
     done();
   });
 });
-

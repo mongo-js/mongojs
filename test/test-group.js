@@ -1,13 +1,12 @@
-var assert = require('assert');
 var insert = require('./insert');
 
-insert([{
+insert('group', [{
   t: 242424,
   online: 1
 }, {
   t: 4244,
   online: 0
-}], function(db, done) {
+}], function(db, t, done) {
   db.a.group({
     key: {},
     cond: {t: {$gte: 86400}},
@@ -20,9 +19,9 @@ insert([{
       out.avgOnline = out.online / out.count;
     }
   }, function(err, curOnline) {
-    assert.ok(!err);
-    assert.equal(curOnline[0].count, 1);
-    assert.equal(curOnline[0].online, 1);
+    t.ok(!err);
+    t.equal(curOnline[0].count, 1);
+    t.equal(curOnline[0].online, 1);
     done();
   });
 })

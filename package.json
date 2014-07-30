@@ -30,6 +30,9 @@
     "mongodb": "1.4.7"
   },
   "scripts": {
-    "test": "node ./tests"
+    "test": "tape test/test-*.js; echo \"Harmony tests\"; node --harmony node_modules/tape/bin/tape test/test-*.js"
+  },
+  "devDependencies": {
+    "tape": "^2.13.4"
   }
 }

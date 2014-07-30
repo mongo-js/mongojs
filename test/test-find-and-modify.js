@@ -1,24 +1,23 @@
-var assert = require('assert');
 var insert = require('./insert');
 
-insert([{
+insert('findAndModify', [{
   id: 1,
   hello: 'you'
 }, {
   id: 2,
   hello: 'other'
-}], function(db, done) {
+}], function(db, t, done) {
   // Update and find the old document
   db.a.findAndModify({
     query: { id: 1 },
     update: { $set: { hello: 'world' } },
   },
   function(err, doc, lastErrorObject) {
-    assert.ok(!err);
-    assert.equal(doc.id, 1);
-    assert.equal(doc.hello, 'you');
-    assert.equal(lastErrorObject.updatedExisting, true);
-    assert.equal(lastErrorObject.n, 1);
+    t.ok(!err);
+    t.equal(doc.id, 1);
+    t.equal(doc.hello, 'you');
+    t.equal(lastErrorObject.updatedExisting, true);
+    t.equal(lastErrorObject.n, 1);
 
     // Update and find the new document
     db.a.findAndModify({
@@ -26,20 +25,20 @@ insert([{
       'new': true,
       update: { $set: { hello: 'me' } }
     }, function(err, doc, lastErrorObject) {
-      assert.ok(!err);
-      assert.equal(doc.id, 2);
-      assert.equal(doc.hello, 'me');
-      assert.equal(lastErrorObject.updatedExisting, true);
-      assert.equal(lastErrorObject.n, 1);
+      t.ok(!err);
+      t.equal(doc.id, 2);
+      t.equal(doc.hello, 'me');
+      t.equal(lastErrorObject.updatedExisting, true);
+      t.equal(lastErrorObject.n, 1);
 
       // Remove and find document
       db.a.findAndModify({
         query: { id: 1 },
         remove: true
       }, function(err, doc, lastErrorObject) {
-        assert.ok(!err);
-        assert.equal(doc.id, 1);
-        assert.equal(lastErrorObject.n, 1);
+        t.ok(!err);
+        t.equal(doc.id, 1);
+        t.equal(lastErrorObject.n, 1);
 
         // Insert document using upsert
         db.a.findAndModify({
@@ -48,20 +47,20 @@ insert([{
           'new': true,
           upsert: true
         }, function(err, doc, lastErrorObject) {
-          assert.ok(!err);
-          assert.equal(doc.id, 3);
-          assert.equal(doc.hello, 'girl');
-          assert.equal(lastErrorObject.updatedExisting, false);
-          assert.equal(lastErrorObject.n, 1);
-          assert.equal(String(lastErrorObject.upserted), String(doc._id));
+          t.ok(!err);
+          t.equal(doc.id, 3);
+          t.equal(doc.hello, 'girl');
+          t.equal(lastErrorObject.updatedExisting, false);
+          t.equal(lastErrorObject.n, 1);
+          t.equal(String(lastErrorObject.upserted), String(doc._id));
 
           // Find non existing document
           db.a.findAndModify({
             query: { id: 0 },
             update: { $set: { hello: 'boy' } }
           }, function(err, doc, lastErrorObject) {
-            assert.ok(!err);
-            assert.equal(lastErrorObject.n, 0);
+            t.ok(!err);
+            t.equal(lastErrorObject.n, 0);
 
             done();
           });
