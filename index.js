@@ -219,7 +219,15 @@ Collection.prototype.findAndModify = function(options, callback) {
 };
 
 Collection.prototype.group = function(group, callback) {
-  this._apply(DriverCollection.group, [group.key ? group.key : group.keyf, group.cond, group.initial, group.reduce, group.finalize, true, callback]);
+  this._apply(DriverCollection.group, [
+      group.key ? group.key : group.keyf, 
+      group.cond, 
+      group.initial, 
+      group.reduce, 
+      group.finalize, 
+      true, 
+      callback
+  ]);
 };
 
 Collection.prototype.remove = function() {
