@@ -258,7 +258,7 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.eval(code, [params], [options], [callback])`
 
-#####`db.getCollectionNames([callback])`
+#####`db.getCollectionNames(callback)`
 
 #####`db.getLastError(callback)`
 
