@@ -279,7 +279,7 @@ Collection.prototype.save = function() {
       // The third parameter is a faked lastErrorObject
       fn(err, doc, { n : 0});
     }
-  }
+  };
   this._apply(DriverCollection.save, replaceCallback(arguments, callback));
 };
 
@@ -301,7 +301,7 @@ Collection.prototype.runCommand = function(cmd, opts, callback) {
   opts = opts || {};
   if (typeof opts === 'function') {
     callback = opts;
-  };
+  }
   this._get(function(err, collection) {
     if (err) return callback(err);
     var commandObject = {};
@@ -507,7 +507,7 @@ var connect = function(config, collections) {
     });
 
     return p;
-  };
+  }
   return that;
 };
 
