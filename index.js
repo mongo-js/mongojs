@@ -359,6 +359,12 @@ var Database = function(name, ondb) {
   EventEmitter.call(this);
   this._get = ondb;
   this._name = name;
+  if (!this._name) {
+    var self = this;
+    this._get(function(err, db) {
+      self._name = db.databaseName;
+    });
+  }
 };
 
 util.inherits(Database, EventEmitter);
@@ -465,9 +471,35 @@ Database.prototype._apply = function(fn, args) {
   });
 };
 
+var isDriverDb = function(db) {
+  var result = true;
+  result = result && typeof db.admin === 'function';
+  result = result && typeof db.close === 'function';
+  result = result && typeof db.collection === 'function';
+  result = result && typeof db.collectionNames === 'function';
+  result = result && typeof db._get === 'undefined';
+
+  return result;
+};
+
+var isMongojsDb = function(db) {
+  var result = true;
+  result = result && typeof db.close === 'function';
+  result = result && typeof db.collection === 'function';
+  result = result && typeof db.getCollectionNames === 'function';
+  result = result && typeof db._get === 'function';
+
+  return result;
+};
+
 var connect = function(config, collections) {
-  var connectionString = parseConfig(config);
-  var dbName = (connectionString.match(/\/([^\/\?]+)(\?|$)/) || [])[1] || 'db';
+  if (isMongojsDb(config)) return config;
+  if (isDriverDb(config)) {
+    var driverDb = config;
+  } else {
+    var connectionString = parseConfig(config);
+    var dbName = (connectionString.match(/\/([^\/\?]+)(\?|$)/) || [])[1] || 'db';
+  }
 
   var ondb = thunky(function(callback) {
     mongodb.Db.connect(connectionString, function(err, db) {
@@ -482,6 +514,11 @@ var connect = function(config, collections) {
       callback(null, db);
     });
   });
+  if (driverDb) {
+    ondb = function(callback) {
+      callback(null, driverDb);
+    };
+  }
   var that = new Database(dbName, ondb);
 
   that.bson = mongodb.BSONPure; // backwards compat (require('bson') instead)
