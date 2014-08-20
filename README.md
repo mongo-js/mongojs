@@ -269,3 +269,5 @@ Apply a query and get one single document passed as a callback. The callback rec
 #####`db.runCommand(command, [callback])`
 
 #####`db.stats([callback])`
+
+#####`db.close()`
