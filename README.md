@@ -268,6 +268,10 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`cursor.toArray(callback)`
 
+#####`cursor.rewind()`
+
+#####`cursor.destroy()`
+
 #### Database
 
 #####`db.addUser(document)`
