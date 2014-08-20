@@ -171,6 +171,26 @@ db.hackers.insert({name: 'Ed'});
 
 In the above example the `hackers` collection is enabled automagically (similar to the shell) using the `Proxy` feature in harmony
 
+## Passing a DB to the constructor
+
+If you have an instance of the mongodb native driver, you can pass this to the constructor and mongojs will
+use this instance of the driver internally. This can be useful to write modules that use mongojs without
+requiring and additional connection.
+
+```js
+var mongodb = require('mongodb');
+var mongojs = require('mongojs');
+
+mongodb.Db.connect('mongodb://localhost/test', function(err, theDb) {
+    var db = mongojs(theDb, ['myCollection']);
+});
+```
+
+It can also be used to use a different version of the driver than the one mongojs has installed, but do this
+at your own risk.
+
+You can also do the same passing a mongojs instance instead.
+
 # API
 
 This API documentation is a work in progress.
