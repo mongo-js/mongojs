@@ -33,6 +33,7 @@
     "test": "tape test/test-*.js; echo \"Harmony tests\"; node --harmony node_modules/tape/bin/tape test/test-*.js"
   },
   "devDependencies": {
+    "each-series": "^0.2.0",
     "tape": "^2.13.4"
   }
 }

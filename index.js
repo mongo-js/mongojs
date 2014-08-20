@@ -493,9 +493,10 @@ var isMongojsDb = function(db) {
 };
 
 var connect = function(config, collections) {
-  if (isMongojsDb(config)) return config;
   if (isDriverDb(config)) {
     var driverDb = config;
+  } else if (isMongojsDb(config)) {
+    var mongojsDb = config;
   } else {
     var connectionString = parseConfig(config);
     var dbName = (connectionString.match(/\/([^\/\?]+)(\?|$)/) || [])[1] || 'db';
@@ -518,6 +519,14 @@ var connect = function(config, collections) {
     ondb = function(callback) {
       callback(null, driverDb);
     };
+  }
+  if (mongojsDb) {
+    ondb = function(callback) {
+      mongojsDb.open(function(err, db) {
+        if (err) callback(err);
+        callback(null, db);
+      });
+    }
   }
   var that = new Database(dbName, ondb);
 
