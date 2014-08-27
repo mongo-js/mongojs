@@ -1,4 +1,4 @@
-var test = require('tape');
+var test = require('./tape');
 var insert = require('./insert');
 
 insert('find', [{

@@ -1,4 +1,4 @@
-var test = require('tape');
+var test = require('./tape');
 var mongojs = require('../index');
 var db = mongojs('test', ['test123']);
 

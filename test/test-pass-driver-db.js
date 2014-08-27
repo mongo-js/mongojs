@@ -1,4 +1,4 @@
-var test = require('tape');
+var test = require('./tape');
 var mongodb = require('mongodb');
 var mongojs = require('../');
 var each = require('each-series');

@@ -1,4 +1,4 @@
-var test = require('tape');
+var test = require('./tape');
 var cp = require('child_process');
 
 test('crash', function(t) {
