@@ -247,6 +247,10 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.collection.update(query, update, [options], [callback])`
 
+#####`db.collection.toString()`
+
+Get the name of the collection.
+
 #### Cursor
 
 #####`cursor.batchSize(size, [callback])`
