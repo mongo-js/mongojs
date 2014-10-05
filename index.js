@@ -593,7 +593,10 @@ var connect = function(config, collections) {
 
   var ondb = thunky(function(callback) {
     mongodb.Db.connect(connectionString, function(err, db) {
-      if (err) return callback(err);
+      if (err) {
+        that.emit('error', err);
+        return callback(err);
+      }
       that.client = db;
       that.emit('ready');
       db.on('error', function(err) {
