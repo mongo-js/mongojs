@@ -119,6 +119,75 @@ Cursor.prototype._config = function(fn, args) {
   return this._apply(fn, args).toArray(callback);
 };
 
+var BulkFind = function(onbulkfind) {
+  this._get = onbulkfind;
+};
+
+BulkFind.prototype._apply = function(fn, args) {
+  this._get(function(err, bulkFind) {
+    if (err) return getCallback(args)(err);
+    bulkFind[fn].apply(bulkFind, args);
+  });
+
+  return this;
+};
+
+BulkFind.prototype.update = function() {
+  return this._apply('update', arguments);
+};
+
+BulkFind.prototype.updateOne = function() {
+  return this._apply('updateOne', arguments);
+};
+
+BulkFind.prototype.upsert = function() {
+  return this._apply('upsert', arguments);
+};
+
+BulkFind.prototype.remove = function() {
+  return this._apply('remove', arguments);
+};
+
+BulkFind.prototype.removeOne = function() {
+  return this._apply('removeOne', arguments);
+};
+
+BulkFind.prototype.replaceOne = function() {
+  return this._apply('replaceOne', arguments);
+};
+
+var Bulk = function(onbulk) {
+  this._get = onbulk;
+};
+
+Bulk.prototype._apply = function(fn, args) {
+  this._get(function(err, bulk) {
+    if (err) return getCallback(args)(err);
+    bulk[fn].apply(bulk, args);
+  });
+
+  return this;
+};
+
+Bulk.prototype.insert = function() {
+  return this._apply('insert', arguments);
+};
+
+Bulk.prototype.execute = function() {
+  return this._apply('execute', arguments);
+};
+
+Bulk.prototype.find = function() {
+  var self = this;
+  var args = arguments;
+  var onbulkfind = thunky(function(callback) {
+    self._get(function(err, bulk) {
+      callback(err, bulk.find.apply(bulk, args))
+    });
+  });
+
+  return new BulkFind(onbulkfind);
+};
 
 // Proxy for the native collection prototype that normalizes method names and
 // arguments to fit the mongo shell.
@@ -311,6 +380,26 @@ Collection.prototype.runCommand = function(cmd, opts, callback) {
     });
     collection.db.command(commandObject, callback);
   });
+};
+
+Collection.prototype.initializeUnorderedBulkOp = function() {
+  return this._initializeBulkOp(false);
+};
+
+Collection.prototype.initializeOrderedBulkOp = function() {
+  return this._initializeBulkOp(true);
+};
+
+Collection.prototype._initializeBulkOp = function(ordered) {
+  var self = this;
+  var onbulk = thunky(function(callback) {
+    self._get(function(err, collection) {
+      var fn = ordered ? collection.initializeOrderedBulkOp : collection.initializeUnorderedBulkOp;
+      callback(err, fn.call(collection));
+    })
+  });
+
+  return new Bulk(onbulk);
 };
 
 Collection.prototype.toString = function() {
