@@ -149,6 +149,27 @@ db.things.runCommand('count', function(err, res) {
 });
 ```
 
+## Bulk updates
+
+As of 0.15 mongojs supports the Bulk updates introduced in mongodb 2.6. Here's an example of the usage
+
+```js
+var bulk = db.a.initializeOrderedBulkOp();
+bulk.find({type: 'water'}).update({$set: {level: 1}});
+bulk.find({type: 'water'}).update({$inc: {level: 2}});
+bulk.insert({name: 'Spearow', type: 'flying'});
+bulk.insert({name: 'Pidgeotto', type: 'flying'});
+bulk.insert({name: 'Charmeleon', type: 'fire'});
+bulk.find({type: 'flying'}).removeOne();
+bulk.find({type: 'fire'}).remove();
+bulk.find({type: 'water'}).updateOne({$set: {hp: 100}});
+
+bulk.execute(function(err, res) {
+  console.log('Done!');
+});
+
+```
+
 ## Replication Sets
 
 Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
@@ -300,3 +321,27 @@ Get the name of the collection.
 #####`db.stats([callback])`
 
 #####`db.close()`
+
+#### Bulk
+
+#####`bulk.execute()`
+
+#####`bulk.find(query)`
+
+#####`bulk.find.remove()`
+
+#####`bulk.find.removeOne()`
+
+#####`bulk.find.replaceOne()`
+
+#####`bulk.find.update(updaterParam)`
+
+#####`bulk.find.updateOne(updaterParam)`
+
+#####`bulk.find.upsert(upsertParam)`
+
+#####`bulk.insert(document)`
+
+#####`bulk.toString()`
+
+#####`bulk.tojson()
