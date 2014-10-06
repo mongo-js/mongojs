@@ -343,5 +343,3 @@ Get the name of the collection.
 #####`bulk.insert(document)`
 
 #####`bulk.toString()`
-
-#####`bulk.tojson()
