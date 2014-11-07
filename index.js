@@ -3,6 +3,7 @@ var thunky = require('thunky');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var Readable = require('stream').Readable || require('readable-stream');
+var PassThrough = require('stream').PassThrough || require('readable-stream').PassThrough;
 
 var DriverCollection = mongodb.Collection.prototype;
 var DriverDb = mongodb.Db.prototype;
@@ -198,7 +199,19 @@ var Collection = function(name, oncollection) {
 };
 
 Collection.prototype.aggregate = function() {
-  return this._apply(DriverCollection.aggregate, ensureCallback(arguments));
+  var args = Array.prototype.slice.call(arguments);
+  if (typeof args[args.length-1] === 'function') {
+    return this._apply(DriverCollection.aggregate, ensureCallback(arguments));
+  }
+  args.push({cursor: {batchSize: 1}});
+
+  var pt = new PassThrough({objectMode: true, highWaterMark: 16});
+  this._get(function(err, collection) {
+    if (err) return callback(err);
+    collection.aggregate.apply(collection, args).pipe(pt);
+  });
+
+  return pt;
 };
 
 Collection.prototype.count = function() {
