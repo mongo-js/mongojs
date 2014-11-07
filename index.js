@@ -234,6 +234,10 @@ Collection.prototype.dropIndex = function() {
   return this._apply(DriverCollection.dropIndex, ensureCallback(arguments));
 };
 
+Collection.prototype.dropIndexes = function(callback) {
+  this.runCommand('dropIndexes', {index: '*'}, callback);
+};
+
 Collection.prototype.ensureIndex = function() {
   return this._apply(DriverCollection.ensureIndex, ensureCallback(arguments));
 };
