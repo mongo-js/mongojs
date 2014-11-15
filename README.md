@@ -116,7 +116,7 @@ db.on('error',function(err)
 db.on('ready',function()
 {
 	console.log('database connected');
-})
+});
 ```
 
 
