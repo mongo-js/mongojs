@@ -108,13 +108,11 @@ For more detailed information about the different usages of update and querying 
 ``` js
 var db = mongojs('mydb', ['mycollection']);
 
-db.on('error',function(err)
-{
+db.on('error',function(err) {
 	console.log('database error', err);
 });
 
-db.on('ready',function()
-{
+db.on('ready',function() {
 	console.log('database connected');
 });
 ```
