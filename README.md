@@ -102,6 +102,22 @@ db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
 
 For more detailed information about the different usages of update and querying see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
+
+## Events
+
+``` js
+var db = mongojs('mydb', ['mycollection']);
+
+db.on('error',function(err) {
+	console.log('database error', err);
+});
+
+db.on('ready',function() {
+	console.log('database connected');
+});
+```
+
+
 ## Streaming cursors
 
 As of `0.7.0` all cursors are a [readable stream](http://nodejs.org/api/stream.html#stream_readable_stream) of objects.
