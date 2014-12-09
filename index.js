@@ -79,6 +79,10 @@ Cursor.prototype.rewind = function() {
   return this._config('rewind', arguments);
 };
 
+Cursor.prototype.readPref = function() {
+  return this._config('setReadPreference', arguments);
+};
+
 Cursor.prototype.destroy = function() {
   this._apply('close', arguments);
   this.push(null);
