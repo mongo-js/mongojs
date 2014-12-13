@@ -312,6 +312,8 @@ Get the name of the collection.
 
 #####`cursor.rewind()`
 
+#####`cursor.readPref(mode, tagSet)`
+
 #####`cursor.destroy()`
 
 #### Database
