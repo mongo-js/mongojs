@@ -178,7 +178,8 @@ Bulk.prototype.insert = function() {
   return this._apply('insert', arguments);
 };
 
-Bulk.prototype.execute = function() {
+Bulk.prototype.execute = function(callback) {
+  if (!callback) return this.execute(noop);
   return this._apply('execute', arguments);
 };
 
