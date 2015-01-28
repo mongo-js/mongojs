@@ -26,7 +26,7 @@
   ],
   "dependencies": {
     "concat-stream": "^1.4.6",
-    "mongodb-core": "1.0.5",
+    "mongodb-core": "1.1.9",
     "pump": "^1.0.0",
     "readable-stream": "~1.1.9",
     "thunky": "~0.1.0"
