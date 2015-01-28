@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert('update multi', [{
+insert.skip('update multi', [{
   hello:'world1'
 },{
   hello:'world2'

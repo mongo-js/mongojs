@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert('update and callback', [{
+insert.skip('update and callback', [{
   hello:'world'
 }], function(db, t, done) {
   var sync = true;

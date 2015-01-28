@@ -1,7 +1,7 @@
 var test = require('./tape');
 var insert = require('./insert');
 
-insert('cursor.explain', [{
+insert.skip('cursor.explain', [{
   hello:'world1'
 },{
   hello:'world2'

@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert('group', [{
+insert.skip('group', [{
   t: 242424,
   online: 1
 }, {

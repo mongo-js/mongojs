@@ -3,7 +3,7 @@ var mongodb = require('mongodb');
 var mongojs = require('../');
 var each = require('each-series');
 
-test('receive a driver db or mongojs instance', function(t) {
+test.skip('receive a driver db or mongojs instance', function(t) {
   mongodb.Db.connect('mongodb://localhost/test', function(err, thedb) {
 
     var doTests = function(db, i, callback) {

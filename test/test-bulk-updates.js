@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert('bulk', [{
+insert.skip('bulk', [{
   name:'Squirtle', type:'water'
 }, {
   name:'Starmie' , type:'water'

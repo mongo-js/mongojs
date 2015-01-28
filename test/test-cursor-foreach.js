@@ -8,7 +8,7 @@ var pokemons = [{
   name:'Lapras'  , type:'water'
 }];
 
-insert('remove', pokemons, function(db, t, done) {
+insert('cursor foreach', pokemons, function(db, t, done) {
   var i = 0;
   db.a.find().forEach(function(err, pkm) {
     if (++i === 4) return t.end();
