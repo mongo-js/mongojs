@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert.skip('getCollectionNames', [{
+insert('getCollectionNames', [{
   hello:'world'
 }], function(db, t, done) {
   db.collection('b').save({hello: "world"}, function(err, b) {
