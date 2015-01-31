@@ -1,7 +1,7 @@
 var insert = require('./insert');
 var concat = require('concat-stream');
 
-insert.skip('aggregate', [{
+insert('drop indexes', [{
   name:'Squirtle', type:'water'
 }, {
   name:'Starmie' , type:'water'
