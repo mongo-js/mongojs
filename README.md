@@ -5,7 +5,7 @@ It wraps [mongodb-native](https://github.com/mongodb/node-mongodb-native/) and i
 
 	npm install mongojs
 
-[![build status](https://secure.travis-ci.org/mafintosh/mongojs.png)](http://travis-ci.org/mafintosh/mongojs)
+[![Build Status](https://travis-ci.org/mafintosh/mongojs.svg?branch=master)](https://travis-ci.org/mafintosh/mongojs)
 [![Tips](https://img.shields.io/gratipay/mafintosh.svg)](https://gratipay.com/mafintosh)
 
 ## Usage
