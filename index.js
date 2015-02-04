@@ -1,6 +1,7 @@
 var mongodb = require('mongodb-core');
 var thunky = require('thunky');
 var url = require('url');
+var once = require('once');
 
 var Database = require('./lib/database');
 
@@ -19,6 +20,7 @@ var parseConfig = function(cs) {
 module.exports = function(connString, cols) {
   var connInfo = parseConfig(connString);
   var onserver = thunky(function(cb) {
+    cb = once(cb);
     var srv = new Server({
       host: connInfo.hostname || 'localhost',
       port: connInfo.port || 27017,
