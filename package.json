@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "each-series": "^0.2.0",
+    "mongodb": "1.4.19",
     "tape": "^3.4.0"
   }
 }
