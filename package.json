@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "0.18.1",
+  "version": "0.18.2",
   "repository": "git://github.com/mafintosh/mongojs.git",
   "author": "Mathias Buus Madsen <mathiasbuus@gmail.com>",
   "contributors": [
@@ -26,15 +26,15 @@
   ],
   "dependencies": {
     "thunky": "~0.1.0",
-    "readable-stream": "~1.1.9",
-    "mongodb": "1.4.19"
+    "readable-stream": "~1.1.13",
+    "mongodb": "1.4.30"
   },
   "scripts": {
     "test": "tape test/test-*.js; echo \"Harmony tests\"; node --harmony node_modules/tape/bin/tape test/test-*.js"
   },
   "devDependencies": {
-    "concat-stream": "^1.4.6",
-    "each-series": "^0.2.0",
-    "tape": "^2.13.4"
+    "concat-stream": "^1.4.7",
+    "each-series": "^1.0.0",
+    "tape": "^3.4.0"
   }
 }
