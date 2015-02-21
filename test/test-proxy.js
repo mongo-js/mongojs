@@ -2,7 +2,7 @@ var test = require('./tape');
 var mongojs = require('../index');
 var db = mongojs('test');
 
-test.skip('proxy', function(t) {
+test('proxy', function(t) {
   if (typeof Proxy === 'undefined') return t.end();
 
   db.a.remove(function() {

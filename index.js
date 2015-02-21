@@ -39,5 +39,17 @@ module.exports = function(connString, cols) {
     srv.connect();
   });
 
-  return new Database({name: connInfo.pathname.substr(1), cols: cols}, onserver);
+  var that = new Database({name: connInfo.pathname.substr(1), cols: cols}, onserver);
+  if (typeof Proxy !== 'undefined') {
+    var p = Proxy.create({
+      get: function(obj, prop) {
+        if (that[prop]) return that[prop];
+        that[prop] = that.collection(prop);
+        return that[prop];
+      }
+    });
+
+    return p;
+  };
+  return that;
 };
