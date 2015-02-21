@@ -2,7 +2,7 @@ var test = require('./tape');
 var mongojs = require('../index');
 var db = mongojs('test', ['b.c']);
 
-test.skip('chained-collection-names', function(t) {
+test('chained-collection-names', function(t) {
   db.b.c.remove(function() {
     db.b.c.save({hello: "world"}, function(err, rs) {
       db.b.c.find(function(err, docs) {
