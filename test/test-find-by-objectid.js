@@ -1,6 +1,6 @@
 var insert = require('./insert');
 
-insert.skip('find by ObjectId', [{
+insert('find by ObjectId', [{
   hello:'world'
 }], function(db, t, done) {
   db.a.find({_id:db.ObjectId('abeabeabeabeabeabeabeabe')}, {hello:1}, function(err, docs) {
