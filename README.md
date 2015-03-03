@@ -211,9 +211,8 @@ In the above example the `hackers` collection is enabled automagically (similar 
 
 ## Passing a DB to the constructor
 
-If you have an instance of the mongodb native driver, you can pass this to the constructor and mongojs will
-use this instance of the driver internally. This can be useful to write modules that use mongojs without
-requiring and additional connection.
+If you have an instance of mongojs, you can pass this to the constructor and mongojs will use the 
+existing connection of that instance instead of creating a new one.
 
 ```js
 var mongodb = require('mongodb');
@@ -223,11 +222,6 @@ mongodb.Db.connect('mongodb://localhost/test', function(err, theDb) {
     var db = mongojs(theDb, ['myCollection']);
 });
 ```
-
-It can also be used to use a different version of the driver than the one mongojs has installed, but do this
-at your own risk.
-
-You can also do the same passing a mongojs instance instead.
 
 # API
 
