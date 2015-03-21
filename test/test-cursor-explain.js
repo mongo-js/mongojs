@@ -8,7 +8,11 @@ insert('cursor.explain', [{
 }], function(db, t, done) {
   var cursor = db.a.find();
   cursor.explain(function(err, result) {
-    t.equal(result.nscannedObjects, 2);
+    if (result.executionStats) {
+      t.equal(result.executionStats.totalDocsExamined, 2);
+    } else {
+      t.equal(result.nscannedObjects, 2);
+    }
     done();
   });
 });
