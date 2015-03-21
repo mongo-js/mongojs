@@ -3,46 +3,27 @@ var thunky = require('thunky');
 var url = require('url');
 var once = require('once');
 var toMongodbCore = require('to-mongodb-core');
+var parse = require('parse-mongo-url');
 
 var Database = require('./lib/database');
+var getTopology = require('./lib/get-topology');
 
-var Server = mongodb.Server;
-
-var parseConfig = function(cs) {
-  //if (typeof cs !== 'string') throw new Error('connection string required'); // to avoid undef errors on bad conf
-  if (typeof cs !== 'string') return null;
-  cs = cs.replace(/^\//, '');
-
-  if (cs.indexOf('/') < 0) return parseConfig('127.0.0.1/'+cs);
-  if (cs.indexOf('mongodb://') !== 0) return parseConfig('mongodb://'+cs);
-
-  return url.parse(cs);
+var getDbName = function(connString) {
+  if (typeof connString !== 'string') return null;
+  var config = parse(connString);
+  return config.dbName;
 };
 
 module.exports = function(connString, cols) {
-  var connInfo = parseConfig(connString);
-  var dbname = connInfo && connInfo.pathname && connInfo.pathname.substr(1);
+  var dbname = getDbName(connString);
   var onserver = thunky(function(cb) {
-    cb = once(cb);
-    var srv = new Server({
-      host: connInfo.hostname || 'localhost',
-      port: connInfo.port || 27017,
-      reconnect: true,
-      reconnectInterval: 50
+    getTopology(connString, function(err, topology) {
+      if (err) return cb(err);
+      cb(null, topology);
     });
-
-    srv.on('connect', function(server) {
-      cb(null, server);
-    });
-
-    srv.on('error', function(err) {
-      cb(err);
-    });
-
-    srv.connect();
   });
 
-  if (!connInfo) {
+  if (!dbname) {
     dbname = connString._dbname;
     onserver = thunky(function(cb) {
       toMongodbCore(connString, function(err, server) {
