@@ -11,6 +11,12 @@ insert('drop indexes', [{
   name:'Lapras'  , type:'water'
 }], function(db, t, done) {
   db.a.ensureIndex({type: 1}, function(err) {
+    if (err && err.message === 'no such cmd: createIndexes') {
+      // Index creation and deletion not supported for mongodb 2.4 and lower.
+      t.ok(true);
+      t.end();
+      return;
+    }
     t.ok(!err);
     db.a.getIndexes(function(err, indexes) {
       t.ok(!err);
