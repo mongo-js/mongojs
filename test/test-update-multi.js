@@ -7,7 +7,6 @@ insert('update multi', [{
 }], function(db, t, done) {
   db.a.update({}, {$set:{updated:true}}, {multi:true}, function(err, lastErrorObject) {
     t.ok(!err);
-    t.equal(lastErrorObject.updatedExisting, true);
     t.equal(lastErrorObject.n, 2);
 
     db.a.find(function(err, docs) {

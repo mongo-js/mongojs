@@ -20,3 +20,9 @@ module.exports = function(testName, docs, testFn) {
     });
   });
 };
+
+module.exports.skip = function(testName) {
+  test.skip(testName, function(t) {
+    t.end();
+  });
+};
