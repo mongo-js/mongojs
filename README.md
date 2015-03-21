@@ -223,6 +223,15 @@ mongodb.Db.connect('mongodb://localhost/test', function(err, theDb) {
 });
 ```
 
+## Features not supported for MongoDB 2.4 or older (on mongojs version 1.0+).
+
+* Index creation and deletion
+* Aggregation cursors.
+
+This features are relatively easy to add, but would make the code unnecessarily more complex.
+If you are using mongodb 2.4 or older and would like to use mongojs 1.0 with the above mentioned
+feautres, feel free to make a pull request or open and issue..
+
 # API
 
 This API documentation is a work in progress.
