@@ -33,7 +33,8 @@
     "pump": "^1.0.0",
     "readable-stream": "~1.1.9",
     "thunky": "~0.1.0",
-    "to-mongodb-core": "^2.0.0"
+    "to-mongodb-core": "^2.0.0",
+    "xtend": "^4.0.0"
   },
   "scripts": {
     "test": "tape test/test-*.js; echo \"Harmony tests\"; node --harmony node_modules/tape/bin/tape test/test-*.js"
