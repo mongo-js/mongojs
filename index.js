@@ -1,10 +1,6 @@
-var mongodb = require('mongodb-core');
 var thunky = require('thunky');
-var url = require('url');
-var once = require('once');
 var toMongodbCore = require('to-mongodb-core');
 var parse = require('parse-mongo-url');
-
 var Database = require('./lib/database');
 var getTopology = require('./lib/get-topology');
 
