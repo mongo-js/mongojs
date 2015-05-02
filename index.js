@@ -3,6 +3,7 @@ var toMongodbCore = require('to-mongodb-core');
 var parse = require('parse-mongo-url');
 var Database = require('./lib/database');
 var getTopology = require('./lib/get-topology');
+var bson = require('mongodb-core').BSON;
 
 var getDbName = function(connString) {
   if (typeof connString !== 'string') return null;
@@ -43,3 +44,5 @@ module.exports = function(connString, cols) {
   };
   return that;
 };
+
+module.exports.ObjectId = bson.ObjectId;
