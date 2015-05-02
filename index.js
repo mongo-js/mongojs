@@ -4,6 +4,7 @@ var url = require('url');
 var once = require('once');
 var toMongodbCore = require('to-mongodb-core');
 var parse = require('parse-mongo-url');
+var bson = require('mongodb-core').BSON;
 
 var Database = require('./lib/database');
 var getTopology = require('./lib/get-topology');
@@ -47,3 +48,5 @@ module.exports = function(connString, cols) {
   };
   return that;
 };
+
+module.exports.ObjectId = bson.ObjectId;
