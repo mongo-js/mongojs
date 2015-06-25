@@ -11,10 +11,11 @@ var getDbName = function(connString) {
   return config.dbName;
 };
 
-module.exports = function(connString, cols) {
+module.exports = function(connString, cols, options) {
   var dbname = getDbName(connString);
+  if (!options) options = {};
   var onserver = thunky(function(cb) {
-    getTopology(connString, function(err, topology) {
+    getTopology(connString, options, function(err, topology) {
       if (err) return cb(err);
       cb(null, topology);
     });
