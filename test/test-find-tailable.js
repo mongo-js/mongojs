@@ -14,7 +14,7 @@ test('tailable find', function(t) {
         tailable: true,
         timeout: false,
         awaitData: true,
-        numberOfRetries: -1
+        numberOfRetries: Number.MAX_VALUE
       });
 
       db.tailable.insert(expected1, function(err) {
