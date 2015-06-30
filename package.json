@@ -38,12 +38,14 @@
   },
   "scripts": {
     "test": "tape test/test-*.js; echo \"Harmony tests\"; node --harmony --harmony-proxies node_modules/tape/bin/tape test/test-*.js",
-    "cover": "node --harmony --harmony-proxies node_modules/istanbul/lib/cli.js cover node_modules/tape/bin/tape test/test-*.js --report html"
+    "cover": "node --harmony --harmony-proxies node_modules/istanbul/lib/cli.js cover node_modules/tape/bin/tape test/test-*.js --report html",
+    "geotag": "geopkg"
   },
   "devDependencies": {
-    "tape": "^3.4.0",
     "concat-stream": "^1.4.6",
-    "istanbul": "^0.3.17"
+    "geopkg": "^2.1.0",
+    "istanbul": "^0.3.17",
+    "tape": "^3.4.0"
   },
   "coordinates": [
     18.4786198,
