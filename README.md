@@ -238,6 +238,7 @@ Version 1.0.x is a major rewrite of mongojs using mongodb-core driver. So expect
 
 * __Removed__ `mongojs.connect` use `mongojs()` directly instead
 * __Not Working__ Currently events are not working. If your code depends on event listeners don't upgrade right now. Will be fixed!
+* Collection.aggregate does currently not support an aggregation pipeline passed as array but as parameters. Instead of `db.reviews.aggregate([step1, step2], function() { ... })` use `db.reviews.aggregate(step1, step2, function() { ... })`
 
 # API
 
