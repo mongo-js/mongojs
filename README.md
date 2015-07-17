@@ -30,6 +30,9 @@ var db = mongojs('example.com/mydb', ['mycollection']);
 // we can also provide some credentials
 var db = mongojs('username:password@example.com/mydb', ['mycollection']);
 
+// connect using SCRAM-SHA-1 mechanism
+var db = mongojs('username:password@example.com/mydb', ['mycollection'], {authMechanism: 'ScramSHA1'});
+
 // connect now, and worry about collections later
 var db = mongojs('mydb');
 var mycollection = db.collection('mycollection');
@@ -211,7 +214,7 @@ In the above example the `hackers` collection is enabled automagically (similar 
 
 ## Passing a DB to the constructor
 
-If you have an instance of mongojs, you can pass this to the constructor and mongojs will use the 
+If you have an instance of mongojs, you can pass this to the constructor and mongojs will use the
 existing connection of that instance instead of creating a new one.
 
 ```js
