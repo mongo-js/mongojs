@@ -42,7 +42,7 @@ module.exports = function(connString, cols, options) {
     });
 
     return p;
-  };
+  }
   return that;
 };
 
