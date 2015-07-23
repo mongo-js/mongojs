@@ -1,6 +1,5 @@
 var test = require('./tape');
 var mongojs = require('../');
-var each = require('each-series');
 
 test('receive a driver db or mongojs instance', function(t) {
 
