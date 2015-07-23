@@ -8,7 +8,11 @@ test('receive a driver db or mongojs instance', function(t) {
     db.a.remove(function(err) {
       t.ok(!err);
       t.equal(db.toString(), 'test');
-      t.end();
+
+      db.close(function(err) {
+        t.ok(!err);
+        t.end();
+      });
     });
   };
 
