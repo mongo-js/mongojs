@@ -1,4 +1,3 @@
-var test = require('./tape')
 var insert = require('./insert')
 
 insert('distinct', [{

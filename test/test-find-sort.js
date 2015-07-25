@@ -1,5 +1,4 @@
 var insert = require('./insert')
-var concat = require('concat-stream')
 
 insert('sort', [{
   name: 'Squirtle', type: 'water'
