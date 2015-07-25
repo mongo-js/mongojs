@@ -11,7 +11,7 @@ insert('sort', [{
   name: 'Lapras'  , type: 'water'
 }], function (db, t, done) {
   db.a.find().sort({name: 1}, function (err, docs) {
-    t.ok(!err)
+    t.error(err)
     t.equal(docs[0].name, 'Charmander')
     t.equal(docs[1].name, 'Lapras')
     t.equal(docs[2].name, 'Squirtle')

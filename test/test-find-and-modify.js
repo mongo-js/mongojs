@@ -13,7 +13,7 @@ insert('findAndModify', [{
     update: { $set: { hello: 'world' } },
   },
   function (err, doc, lastErrorObject) {
-    t.ok(!err)
+    t.error(err)
     t.equal(doc.id, 1)
     t.equal(doc.hello, 'you')
     t.equal(lastErrorObject.updatedExisting, true)
@@ -25,7 +25,7 @@ insert('findAndModify', [{
       'new': true,
       update: { $set: { hello: 'me' } }
     }, function (err, doc, lastErrorObject) {
-      t.ok(!err)
+      t.error(err)
       t.equal(doc.id, 2)
       t.equal(doc.hello, 'me')
       t.equal(lastErrorObject.updatedExisting, true)
@@ -36,7 +36,7 @@ insert('findAndModify', [{
         query: { id: 1 },
         remove: true
       }, function (err, doc, lastErrorObject) {
-        t.ok(!err)
+        t.error(err)
         t.equal(doc.id, 1)
         t.equal(lastErrorObject.n, 1)
 
@@ -47,7 +47,7 @@ insert('findAndModify', [{
           'new': true,
           upsert: true
         }, function (err, doc, lastErrorObject) {
-          t.ok(!err)
+          t.error(err)
           t.equal(doc.id, 3)
           t.equal(doc.hello, 'girl')
           t.equal(lastErrorObject.updatedExisting, false)
@@ -59,7 +59,7 @@ insert('findAndModify', [{
             query: { id: 0 },
             update: { $set: { hello: 'boy' } }
           }, function (err, doc, lastErrorObject) {
-            t.ok(!err)
+            t.error(err)
             t.equal(lastErrorObject.n, 0)
 
             done()

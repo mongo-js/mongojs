@@ -19,7 +19,7 @@ insert('group', [{
       out.avgOnline = out.online / out.count
     }
   }, function (err, curOnline) {
-    t.ok(!err)
+    t.error(err)
     t.equal(curOnline[0].count, 1)
     t.equal(curOnline[0].online, 1)
     done()

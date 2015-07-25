@@ -14,7 +14,7 @@ insert('find cursor', [{
       done()
       return
     }
-    t.ok(!err)
+    t.error(err)
     t.ok(doc.hello === 'world1' || doc.hello === 'world2')
     t.equal(typeof doc, 'object')
     runs++

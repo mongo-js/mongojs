@@ -5,7 +5,7 @@ var db = mongojs('test', ['tailable'])
 test('tailable find', function (t) {
   db.tailable.drop(function (err) {
     db.createCollection('tailable', {capped: true, size: 1024}, function (err) {
-      t.notOk(err, 'no error in creating the collection')
+      t.error(err, 'no error in creating the collection')
 
       var expected1 = { hello: 'world' }
       var expected2 = { hello: 'matteo' }
@@ -18,7 +18,7 @@ test('tailable find', function (t) {
       })
 
       db.tailable.insert(expected1, function (err) {
-        t.notOk(err, 'no error in insert')
+        t.error(err, 'no error in insert')
         stream.once('data', function (obj) {
           t.deepEqual(obj, expected1, 'fetched object match')
           stream.once('data', function (obj) {
@@ -28,7 +28,7 @@ test('tailable find', function (t) {
           })
 
           db.tailable.insert(expected2, function (err) {
-            t.notOk(err, 'no error in insert')
+            t.error(err, 'no error in insert')
           })
         })
       })

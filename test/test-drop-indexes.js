@@ -17,12 +17,12 @@ insert('drop indexes', [{
       t.end()
       return
     }
-    t.ok(!err)
+    t.error(err)
     db.a.getIndexes(function (err, indexes) {
-      t.ok(!err)
+      t.error(err)
       t.equal(indexes.length, 2)
       db.a.dropIndexes(function (err) {
-        t.ok(!err)
+        t.error(err)
 
         db.a.getIndexes(function (err, indexes) {
           t.equal(indexes.length, 1)

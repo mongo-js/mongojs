@@ -4,7 +4,7 @@ var db = mongojs('test', ['a', 'b'])
 
 test('simple', function (t) {
   db.a.find(function (err, docs) {
-    t.ok(!err)
+    t.error(err)
     t.equal(docs.length, 0)
     db.close(t.end.bind(t))
   })

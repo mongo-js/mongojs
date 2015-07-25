@@ -6,7 +6,7 @@ insert('update and callback', [{
   var sync = true
   db.a.update({hello: 'world'}, {$set: {hello: 'verden'}}, function (err, lastErrorObject) {
     t.ok(!sync)
-    t.ok(!err)
+    t.error(err)
     t.equal(lastErrorObject.n, 1)
 
     done()

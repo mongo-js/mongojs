@@ -15,7 +15,7 @@ insert('distinct', [{
   hello: 'space'
 }], function (db, t, done) {
   db.a.distinct('goodbye', {hello: 'space'}, function (err, docs) {
-    t.ok(!err)
+    t.error(err)
     t.equal(docs.length, 2)
     t.equal(docs[0], 'world')
     done()

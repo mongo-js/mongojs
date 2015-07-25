@@ -6,18 +6,18 @@ test('receive a driver db or mongojs instance', function (t) {
   var db = mongojs(mongojs('test', []), ['a'])
   var afterFind = function () {
     db.a.remove(function (err) {
-      t.ok(!err)
+      t.error(err)
       t.equal(db.toString(), 'test')
 
       db.close(function (err) {
-        t.ok(!err)
+        t.error(err)
         t.end()
       })
     })
   }
 
   var afterInsert = function (err) {
-    t.ok(!err)
+    t.error(err)
 
     db.a.findOne(function (err, data) {
       t.equal(data.name, 'Pidgey')
@@ -26,7 +26,7 @@ test('receive a driver db or mongojs instance', function (t) {
   }
 
   var afterRemove = function (err) {
-    t.ok(!err)
+    t.error(err)
     db.a.insert({name: 'Pidgey'}, afterInsert)
   }
   db.a.remove(afterRemove)

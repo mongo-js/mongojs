@@ -5,13 +5,13 @@ var db = mongojs('test', ['a'])
 module.exports = function (testName, docs, testFn) {
   test(testName, function (t) {
     db.a.remove(function (err) {
-      t.ok(!err)
+      t.error(err)
 
       db.a.insert(docs, function (err) {
-        t.ok(!err)
+        t.error(err)
         testFn(db, t, function () {
           db.a.remove(function (err) {
-            t.ok(!err)
+            t.error(err)
             t.end()
           })
         })

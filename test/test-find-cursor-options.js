@@ -14,7 +14,7 @@ insert('find cursor options', [{
       done()
       return
     }
-    t.ok(!err)
+    t.error(err)
     t.equal(doc.hello, 'world2')
     t.equal(typeof doc, 'object')
     runs++

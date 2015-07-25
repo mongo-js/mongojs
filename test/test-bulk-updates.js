@@ -10,7 +10,7 @@ insert('bulk', [{
   name: 'Charmander', type: 'fire'
 }], function (db, t, done) {
   db.runCommand('serverStatus', function (err, resp) {
-    if (err) return t.fail()
+    t.error(err)
     if (parseFloat(resp.version) < 2.6) return t.end()
 
     var bulk = db.a.initializeOrderedBulkOp()

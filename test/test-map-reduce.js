@@ -18,7 +18,7 @@ insert('remove', [{
     query: {type: 'water'},
     out: 'levelSum'
   }, function (err) {
-    t.notOk(err)
+    t.error(err)
     db.collection('levelSum').findOne(function (err, res) {
       t.equal(res._id, 'water')
       t.equal(res.value, 30)
