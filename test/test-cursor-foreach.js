@@ -1,11 +1,11 @@
 var insert = require('./insert')
 
 var pokemons = [{
-  name:'Squirtle', type:'water'
+  name: 'Squirtle', type: 'water'
 }, {
-  name:'Starmie' , type:'water'
+  name: 'Starmie' , type: 'water'
 }, {
-  name:'Lapras'  , type:'water'
+  name: 'Lapras'  , type: 'water'
 }]
 
 insert('cursor foreach', pokemons, function (db, t, done) {

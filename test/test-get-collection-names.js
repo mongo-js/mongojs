@@ -1,7 +1,7 @@
 var insert = require('./insert')
 
 insert('getCollectionNames', [{
-  hello:'world'
+  hello: 'world'
 }], function (db, t, done) {
   db.collection('b').save({hello: "world"}, function (err, b) {
     db.getCollectionNames(function (err, colNames) {

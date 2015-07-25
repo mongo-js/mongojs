@@ -1,9 +1,9 @@
 var insert = require('./insert')
 
 insert('streaming cursor', [{
-  hello:'world1'
+  hello: 'world1'
 },{
-  hello:'world2'
+  hello: 'world2'
 }], function (db, t, done) {
   var cursor = db.a.find()
   var runs = 0

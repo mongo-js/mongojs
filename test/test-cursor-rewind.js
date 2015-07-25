@@ -1,11 +1,11 @@
 var insert = require('./insert')
 
 insert('remove', [{
-  name:'Squirtle', type:'water'
+  name: 'Squirtle', type: 'water'
 }, {
-  name:'Starmie' , type:'water'
+  name: 'Starmie' , type: 'water'
 }, {
-  name:'Lapras'  , type:'water'
+  name: 'Lapras'  , type: 'water'
 }], function (db, t, done) {
   var cursor = db.a.find().sort({name: 1})
   cursor.next(function (err, obj1) {

@@ -2,7 +2,7 @@ var test = require('./tape')
 var insert = require('./insert')
 
 insert('find', [{
-  hello:'world'
+  hello: 'world'
 }], function (db, t, done) {
   db.a.find(function (err, docs) {
     t.ok(!err)

@@ -2,13 +2,13 @@ var insert = require('./insert')
 var concat = require('concat-stream')
 
 insert('sort', [{
-  name:'Squirtle', type:'water'
+  name: 'Squirtle', type: 'water'
 }, {
-  name:'Starmie' , type:'water'
+  name: 'Starmie' , type: 'water'
 }, {
-  name:'Charmander' , type:'fire'
+  name: 'Charmander' , type: 'fire'
 }, {
-  name:'Lapras'  , type:'water'
+  name: 'Lapras'  , type: 'water'
 }], function (db, t, done) {
   db.a.find().sort({name: 1}, function (err, docs) {
     t.ok(!err)

@@ -1,9 +1,9 @@
 var insert = require('./insert')
 
 insert('find cursor options', [{
-  hello:'world1'
+  hello: 'world1'
 },{
-  hello:'world2'
+  hello: 'world2'
 }], function (db, t, done) {
   var cursor = db.a.find().limit(1).skip(1)
   var runs = 0

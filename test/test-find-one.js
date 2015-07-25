@@ -1,9 +1,9 @@
 var insert = require('./insert')
 
 insert('findOne', [{
-  hello:'world1'
+  hello: 'world1'
 },{
-  hello:'world2'
+  hello: 'world2'
 }], function (db, t, done) {
   db.a.findOne(function (err, doc) {
     t.ok(!err)

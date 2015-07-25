@@ -2,13 +2,13 @@ var insert = require('./insert')
 var concat = require('concat-stream')
 
 insert('drop indexes', [{
-  name:'Squirtle', type:'water'
+  name: 'Squirtle', type: 'water'
 }, {
-  name:'Starmie' , type:'water'
+  name: 'Starmie' , type: 'water'
 }, {
-  name:'Charmander' , type:'fire'
+  name: 'Charmander' , type: 'fire'
 }, {
-  name:'Lapras'  , type:'water'
+  name: 'Lapras'  , type: 'water'
 }], function (db, t, done) {
   db.a.ensureIndex({type: 1}, function (err) {
     if (err && err.message === 'no such cmd: createIndexes') {

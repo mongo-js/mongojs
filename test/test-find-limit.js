@@ -1,7 +1,7 @@
 var insert = require('./insert')
 
 insert('find().limit', [{
-  hello:'world'
+  hello: 'world'
 }], function (db, t, done) {
   db.a.find().limit(1, function (err, docs) {
     t.ok(!err)
