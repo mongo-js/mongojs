@@ -3,11 +3,11 @@ var insert = require('./insert')
 insert('remove', [{
   name: 'Squirtle', type: 'water'
 }, {
-  name: 'Charmander' , type: 'fire'
+  name: 'Charmander', type: 'fire'
 }, {
-  name: 'Starmie' , type: 'water'
+  name: 'Starmie', type: 'water'
 }, {
-  name: 'Lapras'  , type: 'water'
+  name: 'Lapras', type: 'water'
 }], function (db, t, done) {
   db.a.find().count(function (err, cnt) {
     t.error(err)

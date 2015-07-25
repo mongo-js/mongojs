@@ -4,9 +4,9 @@ var insert = require('./insert')
 insert('remove', [{
   name: 'Squirtle', type: 'water'
 }, {
-  name: 'Starmie' , type: 'water'
+  name: 'Starmie', type: 'water'
 }, {
-  name: 'Lapras'  , type: 'water'
+  name: 'Lapras', type: 'water'
 }], function (db, t, done) {
   // Remove just one
   db.a.remove({type: 'water'}, true, function (err, lastErrorObject) {

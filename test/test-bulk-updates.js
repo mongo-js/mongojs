@@ -3,9 +3,9 @@ var insert = require('./insert')
 insert('bulk', [{
   name: 'Squirtle', type: 'water'
 }, {
-  name: 'Starmie' , type: 'water'
+  name: 'Starmie', type: 'water'
 }, {
-  name: 'Lapras'  , type: 'water'
+  name: 'Lapras', type: 'water'
 }, {
   name: 'Charmander', type: 'fire'
 }], function (db, t, done) {

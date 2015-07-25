@@ -4,11 +4,11 @@ var concat = require('concat-stream')
 insert('aggregate', [{
   name: 'Squirtle', type: 'water'
 }, {
-  name: 'Starmie' , type: 'water'
+  name: 'Starmie', type: 'water'
 }, {
-  name: 'Charmander' , type: 'fire'
+  name: 'Charmander', type: 'fire'
 }, {
-  name: 'Lapras'  , type: 'water'
+  name: 'Lapras', type: 'water'
 }], function (db, t, done) {
   db.a.aggregate([{$group: {_id: '$type'}}, {$project: { _id: 0, foo: '$_id' }}], function (err, types) {
     console.log(err, types)
