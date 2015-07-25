@@ -1,4 +1,4 @@
-var insert = require('./insert');
+var insert = require('./insert')
 
 insert('remove', [{
   name:'Squirtle', type:'water'
@@ -10,10 +10,10 @@ insert('remove', [{
   name:'Lapras'  , type:'water'
 }], function(db, t, done) {
   db.a.find().count(function(err, cnt) {
-    t.equal(cnt, 4);
+    t.equal(cnt, 4)
     db.a.find({type: 'water'}).count(function(err, cnt2) {
-      t.equal(cnt2, 3);
-      done();
-    });
-  });
-});
+      t.equal(cnt2, 3)
+      done()
+    })
+  })
+})

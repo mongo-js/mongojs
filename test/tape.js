@@ -1,11 +1,11 @@
-var test = require('tape');
+var test = require('tape')
 
-if (typeof setImmediate === 'undefined') setImmediate = process.nextTick;
+if (typeof setImmediate === 'undefined') setImmediate = process.nextTick
 setImmediate(function() {
   test('end', function(t) {
-    t.end();
-    process.exit();
-  });
-});
+    t.end()
+    process.exit()
+  })
+})
 
-module.exports = test;
+module.exports = test

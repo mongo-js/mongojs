@@ -1,4 +1,4 @@
-var insert = require('./insert');
+var insert = require('./insert')
 
 insert('group', [{
   t: 242424,
@@ -12,17 +12,17 @@ insert('group', [{
     cond: {t: {$gte: 86400}},
     initial: {count: 0, online: 0},
     reduce: function(doc, out) {
-      out.count++;
-      out.online += doc.online;
+      out.count++
+      out.online += doc.online
     },
     finalize: function(out) {
-      out.avgOnline = out.online / out.count;
+      out.avgOnline = out.online / out.count
     }
   }, function(err, curOnline) {
-    t.ok(!err);
-    t.equal(curOnline[0].count, 1);
-    t.equal(curOnline[0].online, 1);
-    done();
-  });
+    t.ok(!err)
+    t.equal(curOnline[0].count, 1)
+    t.equal(curOnline[0].online, 1)
+    done()
+  })
 })
 

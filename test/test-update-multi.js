@@ -1,4 +1,4 @@
-var insert = require('./insert');
+var insert = require('./insert')
 
 insert('update multi', [{
   hello:'world1'
@@ -6,17 +6,17 @@ insert('update multi', [{
   hello:'world2'
 }], function(db, t, done) {
   db.a.update({}, {$set:{updated:true}}, {multi:true}, function(err, lastErrorObject) {
-    t.ok(!err);
-    t.equal(lastErrorObject.n, 2);
+    t.ok(!err)
+    t.equal(lastErrorObject.n, 2)
 
     db.a.find(function(err, docs) {
-      t.ok(!err);
-      t.equal(docs.length, 2);
-      t.ok(docs[0].updated);
-      t.equal(docs[0].hello, 'world1');
-      t.ok(docs[1].updated);
-      t.equal(docs[1].hello, 'world2');
-      done();
-    });
-  });
-});
+      t.ok(!err)
+      t.equal(docs.length, 2)
+      t.ok(docs[0].updated)
+      t.equal(docs[0].hello, 'world1')
+      t.ok(docs[1].updated)
+      t.equal(docs[1].hello, 'world2')
+      done()
+    })
+  })
+})
