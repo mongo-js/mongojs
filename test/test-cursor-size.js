@@ -8,10 +8,10 @@ insert('cursor.size', [{
   hello:'world3'
 },{
   hello:'world4'
-}], function(db, t, done) {
-  db.a.find().skip(1).size(function(err, thesize) {
+}], function (db, t, done) {
+  db.a.find().skip(1).size(function (err, thesize) {
     t.equal(thesize, 3)
-    db.a.find().limit(2).size(function(err, theothersize) {
+    db.a.find().limit(2).size(function (err, theothersize) {
       t.equal(theothersize, 2)
       done()
     })

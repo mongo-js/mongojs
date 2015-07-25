@@ -4,11 +4,11 @@ insert('streaming cursor', [{
   hello:'world1'
 },{
   hello:'world2'
-}], function(db, t, done) {
+}], function (db, t, done) {
   var cursor = db.a.find()
   var runs = 0
 
-  var loop = function() {
+  var loop = function () {
     var doc
 
     while (doc = cursor.read()) {
@@ -20,7 +20,7 @@ insert('streaming cursor', [{
     cursor.once('readable', loop)
   }
 
-  cursor.on('end', function() {
+  cursor.on('end', function () {
     t.equal(runs, 2)
     done()
   })

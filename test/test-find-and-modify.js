@@ -6,13 +6,13 @@ insert('findAndModify', [{
 }, {
   id: 2,
   hello: 'other'
-}], function(db, t, done) {
+}], function (db, t, done) {
   // Update and find the old document
   db.a.findAndModify({
     query: { id: 1 },
     update: { $set: { hello: 'world' } },
   },
-  function(err, doc, lastErrorObject) {
+  function (err, doc, lastErrorObject) {
     t.ok(!err)
     t.equal(doc.id, 1)
     t.equal(doc.hello, 'you')
@@ -24,7 +24,7 @@ insert('findAndModify', [{
       query: { id: 2 },
       'new': true,
       update: { $set: { hello: 'me' } }
-    }, function(err, doc, lastErrorObject) {
+    }, function (err, doc, lastErrorObject) {
       t.ok(!err)
       t.equal(doc.id, 2)
       t.equal(doc.hello, 'me')
@@ -35,7 +35,7 @@ insert('findAndModify', [{
       db.a.findAndModify({
         query: { id: 1 },
         remove: true
-      }, function(err, doc, lastErrorObject) {
+      }, function (err, doc, lastErrorObject) {
         t.ok(!err)
         t.equal(doc.id, 1)
         t.equal(lastErrorObject.n, 1)
@@ -46,7 +46,7 @@ insert('findAndModify', [{
           update: { id: 3, hello: 'girl' },
           'new': true,
           upsert: true
-        }, function(err, doc, lastErrorObject) {
+        }, function (err, doc, lastErrorObject) {
           t.ok(!err)
           t.equal(doc.id, 3)
           t.equal(doc.hello, 'girl')
@@ -58,7 +58,7 @@ insert('findAndModify', [{
           db.a.findAndModify({
             query: { id: 0 },
             update: { $set: { hello: 'boy' } }
-          }, function(err, doc, lastErrorObject) {
+          }, function (err, doc, lastErrorObject) {
             t.ok(!err)
             t.equal(lastErrorObject.n, 0)
 

@@ -8,8 +8,8 @@ insert('bulk', [{
   name:'Lapras'  , type:'water'
 }, {
   name: 'Charmander', type: 'fire'
-}], function(db, t, done) {
-  db.runCommand('serverStatus', function(err, resp) {
+}], function (db, t, done) {
+  db.runCommand('serverStatus', function (err, resp) {
     if (err) return t.fail()
     if (parseFloat(resp.version) < 2.6) return t.end()
 
@@ -26,9 +26,9 @@ insert('bulk', [{
     bulk.find({name: 'Squirtle'}).upsert().updateOne({$set : {name: 'Wartortle', type: 'water'}})
     bulk.find({name: 'Bulbasaur'}).upsert().updateOne({$setOnInsert: {name: "Bulbasaur"}, $set: {type: 'grass', level: 1}})
 
-    bulk.execute(function(err, res) {
+    bulk.execute(function (err, res) {
       t.ok(res.ok)
-      db.a.find(function(err, res) {
+      db.a.find(function (err, res) {
         t.equal(res[0].name, 'Wartortle')
         t.equal(res[1].name, 'Starmie')
         t.equal(res[2].name, 'Lapras')

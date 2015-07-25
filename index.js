@@ -5,17 +5,17 @@ var Database = require('./lib/database')
 var getTopology = require('./lib/get-topology')
 var bson = require('mongodb-core').BSON
 
-var getDbName = function(connString) {
+var getDbName = function (connString) {
   if (typeof connString !== 'string') return null
   var config = parse(connString)
   return config.dbName
 }
 
-module.exports = function(connString, cols, options) {
+module.exports = function (connString, cols, options) {
   var dbname = getDbName(connString)
   if (!options) options = {}
-  var onserver = thunky(function(cb) {
-    getTopology(connString, options, function(err, topology) {
+  var onserver = thunky(function (cb) {
+    getTopology(connString, options, function (err, topology) {
       if (err) return cb(err)
       cb(null, topology)
     })
@@ -23,8 +23,8 @@ module.exports = function(connString, cols, options) {
 
   if (!dbname) {
     dbname = connString._dbname
-    onserver = thunky(function(cb) {
-      toMongodbCore(connString, function(err, server) {
+    onserver = thunky(function (cb) {
+      toMongodbCore(connString, function (err, server) {
         if (err) cb(new Error('You must pass a connection string or a mongojs instance.'))
         cb(null, server)
       })
@@ -34,7 +34,7 @@ module.exports = function(connString, cols, options) {
   var that = new Database({name: dbname, cols: cols}, onserver)
   if (typeof Proxy !== 'undefined') {
     var p = Proxy.create({
-      get: function(obj, prop) {
+      get: function (obj, prop) {
         if (that[prop]) return that[prop]
         that[prop] = that.collection(prop)
         return that[prop]
