@@ -23,7 +23,7 @@ insert('bulk', [{
     bulk.find({type: 'fire'}).remove()
     bulk.find({type: 'water'}).updateOne({$set: {hp: 100}})
 
-    bulk.find({name: 'Squirtle'}).upsert().updateOne({$set : {name: 'Wartortle', type: 'water'}})
+    bulk.find({name: 'Squirtle'}).upsert().updateOne({$set: {name: 'Wartortle', type: 'water'}})
     bulk.find({name: 'Bulbasaur'}).upsert().updateOne({$setOnInsert: {name: 'Bulbasaur'}, $set: {type: 'grass', level: 1}})
 
     bulk.execute(function (err, res) {
