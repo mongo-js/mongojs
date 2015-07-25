@@ -1,11 +1,12 @@
-var test = require('tape');
+var test = require('tape')
 
-if (typeof setImmediate === 'undefined') setImmediate = process.nextTick;
-setImmediate(function() {
-  test('end', function(t) {
-    t.end();
-    process.exit();
-  });
-});
+var wait = global.setImmediate || process.nextTick
 
-module.exports = test;
+wait(function () {
+  test('end', function (t) {
+    t.end()
+    process.exit()
+  })
+})
+
+module.exports = test

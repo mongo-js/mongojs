@@ -6,6 +6,7 @@ It wraps [mongodb-core](https://github.com/christkv/mongodb-core) and is availab
 	npm install mongojs
 
 [![Build Status](https://travis-ci.org/mafintosh/mongojs.svg?branch=master)](https://travis-ci.org/mafintosh/mongojs)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
 ## Usage
 
