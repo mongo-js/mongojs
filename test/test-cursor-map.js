@@ -6,8 +6,8 @@ insert('cursor.map', [{
   hello: 'world2'
 }], function (db, t, done) {
   var cursor = db.a.find()
-  cursor.map(function (x) { 
-    return x.hello 
+  cursor.map(function (x) {
+    return x.hello
   }, function (err, res) {
     t.error(err)
     t.equal(res[0], 'world1')

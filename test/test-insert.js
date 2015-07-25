@@ -9,7 +9,7 @@ test('insert', function (t) {
     t.ok(docs[1]._id)
     t.ok(docs[2]._id)
 
-    // It should only return one document in the 
+    // It should only return one document in the
     // callback when one document is passed instead of an array
     db.a.insert({name: 'Lapras'}, function (err, doc) {
       t.error(err)
