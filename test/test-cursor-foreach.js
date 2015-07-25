@@ -11,6 +11,7 @@ var pokemons = [{
 insert('cursor foreach', pokemons, function (db, t, done) {
   var i = 0
   db.a.find().forEach(function (err, pkm) {
+    t.error(err)
     if (++i === 4) return t.end()
     t.equal(pkm.name, pokemons[i - 1].name)
   })

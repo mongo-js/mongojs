@@ -8,6 +8,7 @@ test('proxy', function (t) {
   db.a.remove(function () {
     db.a.insert({hello: 'world'}, function () {
       db.a.findOne(function (err, doc) {
+        t.error(err)
         t.equal(doc.hello, 'world')
         t.end()
       })

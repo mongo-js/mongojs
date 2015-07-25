@@ -10,8 +10,10 @@ insert('remove', [{
   name: 'Lapras'  , type: 'water'
 }], function (db, t, done) {
   db.a.find().count(function (err, cnt) {
+    t.error(err)
     t.equal(cnt, 4)
     db.a.find({type: 'water'}).count(function (err, cnt2) {
+      t.error(err)
       t.equal(cnt2, 3)
       done()
     })

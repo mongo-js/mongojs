@@ -3,7 +3,7 @@ var mongojs = require('../index')
 var db = mongojs('test', ['tailable'])
 
 test('tailable find', function (t) {
-  db.tailable.drop(function (err) {
+  db.tailable.drop(function () {
     db.createCollection('tailable', {capped: true, size: 1024}, function (err) {
       t.error(err, 'no error in creating the collection')
 

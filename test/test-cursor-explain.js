@@ -8,6 +8,7 @@ insert('cursor.explain', [{
 }], function (db, t, done) {
   var cursor = db.a.find()
   cursor.explain(function (err, result) {
+    t.error(err)
     if (result.executionStats) {
       t.equal(result.executionStats.totalDocsExamined, 2)
     } else {

@@ -9,6 +9,7 @@ insert('cursor.map', [{
   cursor.map(function (x) { 
     return x.hello 
   }, function (err, res) {
+    t.error(err)
     t.equal(res[0], 'world1')
     t.equal(res[1], 'world2')
     done()

@@ -20,6 +20,7 @@ insert('remove', [{
   }, function (err) {
     t.error(err)
     db.collection('levelSum').findOne(function (err, res) {
+      t.error(err)
       t.equal(res._id, 'water')
       t.equal(res.value, 30)
       db.collection('levelSum').drop(done)

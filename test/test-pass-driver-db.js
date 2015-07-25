@@ -20,6 +20,7 @@ test('receive a driver db or mongojs instance', function (t) {
     t.error(err)
 
     db.a.findOne(function (err, data) {
+      t.error(err)
       t.equal(data.name, 'Pidgey')
       afterFind()
     })

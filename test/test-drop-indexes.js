@@ -25,6 +25,7 @@ insert('drop indexes', [{
         t.error(err)
 
         db.a.getIndexes(function (err, indexes) {
+          t.error(err)
           t.equal(indexes.length, 1)
           t.end()
         })
