@@ -38,6 +38,8 @@ var db = mongojs('mydb');
 var mycollection = db.collection('mycollection');
 ```
 
+__Attention MongoDB 3 users:__ In MongoDB 3 the default auth mechanism is ScramSHA1 not MongoCR (the default auth mechanism in mongojs). When connecting to an auth enabled MongoDB 3 instance providing the authMechanism option value 'ScramSHA1' is mandatory!
+
 After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
 The format for callbacks is always `callback(error, value)` where error is null if no exception has occured. The update methods `save`, `remove`, `update` and `findAndModify` also pass the `lastErrorObject` as the last argument to the callback function.
 
