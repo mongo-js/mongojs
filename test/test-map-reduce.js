@@ -10,7 +10,9 @@ insert('remove', [{
   name: 'Lapras', type: 'water', level: 12
 }], function (db, t, done) {
   db.a.mapReduce(function () {
+    /* eslint-disable no-undef */
     emit(this.type, this.level)
+    /* eslint-enable no-undef */
   }, function (key, values) {
     return Array.sum(values)
   }, {
