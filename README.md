@@ -12,7 +12,7 @@ It wraps [mongodb-core](https://github.com/christkv/mongodb-core) and is availab
 
 mongojs is easy to use:
 
-``` js
+```js
 var mongojs = require('mongojs')
 var db = mongojs(connectionString, [collections])
 ```
@@ -20,7 +20,7 @@ var db = mongojs(connectionString, [collections])
 The connection string should follow the format described in [the mongo connection string docs](http://docs.mongodb.org/manual/reference/connection-string/).
 Some examples of this could be:
 
-``` js
+```js
 // simple usage for a local db
 var db = mongojs('mydb', ['mycollection'])
 
@@ -43,7 +43,7 @@ __Attention MongoDB 3 users:__ In MongoDB 3 the default auth mechanism is ScramS
 After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
 The format for callbacks is always `callback(error, value)` where error is null if no exception has occured. The update methods `save`, `remove`, `update` and `findAndModify` also pass the `lastErrorObject` as the last argument to the callback function.
 
-``` js
+```js
 // find everything
 db.mycollection.find(function (err, docs) {
 	// docs is an array of all the documents in mycollection
@@ -87,19 +87,18 @@ db.mycollection.findAndModify({
 
 // use the save function to just save a document (callback is optional for all writes)
 db.mycollection.save({created: 'just now'})
-
 ```
 
 If you provide a callback to `find` or any cursor config operation mongojs will call `toArray` for you
 
-``` js
+```js
 db.mycollection.find({}, function (err, docs) { ... })
 
 db.mycollection.find({}).limit(2).skip(1, function (err, docs) { ... })
 ```
 is the same as
 
-``` js
+```js
 db.mycollection.find({}).toArray(function (err, docs) { ... })
 
 db.mycollection.find({}).limit(2).skip(1).toArray(function (err, docs) { ... })
@@ -110,7 +109,7 @@ For more detailed information about the different usages of update and querying 
 
 ## Events
 
-``` js
+```js
 var db = mongojs('mydb', ['mycollection'])
 
 db.on('error', function (err) {
@@ -127,7 +126,7 @@ db.on('ready', function () {
 
 As of `0.7.0` all cursors are a [readable stream](http://nodejs.org/api/stream.html#stream_readable_stream) of objects.
 
-``` js
+```js
 var JSONStream = require('JSONStream')
 
 // pipe all documents in mycollection to stdout
@@ -141,7 +140,7 @@ if you want to pipe it to a serial stream like a http response.
 
 If you are using a capped collection you can create a [tailable cursor](http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/) to that collection by adding `tailable:true` to the find options
 
-``` js
+```js
 var cursor = db.mycollection.find({}, {}, {tailable: true, timeout: false})
 
 // since all cursors are streams we can just listen for data
@@ -188,14 +187,13 @@ bulk.find({type: 'water'}).updateOne({$set: {hp: 100}})
 bulk.execute(function (err, res) {
   console.log('Done!')
 })
-
 ```
 
 ## Replication Sets
 
 Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
 
-``` js
+```js
 var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection'])
 ```
 
@@ -219,7 +217,7 @@ In the above example the `hackers` collection is enabled automagically (similar 
 If you have an instance of mongojs, you can pass this to the constructor and mongojs will use the
 existing connection of that instance instead of creating a new one.
 
-``` js
+```js
 var mongodb = require('mongodb')
 var mongojs = require('mongojs')
 
