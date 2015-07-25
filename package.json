@@ -23,7 +23,8 @@
     "Bjarke Walling",
     "Tobias Baunbæk",
     "Benedikt Arnold",
-    "Kevin McTigue"
+    "Kevin McTigue",
+    "Thomas Watson Steen <w@tson.dk> https://twitter.com/wa7son"
   ],
   "dependencies": {
     "each-series": "^0.2.0",
