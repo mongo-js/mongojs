@@ -10,7 +10,7 @@ insert('findAndModify', [{
   // Update and find the old document
   db.a.findAndModify({
     query: { id: 1 },
-    update: { $set: { hello: 'world' } },
+    update: { $set: { hello: 'world' } }
   },
   function (err, doc, lastErrorObject) {
     t.error(err)
