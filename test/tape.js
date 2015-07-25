@@ -1,7 +1,8 @@
 var test = require('tape')
 
-if (typeof setImmediate === 'undefined') setImmediate = process.nextTick
-setImmediate(function () {
+var wait = global.setImmediate || process.nextTick
+
+wait(function () {
   test('end', function (t) {
     t.end()
     process.exit()
