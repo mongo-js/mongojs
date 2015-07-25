@@ -43,11 +43,11 @@
     "geotag": "geopkg"
   },
   "devDependencies": {
-    "concat-stream": "^1.4.6",
-    "geopkg": "^2.1.0",
+    "concat-stream": "^1.5.0",
+    "geopkg": "^2.1.2",
     "istanbul": "^0.3.17",
     "standard": "^4.5.4",
-    "tape": "^3.4.0"
+    "tape": "^4.0.1"
   },
   "coordinates": [
     55.64657330000001,
