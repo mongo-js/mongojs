@@ -2,7 +2,7 @@ var insert = require('./insert')
 
 insert('update multi', [{
   hello: 'world1'
-},{
+}, {
   hello: 'world2'
 }], function (db, t, done) {
   db.a.update({}, {$set: {updated: true}}, {multi: true}, function (err, lastErrorObject) {

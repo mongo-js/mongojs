@@ -1,6 +1,6 @@
 var test = require('./tape')
 var mongojs = require('../index')
-var db = mongojs('test', ['a','b'])
+var db = mongojs('test', ['a', 'b'])
 
 test('insert', function (t) {
   db.a.insert([{name: "Squirtle"}, {name: "Charmander"}, {name: "Bulbasaur"}], function (err, docs) {
