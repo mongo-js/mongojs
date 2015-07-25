@@ -13,8 +13,8 @@ It wraps [mongodb-core](https://github.com/christkv/mongodb-core) and is availab
 mongojs is easy to use:
 
 ``` js
-var mongojs = require('mongojs');
-var db = mongojs(connectionString, [collections]);
+var mongojs = require('mongojs')
+var db = mongojs(connectionString, [collections])
 ```
 
 The connection string should follow the format described in [the mongo connection string docs](http://docs.mongodb.org/manual/reference/connection-string/).
@@ -22,20 +22,20 @@ Some examples of this could be:
 
 ``` js
 // simple usage for a local db
-var db = mongojs('mydb', ['mycollection']);
+var db = mongojs('mydb', ['mycollection'])
 
 // the db is on a remote server (the port default to mongo)
-var db = mongojs('example.com/mydb', ['mycollection']);
+var db = mongojs('example.com/mydb', ['mycollection'])
 
 // we can also provide some credentials
-var db = mongojs('username:password@example.com/mydb', ['mycollection']);
+var db = mongojs('username:password@example.com/mydb', ['mycollection'])
 
 // connect using SCRAM-SHA-1 mechanism
-var db = mongojs('username:password@example.com/mydb', ['mycollection'], {authMechanism: 'ScramSHA1'});
+var db = mongojs('username:password@example.com/mydb', ['mycollection'], {authMechanism: 'ScramSHA1'})
 
 // connect now, and worry about collections later
-var db = mongojs('mydb');
-var mycollection = db.collection('mycollection');
+var db = mongojs('mydb')
+var mycollection = db.collection('mycollection')
 ```
 
 __Attention MongoDB 3 users:__ In MongoDB 3 the default auth mechanism is ScramSHA1 not MongoCR (the default auth mechanism in mongojs). When connecting to an auth enabled MongoDB 3 instance providing the authMechanism option value 'ScramSHA1' is mandatory!
@@ -45,64 +45,64 @@ The format for callbacks is always `callback(error, value)` where error is null 
 
 ``` js
 // find everything
-db.mycollection.find(function(err, docs) {
+db.mycollection.find(function (err, docs) {
 	// docs is an array of all the documents in mycollection
-});
+})
 
 // find everything, but sort by name
-db.mycollection.find().sort({name:1}, function(err, docs) {
+db.mycollection.find().sort({name: 1}, function (err, docs) {
 	// docs is now a sorted array
-});
+})
 
 // iterate over all whose level is greater than 90.
-db.mycollection.find({level:{$gt:90}}).forEach(function(err, doc) {
+db.mycollection.find({level: {$gt: 90}}).forEach(function (err, doc) {
 	if (!doc) {
 		// we visited all docs in the collection
-		return;
+		return
 	}
 	// doc is a document in the collection
-});
+})
 
 // find a document using a native ObjectId
 db.mycollection.findOne({
-	_id:mongojs.ObjectId('523209c4561c640000000001')
+	_id: mongojs.ObjectId('523209c4561c640000000001')
 }, function(err, doc) {
 	// doc._id.toString() === '523209c4561c640000000001'
-});
+})
 
 // find all named 'mathias' and increment their level
-db.mycollection.update({name:'mathias'}, {$inc:{level:1}}, {multi:true}, function() {
+db.mycollection.update({name: 'mathias'}, {$inc: {level: 1}}, {multi: true}, function () {
 	// the update is complete
-});
+})
 
 // find one named 'mathias', tag him as a contributor and return the modified doc
 db.mycollection.findAndModify({
 	query: { name: 'mathias' },
-	update: { $set: { tag:'maintainer' } },
+	update: { $set: { tag: 'maintainer' } },
 	new: true
-}, function(err, doc, lastErrorObject) {
+}, function (err, doc, lastErrorObject) {
 	// doc.tag === 'maintainer'
-});
+})
 
 
 // use the save function to just save a document (callback is optional for all writes)
-db.mycollection.save({created:'just now'});
+db.mycollection.save({created: 'just now'})
 
 ```
 
 If you provide a callback to `find` or any cursor config operation mongojs will call `toArray` for you
 
 ``` js
-db.mycollection.find({}, function(err, docs) { ... });
+db.mycollection.find({}, function (err, docs) { ... })
 
-db.mycollection.find({}).limit(2).skip(1, function(err, docs) { ... });
+db.mycollection.find({}).limit(2).skip(1, function (err, docs) { ... })
 ```
 is the same as
 
 ``` js
-db.mycollection.find({}).toArray(function(err, docs) { ... });
+db.mycollection.find({}).toArray(function (err, docs) { ... })
 
-db.mycollection.find({}).limit(2).skip(1).toArray(function(err, docs) { ... });
+db.mycollection.find({}).limit(2).skip(1).toArray(function (err, docs) { ... })
 ```
 
 For more detailed information about the different usages of update and querying see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
@@ -111,15 +111,15 @@ For more detailed information about the different usages of update and querying 
 ## Events
 
 ``` js
-var db = mongojs('mydb', ['mycollection']);
+var db = mongojs('mydb', ['mycollection'])
 
-db.on('error',function(err) {
-	console.log('database error', err);
-});
+db.on('error', function (err) {
+	console.log('database error', err)
+})
 
-db.on('ready',function() {
-	console.log('database connected');
-});
+db.on('ready', function () {
+	console.log('database connected')
+})
 ```
 
 
@@ -128,10 +128,10 @@ db.on('ready',function() {
 As of `0.7.0` all cursors are a [readable stream](http://nodejs.org/api/stream.html#stream_readable_stream) of objects.
 
 ``` js
-var JSONStream = require('JSONStream');
+var JSONStream = require('JSONStream')
 
 // pipe all documents in mycollection to stdout
-db.mycollection.find({}).pipe(JSONStream.stringify()).pipe(process.stdout);
+db.mycollection.find({}).pipe(JSONStream.stringify()).pipe(process.stdout)
 ```
 
 Notice that you should pipe the cursor through a stringifier (like [JSONStream](https://github.com/dominictarr/JSONStream))
@@ -142,12 +142,12 @@ if you want to pipe it to a serial stream like a http response.
 If you are using a capped collection you can create a [tailable cursor](http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/) to that collection by adding `tailable:true` to the find options
 
 ``` js
-var cursor = db.mycollection.find({}, {}, {tailable:true, timeout:false});
+var cursor = db.mycollection.find({}, {}, {tailable: true, timeout: false})
 
 // since all cursors are streams we can just listen for data
-cursor.on('data', function(doc) {
-	console.log('new document', doc);
-});
+cursor.on('data', function (doc) {
+	console.log('new document', doc)
+})
 ```
 
 Note that you need to explicitly set the selection parameter in the `find` call.
@@ -157,17 +157,17 @@ Note that you need to explicitly set the selection parameter in the `find` call.
 With mongojs you can run database commands just like with the mongo shell using `db.runCommand()`
 
 ```js
-db.runCommand({ping:1}, function(err, res) {
-	if(!err && res.ok) console.log("we're up");
-});
+db.runCommand({ping: 1}, function (err, res) {
+	if(!err && res.ok) console.log('we\'re up')
+})
 ```
 
 or `db.collection.runCommand()`
 
 ```js
-db.things.runCommand('count', function(err, res) {
-	console.log(res);
-});
+db.things.runCommand('count', function (err, res) {
+	console.log(res)
+})
 ```
 
 ## Bulk updates
@@ -175,19 +175,19 @@ db.things.runCommand('count', function(err, res) {
 As of 0.15 mongojs supports the Bulk updates introduced in mongodb 2.6. Here's an example of the usage
 
 ```js
-var bulk = db.a.initializeOrderedBulkOp();
-bulk.find({type: 'water'}).update({$set: {level: 1}});
-bulk.find({type: 'water'}).update({$inc: {level: 2}});
-bulk.insert({name: 'Spearow', type: 'flying'});
-bulk.insert({name: 'Pidgeotto', type: 'flying'});
-bulk.insert({name: 'Charmeleon', type: 'fire'});
-bulk.find({type: 'flying'}).removeOne();
-bulk.find({type: 'fire'}).remove();
-bulk.find({type: 'water'}).updateOne({$set: {hp: 100}});
+var bulk = db.a.initializeOrderedBulkOp()
+bulk.find({type: 'water'}).update({$set: {level: 1}})
+bulk.find({type: 'water'}).update({$inc: {level: 2}})
+bulk.insert({name: 'Spearow', type: 'flying'})
+bulk.insert({name: 'Pidgeotto', type: 'flying'})
+bulk.insert({name: 'Charmeleon', type: 'fire'})
+bulk.find({type: 'flying'}).removeOne()
+bulk.find({type: 'fire'}).remove()
+bulk.find({type: 'water'}).updateOne({$set: {hp: 100}})
 
-bulk.execute(function(err, res) {
-  console.log('Done!');
-});
+bulk.execute(function (err, res) {
+  console.log('Done!')
+})
 
 ```
 
@@ -196,7 +196,7 @@ bulk.execute(function(err, res) {
 Mongojs can also connect to a mongo replication set by providing a connection string with multiple hosts
 
 ``` js
-var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection']);
+var db = mongojs('rs-1.com,rs-2.com,rs-3.com/mydb?slaveOk=true', ['mycollection'])
 ```
 
 For more detailed information about replica sets see [the mongo replication docs](http://www.mongodb.org/display/DOCS/Replica+Sets)
@@ -206,10 +206,10 @@ For more detailed information about replica sets see [the mongo replication docs
 If you run node.js with the `--harmony` option, then you can ommit the collection names array, and you can do stuff like.
 
 ```js
-var mongojs = require('mongojs');
-var db = require('mydb');
+var mongojs = require('mongojs')
+var db = require('mydb')
 
-db.hackers.insert({name: 'Ed'});
+db.hackers.insert({name: 'Ed'})
 ```
 
 In the above example the `hackers` collection is enabled automagically (similar to the shell) using the `Proxy` feature in harmony
@@ -219,13 +219,13 @@ In the above example the `hackers` collection is enabled automagically (similar 
 If you have an instance of mongojs, you can pass this to the constructor and mongojs will use the
 existing connection of that instance instead of creating a new one.
 
-```js
-var mongodb = require('mongodb');
-var mongojs = require('mongojs');
+``` js
+var mongodb = require('mongodb')
+var mongojs = require('mongojs')
 
-mongodb.Db.connect('mongodb://localhost/test', function(err, theDb) {
-    var db = mongojs(theDb, ['myCollection']);
-});
+mongodb.Db.connect('mongodb://localhost/test', function (err, theDb) {
+    var db = mongojs(theDb, ['myCollection'])
+})
 ```
 
 ## Features not supported for MongoDB 2.4 or older (on mongojs version 1.0+).
