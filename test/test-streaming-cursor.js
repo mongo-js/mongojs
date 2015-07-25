@@ -11,7 +11,7 @@ insert('streaming cursor', [{
   var loop = function () {
     var doc
 
-    while (doc = cursor.read()) {
+    while ((doc = cursor.read()) !== null) {
       t.ok(doc.hello === 'world1' || doc.hello === 'world2')
       t.equal(typeof doc, 'object')
       runs++
