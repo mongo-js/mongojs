@@ -240,7 +240,6 @@ feautres, feel free to make a pull request or open and issue..
 Version 1.0.x is a major rewrite of mongojs using mongodb-core driver. So expect some things not to work the same as in mongojs 0.x.x versions. Breaking changes include:
 
 * __Removed__ `mongojs.connect` use `mongojs()` directly instead
-* __Not Working__ Currently events are not working. If your code depends on event listeners don't upgrade right now. Will be fixed!
 
 # API
 
