@@ -27,9 +27,9 @@
     "Thomas Watson Steen <w@tson.dk> https://twitter.com/wa7son"
   ],
   "dependencies": {
-    "each-series": "^0.2.0",
-    "mongodb-core": "^1.2.2",
-    "once": "^1.3.1",
+    "each-series": "^1.0.0",
+    "mongodb-core": "^1.2.8",
+    "once": "^1.3.2",
     "parse-mongo-url": "^1.1.0",
     "pump": "^1.0.0",
     "readable-stream": "^2.0.2",
