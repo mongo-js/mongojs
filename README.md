@@ -342,6 +342,8 @@ Get the name of the collection.
 
 #####`db.getCollectionNames(callback)`
 
+#####`db.listCollections(callback)`
+
 #####`db.getLastError(callback)`
 
 #####`db.getLastErrorObj(callback)`
