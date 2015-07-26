@@ -235,13 +235,12 @@ This features are relatively easy to add, but would make the code unnecessarily 
 If you are using mongodb 2.4 or older and would like to use mongojs 1.0 with the above mentioned
 feautres, feel free to make a pull request or open and issue..
 
-## Upgrading from 0.x.x to 1.0.x
+## Upgrading from 0.x.x to 1.2.x
 
 Version 1.0.x is a major rewrite of mongojs using mongodb-core driver. So expect some things not to work the same as in mongojs 0.x.x versions. Breaking changes include:
 
 * __Removed__ `mongojs.connect` use `mongojs()` directly instead
 * __Not Working__ Currently events are not working. If your code depends on event listeners don't upgrade right now. Will be fixed!
-* Collection.aggregate does currently not support an aggregation pipeline passed as array but as parameters. Instead of `db.reviews.aggregate([step1, step2], function() { ... })` use `db.reviews.aggregate(step1, step2, function() { ... })`
 
 # API
 
