@@ -10,7 +10,17 @@ insert('update', [{
     db.a.findOne(function (err, doc) {
       t.error(err)
       t.equal(doc.hello, 'verden')
-      done()
+
+      db.a.update({hello: 'verden'}, {$set: {hello: 'sf'}}, {writeConcern: {w: 1}, ordered: true}, function (err, lastErrorObject) {
+        t.error(err)
+        t.equal(lastErrorObject.n, 1)
+
+        db.a.findOne(function (err, doc) {
+          t.error(err)
+          t.equal(doc.hello, 'sf')
+          done()
+        })
+      })
     })
   })
 })

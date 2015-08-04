@@ -278,7 +278,7 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.collection.group(document, callback)`
 
-#####`db.collection.insert(docOrDocs, [callback])`
+#####`db.collection.insert(docOrDocs, [options], [callback])`
 
 #####`db.collection.isCapped(callback)`
 
@@ -286,11 +286,11 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.collection.reIndex([callback])`
 
-#####`db.collection.remove(query, [justOne], [callback])`
+#####`db.collection.remove(query, [options], [callback])`
 
 #####`db.collection.runCommand(command, [callback])`
 
-#####`db.collection.save(doc, [callback])`
+#####`db.collection.save(doc, [options], [callback])`
 
 #####`db.collection.stats(callback)`
 
