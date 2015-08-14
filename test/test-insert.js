@@ -21,8 +21,16 @@ test('insert', function (t) {
         t.error(err)
         t.equal(docs[0].name, 'Pidgeotto')
         t.equal(docs.length, 1)
-        db.a.remove(function () {
-          db.close(t.end.bind(t))
+
+        // It should allow write options to be passed as
+        // the second parameter
+        db.a.insert({name: 'Metapod'}, {writeConcern: {w: 1}, ordered: true}, function (err, doc) {
+          t.error(err)
+          t.equal(doc.name, 'Metapod')
+
+          db.a.remove(function () {
+            db.close(t.end.bind(t))
+          })
         })
       })
     })

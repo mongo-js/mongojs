@@ -13,8 +13,15 @@ test('save', function (t) {
       t.error(err)
       t.ok(doc._id)
       t.equal(doc.hello, 'verden')
-      db.a.remove(function () {
-        db.close(t.end.bind(t))
+
+      doc.hello = 'sf'
+      db.a.save(doc, {writeConcern: {w: 1}, ordered: true}, function (err, doc) {
+        t.error(err)
+        t.ok(doc._id)
+        t.equal(doc.hello, 'sf')
+        db.a.remove(function () {
+          db.close(t.end.bind(t))
+        })
       })
     })
   })
