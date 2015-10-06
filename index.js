@@ -19,4 +19,10 @@ module.exports = function (connString, cols, options) {
   return db
 }
 
+// expose bson stuff visible in the shell
 module.exports.ObjectId = bson.ObjectId
+module.exports.DBRef = bson.DBRef
+module.exports.Timestamp = bson.Timestamp
+module.exports.MinKey = bson.MinKey
+module.exports.MaxKey = bson.MaxKey
+module.exports.NumberLong = bson.Long
