@@ -1,8 +1,8 @@
 language: node_js
 node_js:
+  - "4"
   - "0.12"
   - "0.10"
-  - iojs
 
 env:
   - MONGODB_VERSION="2.6*"
