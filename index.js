@@ -26,3 +26,6 @@ module.exports.Timestamp = bson.Timestamp
 module.exports.MinKey = bson.MinKey
 module.exports.MaxKey = bson.MaxKey
 module.exports.NumberLong = bson.Long
+
+// expose the bson class
+module.exports.bson = bson
