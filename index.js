@@ -1,5 +1,5 @@
 var Database = require('./lib/database')
-var bson = require('mongodb-core').BSON
+var mongodb = require('mongodb')
 var xtend = require('xtend')
 
 module.exports = function (connString, cols, options) {
@@ -20,9 +20,14 @@ module.exports = function (connString, cols, options) {
 }
 
 // expose bson stuff visible in the shell
-module.exports.ObjectId = bson.ObjectId
-module.exports.DBRef = bson.DBRef
-module.exports.Timestamp = bson.Timestamp
-module.exports.MinKey = bson.MinKey
-module.exports.MaxKey = bson.MaxKey
-module.exports.NumberLong = bson.Long
+module.exports.Binary = mongodb.Binary
+module.exports.Code = mongodb.Code
+module.exports.DBRef = mongodb.DBRef
+module.exports.Double = mongodb.Double
+module.exports.Long = mongodb.Long
+module.exports.MinKey = mongodb.MinKey
+module.exports.MaxKey = mongodb.MaxKey
+module.exports.ObjectID = mongodb.ObjectID
+module.exports.ObjectId = mongodb.ObjectId
+module.exports.Symbol = mongodb.Symbol
+module.exports.Timestamp = mongodb.Timestamp
