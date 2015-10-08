@@ -1,9 +1,8 @@
 var Database = require('./lib/database')
 var mongodb = require('mongodb')
-var xtend = require('xtend')
 
 module.exports = function (connString, cols, options) {
-  var db = new Database(xtend({connString: connString, cols: cols}, options))
+  var db = new Database(connString, cols, options)
   if (typeof Proxy !== 'undefined') {
     var p = Proxy.create({
       get: function (obj, prop) {
