@@ -1,7 +1,6 @@
 var test = require('./tape')
 var mongojs = require('../index')
 
-
 test('should export bson types', function (t) {
   t.ok(mongojs.Binary)
   t.ok(mongojs.Code)
