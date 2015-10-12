@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "1.4.0",
+  "version": "1.4.1",
   "repository": "git://github.com/mafintosh/mongojs.git",
   "author": "Mathias Buus Madsen <mathiasbuus@gmail.com>",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "tape": "^4.0.1"
   },
   "coordinates": [
-    55.6665837,
-    12.5799079
+    55.66657439999999,
+    12.5798546
   ]
 }
