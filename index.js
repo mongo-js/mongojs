@@ -6,6 +6,11 @@ module.exports = function (connString, cols, options) {
   if (typeof Proxy !== 'undefined') {
     var p = Proxy.create({
       get: function (obj, prop) {
+        // Work around for event emitters to work together with harmony proxy
+        if (prop === 'on' || prop === 'emit') {
+          return db[prop].bind(db)
+        }
+
         if (db[prop]) return db[prop]
         db[prop] = db.collection(prop)
         return db[prop]
