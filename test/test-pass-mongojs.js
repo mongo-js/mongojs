@@ -2,7 +2,6 @@ var test = require('./tape')
 var mongojs = require('../')
 
 test('receive a mongojs instance', function (t) {
-
   var db = mongojs(mongojs('test', []), ['a'])
   var afterFind = function () {
     db.a.remove(function (err) {
@@ -30,6 +29,6 @@ test('receive a mongojs instance', function (t) {
     t.error(err)
     db.a.insert({name: 'Pidgey'}, afterInsert)
   }
-  db.a.remove(afterRemove)
 
+  db.a.remove(afterRemove)
 })

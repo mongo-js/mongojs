@@ -16,7 +16,6 @@ module.exports = function (testName, docs, testFn) {
           })
         })
       })
-
     })
   })
 }
