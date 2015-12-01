@@ -1,0 +1,19 @@
+var mongojs = require('../')
+var test = require('./tape')
+
+test('mongojs exports', function (t) {
+  t.ok(mongojs.Binary, 'Expect Binary type to be exported')
+  t.ok(mongojs.Code, 'Expect Code type to be exported')
+  t.ok(mongojs.DBRef, 'Expect DBRef type to be exported')
+  t.ok(mongojs.Double, 'Expect Double type to be exported')
+  t.ok(mongojs.Long, 'Expect Long type to be exported')
+  t.ok(mongojs.NumberLong, 'Expect NumberLong type to be exported')
+  t.ok(mongojs.MinKey, 'Expect MinKey type to be exported')
+  t.ok(mongojs.MaxKey, 'Expect MaxKey type to be exported')
+  t.ok(mongojs.ObjectID, 'Expect ObjectID type to be exported')
+  t.ok(mongojs.ObjectId, 'Expect ObjectId type to be exported')
+  t.ok(mongojs.Symbol, 'Expect Symbol type to be exported')
+  t.ok(mongojs.Timestamp, 'Expect Timestamp type to be exported')
+
+  t.end()
+})
