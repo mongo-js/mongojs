@@ -29,6 +29,7 @@ module.exports.Code = mongodb.Code
 module.exports.DBRef = mongodb.DBRef
 module.exports.Double = mongodb.Double
 module.exports.Long = mongodb.Long
+module.exports.NumberLong = mongodb.Long // Alias for shell compatibility
 module.exports.MinKey = mongodb.MinKey
 module.exports.MaxKey = mongodb.MaxKey
 module.exports.ObjectID = mongodb.ObjectID
