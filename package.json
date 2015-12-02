@@ -40,7 +40,7 @@
   "scripts": {
     "test": "standard && tape test/test-*.js && node --harmony --harmony-proxies node_modules/tape/bin/tape test/test-*.js",
     "cover": "node --harmony --harmony-proxies node_modules/istanbul/lib/cli.js cover node_modules/tape/bin/tape test/test-*.js --report html",
-    "geotag": "geopkg"
+    "geotag": "geopkg update"
   },
   "devDependencies": {
     "concat-stream": "^1.5.0",
