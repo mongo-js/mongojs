@@ -41,7 +41,7 @@ var db = mongojs('mydb')
 var mycollection = db.collection('mycollection')
 ```
 
-[More connection string examples](http://mongodb.github.io/node-mongodb-native/2.0/reference/connecting/authenticating/)
+[More connection string examples](http://mongodb.github.io/node-mongodb-native/2.0/reference/connecting/)
 
 After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
 The format for callbacks is always `callback(error, value)` where error is null if no exception has occured. The update methods `save`, `remove`, `update` and `findAndModify` also pass the `lastErrorObject` as the last argument to the callback function.
