@@ -31,14 +31,17 @@ var db = mongojs('example.com/mydb', ['mycollection'])
 var db = mongojs('username:password@example.com/mydb', ['mycollection'])
 
 // connect using SCRAM-SHA-1 mechanism
-var db = mongojs('username:password@example.com/mydb', ['mycollection'], {authMechanism: 'ScramSHA1'})
+var db = mongojs('username:password@example.com/mydb?authMechanism=SCRAM-SHA-1', ['mycollection'])
+
+// connect using a different auth source
+var db = mongojs('username:password@example.com/mydb?authSource=authdb', ['mycollection'])
 
 // connect now, and worry about collections later
 var db = mongojs('mydb')
 var mycollection = db.collection('mycollection')
 ```
 
-__Attention MongoDB 3 users:__ In MongoDB 3 the default auth mechanism is ScramSHA1 not MongoCR (the default auth mechanism in mongojs). When connecting to an auth enabled MongoDB 3 instance providing the authMechanism option value 'ScramSHA1' is mandatory!
+[More connection string examples](http://mongodb.github.io/node-mongodb-native/2.0/reference/connecting/authenticating/)
 
 After we connected we can query or update the database just how we would using the mongo API with the exception that we use a callback.
 The format for callbacks is always `callback(error, value)` where error is null if no exception has occured. The update methods `save`, `remove`, `update` and `findAndModify` also pass the `lastErrorObject` as the last argument to the callback function.
