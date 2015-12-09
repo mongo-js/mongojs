@@ -290,6 +290,7 @@ Apply a query and get one single document passed as a callback. The callback rec
 #####`db.collection.reIndex([callback])`
 
 #####`db.collection.remove(query, [justOne], [callback])`
+#####`db.collection.remove(query, [options], [callback])`
 
 #####`db.collection.runCommand(command, [callback])`
 
