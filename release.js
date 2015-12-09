@@ -1,11 +1,9 @@
 var shell = require('shelljs')
 
-/*
 if (exec('git status --porcelain').output !== '') {
   console.error('Git working directory not clean. Please commit all chances to release a new package to npm.')
   process.exit(2)
 }
-*/
 
 var versionIncrement = process.argv[process.argv.length - 1]
 var versionIncrements = ['major', 'minor', 'patch']
