@@ -251,6 +251,7 @@ This API documentation is a work in progress.
 #### Collection
 
 #####`db.collection.aggregate([pipeline], [callback])`
+#####`db.collection.aggregate([pipelineStep], [pipelineStep], [pipelineStep], ..., [callback])`
 
 #####`db.collection.count([query], callback)`
 
