@@ -1,7 +1,7 @@
 # mongojs
 
 A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible.
-It wraps [mongodb-core](https://github.com/christkv/mongodb-core) and is available through [npm](http://npmjs.org)
+It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native) and is available through [npm](http://npmjs.org)
 
 	npm install mongojs
 
@@ -240,7 +240,7 @@ feautres, feel free to make a pull request or open and issue..
 
 ## Upgrading from 0.x.x to 1.2.x
 
-Version 1.0.x is a major rewrite of mongojs using mongodb-core driver. So expect some things not to work the same as in mongojs 0.x.x versions. Breaking changes include:
+Version > 1.0.x is a major rewrite of mongojs. So expect some things not to work the same as in mongojs 0.x.x versions. Breaking changes include:
 
 * __Removed__ `mongojs.connect` use `mongojs()` directly instead
 
