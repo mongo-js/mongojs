@@ -1,6 +1,6 @@
 var insert = require('./insert')
 
-insert('remove', [{
+insert('cursor.rewind', [{
   name: 'Squirtle', type: 'water'
 }, {
   name: 'Starmie', type: 'water'

@@ -1,6 +1,6 @@
 var insert = require('./insert')
 
-insert('remove', [{
+insert('cursor.count', [{
   name: 'Squirtle', type: 'water'
 }, {
   name: 'Charmander', type: 'fire'
