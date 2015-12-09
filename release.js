@@ -15,7 +15,7 @@ if (versionIncrements.indexOf(versionIncrement) < 0) {
 
 exec('npm test')
 
-exec('npm geopkg')
+exec('npm run geopkg')
 exec('git commit -m "Geotag package for release" package.json')
 
 exec('npm version ' + versionIncrement)
