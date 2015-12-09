@@ -294,7 +294,7 @@ Apply a query and get one single document passed as a callback. The callback rec
 
 #####`db.collection.runCommand(command, [callback])`
 
-#####`db.collection.save(doc, [callback])`
+#####`db.collection.save(doc, [options], [callback])`
 
 #####`db.collection.stats(callback)`
 
