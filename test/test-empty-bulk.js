@@ -18,7 +18,7 @@ insert('empty bulk', [{
       t.error(err, 'Should not yield an error')
       t.equals(result.ok, 1, 'Should result in ok field set to 1')
 
-      done();
+      done()
     })
   })
 })
