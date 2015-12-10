@@ -365,7 +365,7 @@ Get the name of the collection.
 
 #####`bulk.find.removeOne()`
 
-#####`bulk.find.replaceOne()`
+#####`bulk.find.replaceOne(document)`
 
 #####`bulk.find.update(updaterParam)`
 
@@ -376,3 +376,5 @@ Get the name of the collection.
 #####`bulk.insert(document)`
 
 #####`bulk.toString()`
+
+#####`bulk.tojson()`
