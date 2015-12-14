@@ -6,7 +6,7 @@ insert('cursor.rewind', [{
   name: 'Starmie', type: 'water'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t, done) {
+}], function (db, t) {
   var cursor = db.a.find().sort({name: 1})
   cursor.next(function (err, obj1) {
     t.error(err)
