@@ -1,6 +1,6 @@
 var insert = require('./insert')
 
-insert('remove', [{
+insert('mapreduce', [{
   name: 'Squirtle', type: 'water', level: 10
 }, {
   name: 'Starmie', type: 'water', level: 8
@@ -29,7 +29,7 @@ insert('remove', [{
   })
 })
 
-insert('remove', [{
+insert('mapreduce finalize', [{
   name: 'Squirtle', type: 'water', level: 10
 }, {
   name: 'Starmie', type: 'water', level: 8
