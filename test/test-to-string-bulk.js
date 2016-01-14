@@ -20,8 +20,8 @@ insert('bulk to string', [{
     bulk.find({ status: 'D' }).removeOne()
 
     var result = bulk.toString()
-    t.equals(typeof result, 'string', 'bulk.toString() should return a string');
-    result = JSON.parse(result);
+    t.equals(typeof result, 'string', 'bulk.toString() should return a string')
+    result = JSON.parse(result)
     t.equals(result.nInsertOps, 2, 'Should result in nInsertOps field set to 2')
     t.equals(result.nUpdateOps, 1, 'Should result in nUpdateOps field set to 1')
     t.equals(result.nRemoveOps, 1, 'Should result in nRemoveOps field set to 1')
