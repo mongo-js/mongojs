@@ -37,7 +37,7 @@
     "xtend": "^4.0.0"
   },
   "scripts": {
-    "test": "standard && tape test/test-*.js && node --harmony --harmony-proxies node_modules/tape/bin/tape test/test-*.js",
+    "test": "standard && (tape test/test-*.js && node --harmony --harmony-proxies node_modules/tape/bin/tape test/test-*.js) | tap-spec",
     "cover": "node --harmony --harmony-proxies node_modules/istanbul/lib/cli.js cover node_modules/tape/bin/tape test/test-*.js --report html",
     "geotag": "geopkg update"
   },
@@ -47,6 +47,7 @@
     "istanbul": "^0.4.1",
     "shelljs": "^0.5.3",
     "standard": "^5.4.1",
+    "tap-spec": "^4.1.1",
     "tape": "^4.0.1"
   },
   "coordinates": [
