@@ -36,6 +36,9 @@ var db = mongojs('username:password@example.com/mydb?authMechanism=SCRAM-SHA-1',
 // connect using a different auth source
 var db = mongojs('username:password@example.com/mydb?authSource=authdb', ['mycollection'])
 
+// connect with options
+var db = mongojs('username:password@example.com/mydb', ['mycollection'], { ssl: true })
+
 // connect now, and worry about collections later
 var db = mongojs('mydb')
 var mycollection = db.collection('mycollection')
