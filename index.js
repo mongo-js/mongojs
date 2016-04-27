@@ -4,7 +4,7 @@ var mongodb = require('mongodb')
 module.exports = function (connString, cols, options) {
   var db = new Database(connString, cols, options)
   if (typeof Proxy !== 'undefined') {
-    var p = Proxy.create({
+    var handler = {
       get: function (obj, prop) {
         // Work around for event emitters to work together with harmony proxy
         if (prop === 'on' || prop === 'emit') {
@@ -15,8 +15,8 @@ module.exports = function (connString, cols, options) {
         db[prop] = db.collection(prop)
         return db[prop]
       }
-    })
-
+    }
+    var p = Proxy.create === undefined ? new Proxy({}, handler) : Proxy.create(handler)
     return p
   }
 
