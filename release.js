@@ -1,6 +1,6 @@
 var shell = require('shelljs')
 
-if (exec('git status --porcelain').output !== '') {
+if (exec('git status --porcelain').output) {
   console.error('Git working directory not clean. Please commit all chances to release a new package to npm.')
   process.exit(2)
 }
