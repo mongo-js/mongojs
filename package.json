@@ -45,8 +45,8 @@
     "concat-stream": "^1.5.0",
     "geopkg": "^4.0.3",
     "istanbul": "^0.4.1",
-    "shelljs": "^0.5.3",
-    "standard": "^5.4.1",
+    "shelljs": "^0.7.0",
+    "standard": "^6.0.8",
     "tap-spec": "^4.1.1",
     "tape": "^4.0.1"
   },
