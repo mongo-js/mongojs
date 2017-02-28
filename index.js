@@ -12,6 +12,9 @@ module.exports = function (connString, cols, options) {
         }
 
         if (db[prop]) return db[prop]
+        // Work around for property 'Symbol(Symbol.toPrimitive)' with node v6.x or higher version
+        if (typeof prop === "symbol") return db[prop]
+        
         db[prop] = db.collection(prop)
         return db[prop]
       }
