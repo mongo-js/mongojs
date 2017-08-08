@@ -15,4 +15,3 @@ insert('cursor.map', [{
     done()
   })
 })
-
