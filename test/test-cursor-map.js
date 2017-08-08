@@ -10,8 +10,9 @@ insert('cursor.map', [{
     return x.hello
   }, function (err, res) {
     t.error(err)
-    t.equal(res[0], 'world1')
-    t.equal(res[1], 'world2')
+    t.equal(res.length, 2)
+    t.notEqual(res.indexOf('world1'), -1)
+    t.notEqual(res.indexOf('world2'), -1)
     done()
   })
 })
