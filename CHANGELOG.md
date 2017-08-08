@@ -1,5 +1,82 @@
 ## Change Log
 
+### 2.4.1 / 2017-08-08
+
+  * 2.4.1
+  * Geotag package for release
+  * Update thunky to version ^1.0.2 to fix [#321](https://github.com/mafintosh/mongojs/issues/321)
+  * Fix problem that newer versions of mongodb do not expose connection url in options
+  * Merge pull request [#334](https://github.com/mafintosh/mongojs/issues/334) from lukechilds/patch-1
+    Fix Markdown
+  * Fix Markdown
+
+### 2.4.0 / 2016-04-28
+
+  * 2.4.0
+  * Geotag package for release
+  * Merge branch 'master' of github.com:mafintosh/mongojs
+  * Fix shelljs output check
+  * Add node.js 6 to travis build matrix
+  * Update dev dependencies
+  * Return the created proxy instead of assigning it to a var p
+  * Merge pull request [#301](https://github.com/mafintosh/mongojs/issues/301) from JonnyBurger/master
+    Fix for node 6
+  * Remove semicolon
+  * Fix coding style
+  * Fix for node 6
+  * Merge pull request [#298](https://github.com/mafintosh/mongojs/issues/298) from bendytree/patch-1
+    Updated readme with connection options example
+  * Updated readme with connection options example
+  * Merge pull request [#295](https://github.com/mafintosh/mongojs/issues/295) from olegam/master
+    Added test case find-sort-many
+  * Style changed to be compliant with javascript standard style
+  * Fixed indentation to use spaces
+  * Added (failing) test case find-sort-many to demonstrate that sort does not work for more than 1000 results
+  * Merge pull request [#276](https://github.com/mafintosh/mongojs/issues/276) from ForbesLindesay/patch-4
+    Make `Bulk.toString()` actually return a string
+  * Merge pull request [#285](https://github.com/mafintosh/mongojs/issues/285) from mafintosh/saintedlama/travis-non-legacy
+    Saintedlama/travis non legacy
+  * Remove mongodb 2.4 from test matrix due to compatibility issues
+  * Merge branch 'master' into saintedlama/travis-non-legacy
+  * Temporary bug fix for tape sporadic errors - see https://github.com/substack/tape/issues/223
+  * Merge pull request [#284](https://github.com/mafintosh/mongojs/issues/284) from mafintosh/saintedlama/tap-spec
+    Run tests with tap-spec
+  * Run tests with tap-spec
+  * Check if opts is a function so a callback can be passed as second argument
+  * Add test for rename
+  * Adjust code style in argument sanitizing
+  * Remove semicolons
+  * Fix PR [#280](https://github.com/mafintosh/mongojs/issues/280)
+
+### 2.3.0 / 2016-01-14
+
+  * 2.3.0
+  * Geotag package for release
+  * Merge pull request [#280](https://github.com/mafintosh/mongojs/issues/280) from mrvautin/master
+    Wrapper to rename a collection
+  * no message
+  * Added wrapper to rename a collection
+  * Fix test for bulk.toString
+  * Merge pull request [#277](https://github.com/mafintosh/mongojs/issues/277) from naartjie/fix/one-more-test-case-for-217
+    add one more test case for [#217](https://github.com/mafintosh/mongojs/issues/217) dot in collections
+  * add one more test case for [#217](https://github.com/mafintosh/mongojs/issues/217) dot in collections
+  * Make `Bulk.toString()` actually return a string
+    Before this change it returns an object, which seems confusing.
+
+### 2.2.2 / 2015-12-15
+
+  * 2.2.2
+  * Geotag package for release
+  * Merge pull request [#274](https://github.com/mafintosh/mongojs/issues/274) from ForbesLindesay/patch-4
+    Fix handling default arguments in ensureIndex
+  * Fix handling default arguments in ensureIndex
+  * Remove mongodb 2.8.0
+  * Pipe output to dev/null
+  * Move waiting for mongodb to first before script
+  * Move to non legacy infrastructure of travis
+  * Add changelog generated with github-changes npm module
+  * Add test to verify collections with a dot are working. Closes [#217](https://github.com/mafintosh/mongojs/issues/217)
+
 ### v2.2.1 (2015/12/15 08:56 +00:00)
 - [8c67514](https://github.com/mafintosh/mongojs/commit/8c675143a234a7c939532347e3f280c395b67b41) 2.2.1 (@saintedlama)
 - [9cd87a5](https://github.com/mafintosh/mongojs/commit/9cd87a525d9ba221cadebf2b60f0c9117711ead6) Geotag package for release (@saintedlama)
