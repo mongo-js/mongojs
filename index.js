@@ -36,3 +36,6 @@ module.exports.ObjectID = mongodb.ObjectID
 module.exports.ObjectId = mongodb.ObjectId
 module.exports.Symbol = mongodb.Symbol
 module.exports.Timestamp = mongodb.Timestamp
+
+// Add support for default ES6 module imports
+module.exports.default = module.exports
