@@ -25,4 +25,3 @@ insert('group', [{
     done()
   })
 })
-

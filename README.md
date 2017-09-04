@@ -253,133 +253,133 @@ This API documentation is a work in progress.
 
 #### Collection
 
-#####`db.collection.aggregate([pipeline], [options], [callback])`
+##### `db.collection.aggregate([pipeline], [options], [callback])`
 https://docs.mongodb.org/manual/reference/method/db.collection.aggregate/
 
-#####`db.collection.aggregate([pipelineStep], [pipelineStep], [pipelineStep], ..., [callback])`
+##### `db.collection.aggregate([pipelineStep], [pipelineStep], [pipelineStep], ..., [callback])`
 
-#####`db.collection.count([query], callback)`
+##### `db.collection.count([query], callback)`
 
-#####`db.collection.createIndex(keys, options, [callback])`
+##### `db.collection.createIndex(keys, options, [callback])`
 
-#####`db.collection.distinct(field, query, callback)`
+##### `db.collection.distinct(field, query, callback)`
 
-#####`db.collection.drop([callback])`
+##### `db.collection.drop([callback])`
 
-#####`db.collection.dropIndex(index, [callback])`
+##### `db.collection.dropIndex(index, [callback])`
 
-#####`db.collection.dropIndexes([callback])`
+##### `db.collection.dropIndexes([callback])`
 
-#####`db.collection.ensureIndex(keys, options, [callback])`
+##### `db.collection.ensureIndex(keys, options, [callback])`
 
-#####`db.collection.find([criteria], [projection], [callback])`
+##### `db.collection.find([criteria], [projection], [callback])`
 
 This function applies a query to a collection. You can get the return value, which is a cursor, or pass a callback
 as the last parameter. Said callback receives `(err, documents)`
 
-#####`db.collection.findOne([criteria], [projection], callback)`
+##### `db.collection.findOne([criteria], [projection], callback)`
 
 Apply a query and get one single document passed as a callback. The callback receives `(err, document)`
 
-#####`db.collection.findAndModify(document, callback)`
+##### `db.collection.findAndModify(document, callback)`
 
-#####`db.collection.getIndexes(callback)`
+##### `db.collection.getIndexes(callback)`
 
-#####`db.collection.group(document, callback)`
+##### `db.collection.group(document, callback)`
 
-#####`db.collection.insert(docOrDocs, [callback])`
+##### `db.collection.insert(docOrDocs, [callback])`
 
-#####`db.collection.isCapped(callback)`
+##### `db.collection.isCapped(callback)`
 
-#####`db.collection.mapReduce(map, reduce, options, [callback])`
+##### `db.collection.mapReduce(map, reduce, options, [callback])`
 
-#####`db.collection.reIndex([callback])`
+##### `db.collection.reIndex([callback])`
 
-#####`db.collection.remove(query, [justOne], [callback])`
-#####`db.collection.remove(query, [options], [callback])`
+##### `db.collection.remove(query, [justOne], [callback])`
+##### `db.collection.remove(query, [options], [callback])`
 
-#####`db.collection.runCommand(command, [callback])`
+##### `db.collection.runCommand(command, [callback])`
 
-#####`db.collection.save(doc, [options], [callback])`
+##### `db.collection.save(doc, [options], [callback])`
 
-#####`db.collection.stats(callback)`
+##### `db.collection.stats(callback)`
 
-#####`db.collection.update(query, update, [options], [callback])`
+##### `db.collection.update(query, update, [options], [callback])`
 
-#####`db.collection.toString()`
+##### `db.collection.toString()`
 
 Get the name of the collection.
 
 #### Cursor
 
-#####`cursor.batchSize(size, [callback])`
+##### `cursor.batchSize(size, [callback])`
 
-#####`cursor.count(callback)`
+##### `cursor.count(callback)`
 
-#####`cursor.explain(callback)`
+##### `cursor.explain(callback)`
 
-#####`cursor.forEach(function)`
+##### `cursor.forEach(function)`
 
-#####`cursor.limit(n, [callback])`
+##### `cursor.limit(n, [callback])`
 
-#####`cursor.map(function, [callback])`
+##### `cursor.map(function, [callback])`
 
-#####`cursor.next(callback)`
+##### `cursor.next(callback)`
 
-#####`cursor.skip(n, [callback])`
+##### `cursor.skip(n, [callback])`
 
-#####`cursor.sort(sortOptions, [callback])`
+##### `cursor.sort(sortOptions, [callback])`
 
-#####`cursor.toArray(callback)`
+##### `cursor.toArray(callback)`
 
-#####`cursor.rewind()`
+##### `cursor.rewind()`
 
-#####`cursor.destroy()`
+##### `cursor.destroy()`
 
 #### Database
 
-#####`db.addUser(document)`
+##### `db.addUser(document)`
 
-#####`db.createCollection(name, options, [callback])`
+##### `db.createCollection(name, options, [callback])`
 
-#####`db.dropDatabase([callback])`
+##### `db.dropDatabase([callback])`
 
-#####`db.eval(code, [params], [options], [callback])`
+##### `db.eval(code, [params], [options], [callback])`
 
-#####`db.getCollectionNames(callback)`
+##### `db.getCollectionNames(callback)`
 
-#####`db.getLastError(callback)`
+##### `db.getLastError(callback)`
 
-#####`db.getLastErrorObj(callback)`
+##### `db.getLastErrorObj(callback)`
 
-#####`db.removeUser(username, [callback])`
+##### `db.removeUser(username, [callback])`
 
-#####`db.runCommand(command, [callback])`
+##### `db.runCommand(command, [callback])`
 
-#####`db.stats([callback])`
+##### `db.stats([callback])`
 
-#####`db.close()`
+##### `db.close()`
 
 #### Bulk
 
-#####`bulk.execute()`
+##### `bulk.execute()`
 
-#####`bulk.find(query)`
+##### `bulk.find(query)`
 
-#####`bulk.find.remove()`
+##### `bulk.find.remove()`
 
-#####`bulk.find.removeOne()`
+##### `bulk.find.removeOne()`
 
-#####`bulk.find.replaceOne(document)`
+##### `bulk.find.replaceOne(document)`
 
-#####`bulk.find.update(updaterParam)`
+##### `bulk.find.update(updaterParam)`
 
-#####`bulk.find.updateOne(updaterParam)`
+##### `bulk.find.updateOne(updaterParam)`
 
-#####`bulk.find.upsert(upsertParam)`
+##### `bulk.find.upsert(upsertParam)`
 
-#####`bulk.insert(document)`
+##### `bulk.insert(document)`
 
-#####`bulk.toString()`
+##### `bulk.toString()`
 
-#####`bulk.tojson()`
+##### `bulk.tojson()`

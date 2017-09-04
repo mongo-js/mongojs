@@ -19,4 +19,3 @@ insert('cursor.size', [{
     })
   })
 })
-

@@ -3,6 +3,8 @@ language: node_js
 sudo: false
 
 node_js:
+  - "8"
+  - "7"
   - "6"
   - "5"
   - "4"
@@ -10,9 +12,10 @@ node_js:
   - "0.10"
 
 env:
-  - MONGODB_VERSION="2.6.11"
-  - MONGODB_VERSION="3.0.7"
-  - MONGODB_VERSION="3.2.0"
+  - MONGODB_VERSION="2.6.12"
+  - MONGODB_VERSION="3.0.15"
+  - MONGODB_VERSION="3.2.16"
+  - MONGODB_VERSION="3.4.7"
 
 before_script:
   - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB_VERSION}.tgz -O /tmp/mongodb.tgz

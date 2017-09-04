@@ -6,7 +6,7 @@
     "db",
     "mongodb"
   ],
-  "version": "2.4.0",
+  "version": "2.4.1",
   "repository": "git://github.com/mafintosh/mongojs.git",
   "author": "Mathias Buus Madsen <mathiasbuus@gmail.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "once": "^1.3.2",
     "parse-mongo-url": "^1.1.0",
     "readable-stream": "^2.0.2",
-    "thunky": "^0.1.0",
+    "thunky": "^1.0.2",
     "to-mongodb-core": "^2.0.0",
     "xtend": "^4.0.0"
   },
@@ -46,12 +46,12 @@
     "geopkg": "^4.0.3",
     "istanbul": "^0.4.1",
     "shelljs": "^0.7.0",
-    "standard": "^6.0.8",
+    "standard": "^10.0.3",
     "tap-spec": "^4.1.1",
     "tape": "^4.0.1"
   },
   "coordinates": [
-    48.2317966,
-    16.3996661
+    48.2091041,
+    16.415049
   ]
 }
