@@ -1,5 +1,28 @@
 ## Change Log
 
+### 2.5.0 / 2018-02-04
+
+  * 2.5.0
+  * Use === instead of == to please the standard
+  * Execute geotag pkg optional
+  * Adapt to exec shelljs api changes
+  * Update dependencies
+  * Use cursor sort order to avoid tests fail due to sort order
+  * Add test to verify issue [#337](https://github.com/mafintosh/mongojs/issues/337)
+  * Update mongodb dependency
+  * Merge pull request [#332](https://github.com/mafintosh/mongojs/issues/332) from ChuanyuWang/master
+    Work around for property 'Symbol(Symbol.toPrimitive)' in Proxy handler
+  * Merge branch 'master' into master
+  * Update standard and fix code style issues
+  * Merge pull request [#318](https://github.com/mafintosh/mongojs/issues/318) from drcircuit/addDeletedCount
+    Add deleted count property to the return object of the .remove method
+  * Add node 7 and 8 and mongodb 3.4 to build matrix and update mongodb versions
+  * Merge branch 'master' of github.com:mafintosh/mongojs
+  * Fixes [#265](https://github.com/mafintosh/mongojs/issues/265) by breaking operations if max bulk size is exceeded
+  * Merge pull request [#327](https://github.com/mafintosh/mongojs/issues/327) from orta/module_import
+    Adds support for ES6 default module import syntax
+  * Update changelog fixes [#311](https://github.com/mafintosh/mongojs/issues/311) [#303](https://github.com/mafintosh/mongojs/issues/303)
+
 ### 2.4.1 / 2017-08-08
 
   * 2.4.1
