@@ -15,8 +15,11 @@ if (versionIncrements.indexOf(versionIncrement) < 0) {
 
 exec('npm test')
 
-exec('npm run geotag')
-exec('git commit -m "Geotag package for release" package.json')
+var geotag = execOptional('npm run geotag')
+
+if (geotag.code == 0) {
+  exec('git commit -m "Geotag package for release" package.json')
+}
 
 exec('npm version ' + versionIncrement)
 
@@ -30,6 +33,16 @@ function exec (cmd) {
   if (ret.code !== 0) {
     console.error(ret.stdout)
     process.exit(1)
+  }
+
+  return ret
+}
+
+function execOptional (cmd) {
+  var ret = shell.exec(cmd, { silent: true })
+
+  if (ret.code !== 0) {
+    console.log(ret.stdout)
   }
 
   return ret
