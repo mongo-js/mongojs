@@ -17,7 +17,7 @@ exec('npm test')
 
 var geotag = execOptional('npm run geotag')
 
-if (geotag.code == 0) {
+if (geotag.code === 0) {
   exec('git commit -m "Geotag package for release" package.json')
 }
 
