@@ -1,5 +1,10 @@
 ## Change Log
 
+### 2.6.0 / 2018-05-29
+
+  * 2.6.0
+  * Add initial async_hooks support
+
 ### 2.5.0 / 2018-02-04
 
   * 2.5.0
