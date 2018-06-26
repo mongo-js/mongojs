@@ -1,7 +1,7 @@
 var test = require('./tape')
 var mongojs = require('../')
 
-test('receive a mongojs instance', function (t) {
+test.skip('receive a mongojs instance', function (t) {
   var db = mongojs(mongojs('test', []), ['a'])
   var afterFind = function () {
     db.a.remove(function (err) {

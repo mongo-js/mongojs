@@ -2,7 +2,7 @@ var test = require('./tape')
 var mongojs = require('../')
 var MongoClient = require('mongodb').MongoClient
 
-test('receive a mongodb db instance', function (t) {
+test.skip('receive a mongodb db instance', function (t) {
   MongoClient.connect('mongodb://localhost/test', function (err, mongoDb) {
     t.error(err)
 
