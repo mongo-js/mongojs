@@ -3,13 +3,13 @@ language: node_js
 sudo: false
 
 node_js:
+  - "10"
+  - "9"
   - "8"
   - "7"
   - "6"
   - "5"
   - "4"
-  - "0.12"
-  - "0.10"
 
 env:
   - MONGODB_VERSION="2.6.12"
