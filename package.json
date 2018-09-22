@@ -24,11 +24,12 @@
     "Tobias Baunbæk",
     "Benedikt Arnold",
     "Kevin McTigue",
-    "Thomas Watson Steen <w@tson.dk> https://twitter.com/wa7son"
+    "Thomas Watson Steen <w@tson.dk> https://twitter.com/wa7son",
+    "Krisztian Nagy"
   ],
   "dependencies": {
     "each-series": "^1.0.0",
-    "mongodb": "^3.0.10",
+    "mongodb": "^3.1.6",
     "once": "^1.4.0",
     "parse-mongo-url": "^1.1.1",
     "readable-stream": "^2.3.3",

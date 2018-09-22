@@ -10,7 +10,7 @@ insert('aggregate', [{
 }, {
   name: 'Lapras', type: 'water'
 }], function (db, t) {
-  db.a.aggregate({$group: {_id: '$type'}}, function (err, types) {
+  db.a.aggregate({ $group: { _id: '$type' } }, function (err, types) {
     t.error(err)
 
     var arr = types.map(function (x) { return x._id })
@@ -19,7 +19,7 @@ insert('aggregate', [{
     t.notEqual(arr.indexOf('water'), -1)
 
     // test as a stream
-    var strm = db.a.aggregate({$group: {_id: '$type'}})
+    var strm = db.a.aggregate({ $group: { _id: '$type' } })
     strm.pipe(concat(function (types) {
       var arr = types.map(function (x) { return x._id })
       t.equal(types.length, 2)
