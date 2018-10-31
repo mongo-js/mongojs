@@ -14,6 +14,7 @@ test('mongojs exports', function (t) {
   t.ok(mongojs.ObjectId, 'Expect ObjectId type to be exported')
   t.ok(mongojs.Symbol, 'Expect Symbol type to be exported')
   t.ok(mongojs.Timestamp, 'Expect Timestamp type to be exported')
+  t.ok(mongojs.Decimal128, 'Expect Decimal128 type to be exported')
 
   t.end()
 })

@@ -13,6 +13,7 @@ test('should export bson types', function (t) {
   t.ok(mongojs.ObjectId)
   t.ok(mongojs.Symbol)
   t.ok(mongojs.Timestamp)
+  t.ok(mongojs.Decimal128)
 
   t.end()
 })
