@@ -9,10 +9,10 @@ test('save', async function (t) {
 
   doc.hello = 'verden'
   doc = await db.a.save(doc)
-  console.log(doc)
   t.ok(doc._id)
   t.equal(doc.hello, 'verden')
   await db.a.remove()
 
-  db.close(t.end.bind(t))
+  await db.close()
+  t.end()
 })
