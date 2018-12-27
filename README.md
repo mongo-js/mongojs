@@ -247,6 +247,29 @@ Version > 1.0.x is a major rewrite of mongojs. So expect some things not to work
 
 * __Removed__ `mongojs.connect` use `mongojs()` directly instead
 
+# Async/Await Support
+
+To have mongojs behave even more like the official MongoDB repl, rather than use callbacks, you can query or update the database using async/await. This works wherever callbacks can be used. Just omit the callback and use the await keyword. Don't forget to use the "async" keyword on your caller function.
+
+```js
+
+(async function(){ // you need an async callee.
+
+	// find everything
+	var docs = await db.mycollection.find()	// docs is an array of all the documents in mycollection
+
+	// find everything, but sort by name
+	var docs = await db.mycollection.find().sort({name: 1}
+	// docs is now a sorted array
+
+	// find a document using a native ObjectId
+	var doc = db.mycollection.findOne({_id: mongojs.ObjectId('523209c4561c640000000001')}
+	// and so on, so earlier examples.
+
+})()
+
+```
+
 # API
 
 This API documentation is a work in progress.
