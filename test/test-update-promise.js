@@ -1,6 +1,6 @@
 var insert = require('./insert')
 
-insert('update', [{
+insert('update promise', [{
   hello: 'world'
 }], async function (db, t, done) {
   let info = await db.a.update({hello: 'world'}, {$set: {hello: 'verden'}})

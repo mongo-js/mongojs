@@ -2,7 +2,7 @@ var test = require('./tape')
 var mongojs = require('../index')
 var db = mongojs('test', ['a', 'b'])
 
-test('save', async function (t) {
+test('save promise', async function (t) {
   let doc = await db.a.save({hello: 'world'})
   t.equal(doc.hello, 'world')
   t.ok(doc._id)

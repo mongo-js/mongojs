@@ -1,6 +1,6 @@
 var insert = require('./insert')
 
-insert('find', [{
+insert('find promise', [{
   hello: 'world'
 }], async function (db, t, done) {
   let docs = await db.a.find().toArray()

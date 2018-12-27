@@ -2,7 +2,7 @@ var test = require('./tape')
 var mongojs = require('../index')
 var db = mongojs('test', ['a', 'b'])
 
-test('insert', async function (t) {
+test('insert promise', async function (t) {
   let docs = await db.a.insert(
     [{ name: 'Squirtle' }, { name: 'Charmander' }, { name: 'Bulbasaur' }])
   t.ok(docs[0]._id)
