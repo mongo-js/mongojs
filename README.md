@@ -253,14 +253,16 @@ To have mongojs behave even more like the official MongoDB repl, rather than use
 
 ```js
 
-(async function(){ // you need an async callee.
+(async function(){ // you need an async caller.
+    
+    // insert a record in mycollection
+    await db.mycollection.insert({hello: 'world'})
+    
+    // update it
+    await db.mycollection.update({$set: {hello: 'again'}})
 
-	// find everything
-	var docs = await db.mycollection.find()	// docs is an array of all the documents in mycollection
-
-	// find everything, but sort by name
-	var docs = await db.mycollection.find().sort({name: 1}
-	// docs is now a sorted array
+	// find everything. when not providing a callback, collection.find() returns a cursor. This is similar to how the MongoDB Shell iterates 20 records at a time. To get all results immediately, call toArray()
+	var docs = await db.mycollection.find().toArray()	// docs is an array of all the documents in mycollection
 
 	// find a document using a native ObjectId
 	var doc = db.mycollection.findOne({_id: mongojs.ObjectId('523209c4561c640000000001')}
