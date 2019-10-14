@@ -9,8 +9,8 @@ insert('group', [{
 }], function (db, t, done) {
   db.a.group({
     key: {},
-    cond: {t: {$gte: 86400}},
-    initial: {count: 0, online: 0},
+    cond: { t: { $gte: 86400 } },
+    initial: { count: 0, online: 0 },
     reduce: function (doc, out) {
       out.count++
       out.online += doc.online

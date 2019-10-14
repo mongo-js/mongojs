@@ -4,7 +4,7 @@ insert('find and select', [{
   hello: 'world',
   another: 'value'
 }], function (db, t, done) {
-  db.a.find({}, {another: 1}, function (err, docs) {
+  db.a.find({}, { another: 1 }, function (err, docs) {
     t.error(err)
     t.equal(docs.length, 1)
     t.equal(docs[0].hello, undefined)

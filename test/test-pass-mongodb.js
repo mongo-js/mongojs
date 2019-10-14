@@ -31,7 +31,7 @@ test.skip('receive a mongodb db instance', function (t) {
 
     var afterRemove = function (err) {
       t.error(err)
-      db.a.insert({name: 'Pidgey'}, afterInsert)
+      db.a.insert({ name: 'Pidgey' }, afterInsert)
     }
 
     db.a.remove(afterRemove)

@@ -10,7 +10,7 @@ insert('bulk', [{
     var bulk = db.a.initializeOrderedBulkOp()
     var numberOfOp = 1066
     for (var i = 0; i < numberOfOp; ++i) {
-      bulk.insert({name: 'Spearow', type: 'flying'})
+      bulk.insert({ name: 'Spearow', type: 'flying' })
     }
 
     bulk.execute(function (err, res) {

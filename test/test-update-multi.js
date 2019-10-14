@@ -5,7 +5,7 @@ insert('update multi', [{
 }, {
   hello: 'world2'
 }], function (db, t, done) {
-  db.a.update({}, {$set: {updated: true}}, {multi: true}, function (err, lastErrorObject) {
+  db.a.update({}, { $set: { updated: true } }, { multi: true }, function (err, lastErrorObject) {
     t.error(err)
     t.equal(lastErrorObject.n, 2)
 
