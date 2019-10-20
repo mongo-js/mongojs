@@ -40,6 +40,7 @@ module.exports.ObjectId = mongodb.ObjectId
 module.exports.ObjectID = mongodb.ObjectID
 module.exports.Symbol = mongodb.Symbol
 module.exports.Timestamp = mongodb.Timestamp
+module.exports.Map = mongodb.Map
 module.exports.Decimal128 = mongodb.Decimal128
 
 // Add support for default ES6 module imports
