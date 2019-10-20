@@ -40,9 +40,11 @@
     "test": "standard && (tape \"test/test-*.js\" && node --harmony --harmony-proxies node_modules/tape/bin/tape \"test/test-*.js\") | tap-spec",
     "cover": "nyc npm test",
     "cover:report": "nyc report --reporter=lcov",
-    "cover:report:html": "nyc report --reporter=html"
+    "cover:report:html": "nyc report --reporter=html",
+    "version": "auto-changelog -p --commit-limit false && git add CHANGELOG.md"
   },
   "devDependencies": {
+    "auto-changelog": "^1.16.1",
     "concat-stream": "^2.0.0",
     "standard": "^14.3.1",
     "tap-spec": "^5.0.0",
