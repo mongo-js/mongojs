@@ -9,6 +9,13 @@ insert('findOne', [{
     t.error(err)
     t.equal(typeof doc, 'object')
     t.ok(doc.hello === 'world1' || doc.hello === 'world2')
-    done()
+
+    db.a.findOne({ hello: 'world1' }, (err, doc) => {
+      t.error(err)
+      t.equal(typeof doc, 'object')
+      t.ok(doc.hello === 'world1')
+
+      done()
+    })
   })
 })
