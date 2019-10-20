@@ -28,3 +28,7 @@ before_script:
   - until nc -z localhost 27017; do echo Waiting for MongoDB; sleep 1; done
 
 script: "npm test"
+
+after_script:
+  - npm i coveralls -D
+  - npm run cover:ci
