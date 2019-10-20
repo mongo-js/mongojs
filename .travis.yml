@@ -5,12 +5,7 @@ sudo: false
 node_js:
   - "12"
   - "10"
-  - "9"
   - "8"
-  - "7"
-  - "6"
-  - "5"
-  - "4"
 
 env:
   - MONGODB_VERSION="2.6.12"
