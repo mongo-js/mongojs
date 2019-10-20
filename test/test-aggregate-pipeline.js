@@ -10,7 +10,7 @@ insert('aggregate', [{
 }, {
   name: 'Lapras', type: 'water'
 }], function (db, t, done) {
-  db.a.aggregate([{$group: {_id: '$type'}}, {$project: { _id: 0, foo: '$_id' }}], function (err, types) {
+  db.a.aggregate([{ $group: { _id: '$type' } }, { $project: { _id: 0, foo: '$_id' } }], function (err, types) {
     console.log(err, types)
     var arr = types.map(function (x) { return x.foo })
     console.log('arr', arr)
@@ -22,7 +22,7 @@ insert('aggregate', [{
     console.log('where')
 
     // test as a stream
-    var strm = db.a.aggregate([{$group: {_id: '$type'}}, {$project: {_id: 0, foo: '$_id'}}])
+    var strm = db.a.aggregate([{ $group: { _id: '$type' } }, { $project: { _id: 0, foo: '$_id' } }])
     strm.pipe(concat(function (types) {
       var arr = types.map(function (x) { return x.foo })
       t.equal(types.length, 2)

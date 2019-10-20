@@ -3,7 +3,7 @@ var mongojs = require('../index')
 var db = mongojs('test', ['a', 'b'])
 
 test('save', function (t) {
-  db.a.save({hello: 'world'}, function (err, doc) {
+  db.a.save({ hello: 'world' }, function (err, doc) {
     t.error(err)
     t.equal(doc.hello, 'world')
     t.ok(doc._id)

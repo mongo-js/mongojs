@@ -22,7 +22,7 @@ insert('findAndModify', [{
     // Update and find the new document
     db.a.findAndModify({
       query: { id: 2 },
-      'new': true,
+      new: true,
       update: { $set: { hello: 'me' } }
     }, function (err, doc, lastErrorObject) {
       t.error(err)
@@ -44,7 +44,7 @@ insert('findAndModify', [{
         db.a.findAndModify({
           query: { id: 3 },
           update: { id: 3, hello: 'girl' },
-          'new': true,
+          new: true,
           upsert: true
         }, function (err, doc, lastErrorObject) {
           t.error(err)

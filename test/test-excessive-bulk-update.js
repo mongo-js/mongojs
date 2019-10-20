@@ -10,7 +10,7 @@ insert('bulk', [{
     var bulk = db.a.initializeOrderedBulkOp()
     var numberOfOp = 1066
     for (var i = 0; i < numberOfOp; ++i) {
-      bulk.insert({a: i})
+      bulk.insert({ a: i })
     }
 
     bulk.execute(function (err, res) {
@@ -20,14 +20,14 @@ insert('bulk', [{
       var bulk2 = db.a.initializeOrderedBulkOp()
 
       for (var i = 0; i < numberOfOp; i++) {
-        bulk2.find({a: i}).updateOne({$set: {b: 'update by mongojs'}})
+        bulk2.find({ a: i }).updateOne({ $set: { b: 'update by mongojs' } })
       }
 
       bulk2.execute(function (err, res) {
         t.error(err)
         t.ok(res.ok)
 
-        db.a.count({b: 'update by mongojs'}, function (err, count) {
+        db.a.count({ b: 'update by mongojs' }, function (err, count) {
           t.error(err)
           t.equal(count, numberOfOp) // prior added documents not matched in query
           t.end()
