@@ -7,7 +7,7 @@
     "mongodb"
   ],
   "version": "2.6.0",
-  "repository": "git://github.com/mafintosh/mongojs.git",
+  "repository": "git://github.com/mongo-js/mongojs.git",
   "author": "Mathias Buus Madsen <mathiasbuus@gmail.com>",
   "license": "MIT",
   "contributors": [

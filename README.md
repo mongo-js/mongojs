@@ -5,7 +5,7 @@ It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native) and i
 
 	npm install mongojs
 
-[![Build Status](https://travis-ci.org/mafintosh/mongojs.svg?branch=master)](https://travis-ci.org/mafintosh/mongojs)
+[![Build Status](https://travis-ci.org/mongo-js/mongojs.svg?branch=master)](https://travis-ci.org/mongo-js/mongojs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
 ## Usage

@@ -11,7 +11,7 @@ propose changes to this document in a pull request.
 
 ## Submitting Issues
 
-* You can create an issue [here](https://github.com/mafintosh/mongojs/issues/new), but
+* You can create an issue [here](https://github.com/mongo-js/mongojs/issues/new), but
 before doing that please read the notes below on debugging and submitting issues,
   and include as many details as possible with your report.
 * Include the version of mongojs you are using.
