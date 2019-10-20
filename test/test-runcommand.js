@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('runCommand', [{
   hello: 'world'
@@ -8,23 +8,23 @@ insert('runCommand', [{
   hello: 'world3'
 }, {
   hello: 'world'
-}], function (db, t, done) {
-  db.runCommand({ count: 'a', query: {} }, function (err, res) {
+}], (db, t, done) => {
+  db.runCommand({ count: 'a', query: {} }, (err, res) => {
     t.error(err)
     t.equal(res.n, 4)
-    db.a.runCommand('count', { query: { hello: 'world' } }, function (err, res) {
+    db.a.runCommand('count', { query: { hello: 'world' } }, (err, res) => {
       t.error(err)
       t.equal(res.n, 2)
-      db.a.runCommand('distinct', { key: 'hello', query: {} }, function (err, docs) {
+      db.a.runCommand('distinct', { key: 'hello', query: {} }, (err, docs) => {
         t.error(err)
         t.equal(docs.values.length, 3)
-        db.runCommand({ distinct: 'a', key: 'hello', query: { hello: 'world' } }, function (err, docs) {
+        db.runCommand({ distinct: 'a', key: 'hello', query: { hello: 'world' } }, (err, docs) => {
           t.error(err)
           t.equal(docs.values.length, 1)
-          db.runCommand('ping', function (err, res) {
+          db.runCommand('ping', (err, res) => {
             t.error(err)
             t.equal(res.ok, 1)
-            db.a.runCommand('count', function (err, res) {
+            db.a.runCommand('count', (err, res) => {
               t.error(err)
               t.equal(res.n, 4)
               done()

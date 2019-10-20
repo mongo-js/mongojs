@@ -1,11 +1,11 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'b'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'b'])
 
-test('optional callback', function (t) {
+test('optional callback', (t) => {
   db.a.ensureIndex({ hello: 'world' })
-  setTimeout(function () {
-    db.a.count(function () {
+  setTimeout(() => {
+    db.a.count(() => {
       db.close(t.end.bind(t))
     })
   }, 100)

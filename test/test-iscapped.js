@@ -1,17 +1,17 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'mycappedcol'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'mycappedcol'])
 
-test('isCapped', function (t) {
-  db.mycappedcol.drop(function () {
-    db.createCollection('mycappedcol', { capped: true, size: 1024 }, function (err) {
+test('isCapped', (t) => {
+  db.mycappedcol.drop(() => {
+    db.createCollection('mycappedcol', { capped: true, size: 1024 }, (err) => {
       t.error(err)
-      db.mycappedcol.isCapped(function (err, ic) {
+      db.mycappedcol.isCapped((err, ic) => {
         t.error(err)
         t.ok(ic)
-        db.a.insert({}, function (err) {
+        db.a.insert({}, (err) => {
           t.error(err)
-          db.a.isCapped(function (err, ic2) {
+          db.a.isCapped((err, ic2) => {
             t.error(err)
             t.notOk(ic2)
             db.mycappedcol.drop(t.end.bind(t))

@@ -1,15 +1,15 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('updateMany', [{
   hello: 'world1'
 }, {
   hello: 'world2'
-}], function (db, t, done) {
-  db.a.updateMany({}, { $set: { updated: true } }, function (err, lastErrorObject) {
+}], (db, t, done) => {
+  db.a.updateMany({}, { $set: { updated: true } }, (err, lastErrorObject) => {
     t.error(err)
     t.equal(lastErrorObject.n, 2)
 
-    db.a.find(function (err, docs) {
+    db.a.find((err, docs) => {
       t.error(err)
       t.equal(docs.length, 2)
       t.ok(docs[0].updated)

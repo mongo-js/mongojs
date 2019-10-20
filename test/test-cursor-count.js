@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('cursor.count', [{
   name: 'Squirtle', type: 'water'
@@ -8,11 +8,11 @@ insert('cursor.count', [{
   name: 'Starmie', type: 'water'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t, done) {
-  db.a.find().count(function (err, cnt) {
+}], (db, t, done) => {
+  db.a.find().count((err, cnt) => {
     t.error(err)
     t.equal(cnt, 4)
-    db.a.find({ type: 'water' }).count(function (err, cnt2) {
+    db.a.find({ type: 'water' }).count((err, cnt2) => {
       t.error(err)
       t.equal(cnt2, 3)
       done()

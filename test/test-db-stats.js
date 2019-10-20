@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('db stats', [{
   name: 'Squirtle', type: 'water'
@@ -8,8 +8,8 @@ insert('db stats', [{
   name: 'Charmander', type: 'fire'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t) {
-  db.stats(function (err, stats) {
+}], (db, t) => {
+  db.stats((err, stats) => {
     t.error(err, 'Should get stats without an error')
     t.ok(stats.ok, 'OK flag should be set in result')
     t.ok(stats.collections)

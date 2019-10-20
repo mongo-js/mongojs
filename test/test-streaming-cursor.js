@@ -1,15 +1,15 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('streaming cursor', [{
   hello: 'world1'
 }, {
   hello: 'world2'
-}], function (db, t, done) {
-  var cursor = db.a.find()
-  var runs = 0
+}], (db, t, done) => {
+  const cursor = db.a.find()
+  let runs = 0
 
-  var loop = function () {
-    var doc
+  const loop = function () {
+    let doc
 
     while ((doc = cursor.read()) !== null) {
       t.ok(doc.hello === 'world1' || doc.hello === 'world2')
@@ -20,7 +20,7 @@ insert('streaming cursor', [{
     cursor.once('readable', loop)
   }
 
-  cursor.on('end', function () {
+  cursor.on('end', () => {
     t.equal(runs, 2)
     done()
   })

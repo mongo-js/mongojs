@@ -1,20 +1,20 @@
-var test = require('tape')
-var mongojs = require('../')
+const test = require('tape')
+const mongojs = require('../')
 
-test('insert duplicate index key', function (t) {
-  var db = mongojs('test', ['d'])
+test('insert duplicate index key', (t) => {
+  const db = mongojs('test', ['d'])
 
-  db.d.drop(function () {
+  db.d.drop(() => {
     // Ignore errors here
-    db.d.ensureIndex({ type: 1 }, { unique: true }, function (err) {
+    db.d.ensureIndex({ type: 1 }, { unique: true }, (err) => {
       t.error(err)
 
-      var now = new Date().toISOString()
+      const now = new Date().toISOString()
 
-      db.d.insert({ date: now }, function (err) {
+      db.d.insert({ date: now }, (err) => {
         t.error(err)
 
-        db.d.insert({ date: now }, function (err) {
+        db.d.insert({ date: now }, (err) => {
           t.ok(err, 'should yield an error since we insert a index key for a unique index twice')
 
           t.end()

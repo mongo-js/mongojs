@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('aggregate with options', [{
   name: 'Squirtle', type: 'water'
@@ -8,8 +8,8 @@ insert('aggregate with options', [{
   name: 'Charmander', type: 'fire'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t) {
-  db.a.aggregate([{ $group: { _id: '$type' } }], { explain: true }, function (err, explained) {
+}], (db, t) => {
+  db.a.aggregate([{ $group: { _id: '$type' } }], { explain: true }, (err, explained) => {
     t.error(err)
     t.equal(explained[0].ok, 1)
     t.ok(explained[0].stages)

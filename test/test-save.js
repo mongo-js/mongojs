@@ -1,19 +1,19 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'b'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'b'])
 
-test('save', function (t) {
-  db.a.save({ hello: 'world' }, function (err, doc) {
+test('save', (t) => {
+  db.a.save({ hello: 'world' }, (err, doc) => {
     t.error(err)
     t.equal(doc.hello, 'world')
     t.ok(doc._id)
 
     doc.hello = 'verden'
-    db.a.save(doc, function (err, doc) {
+    db.a.save(doc, (err, doc) => {
       t.error(err)
       t.ok(doc._id)
       t.equal(doc.hello, 'verden')
-      db.a.remove(function () {
+      db.a.remove(() => {
         db.close(t.end.bind(t))
       })
     })

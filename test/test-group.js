@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('group', [{
   t: 242424,
@@ -6,7 +6,7 @@ insert('group', [{
 }, {
   t: 4244,
   online: 0
-}], function (db, t, done) {
+}], (db, t, done) => {
   db.a.group({
     key: {},
     cond: { t: { $gte: 86400 } },
@@ -18,7 +18,7 @@ insert('group', [{
     finalize: function (out) {
       out.avgOnline = out.online / out.count
     }
-  }, function (err, curOnline) {
+  }, (err, curOnline) => {
     t.error(err)
     t.equal(curOnline[0].count, 1)
     t.equal(curOnline[0].online, 1)

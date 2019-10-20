@@ -1,7 +1,7 @@
-var mongojs = require('../')
-var test = require('./tape')
+const mongojs = require('../')
+const test = require('./tape')
 
-test('mongojs exports', function (t) {
+test('mongojs exports', (t) => {
   t.ok(mongojs.Binary, 'Expect Binary type to be exported')
   t.ok(mongojs.Code, 'Expect Code type to be exported')
   t.ok(mongojs.DBRef, 'Expect DBRef type to be exported')

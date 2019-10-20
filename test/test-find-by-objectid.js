@@ -1,15 +1,15 @@
-var insert = require('./insert')
-var mongojs = require('../')
+const insert = require('./insert')
+const mongojs = require('../')
 
 insert('find by ObjectId', [{
   hello: 'world'
-}], function (db, t, done) {
-  db.a.find({ _id: db.ObjectId('abeabeabeabeabeabeabeabe') }, { hello: 1 }, function (err, docs) {
+}], (db, t, done) => {
+  db.a.find({ _id: db.ObjectId('abeabeabeabeabeabeabeabe') }, { hello: 1 }, (err, docs) => {
     t.error(err)
     t.equal(docs.length, 0)
 
-    db.a.save({ _id: mongojs.ObjectId('abeabeabeabeabeabeabeabe') }, function () {
-      db.a.find({ _id: db.ObjectId('abeabeabeabeabeabeabeabe') }, { hello: 1 }, function (err, docs) {
+    db.a.save({ _id: mongojs.ObjectId('abeabeabeabeabeabeabeabe') }, () => {
+      db.a.find({ _id: db.ObjectId('abeabeabeabeabeabeabeabe') }, { hello: 1 }, (err, docs) => {
         t.error(err)
         t.equal(docs.length, 1)
         done()

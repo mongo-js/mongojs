@@ -1,15 +1,15 @@
-var test = require('tape')
-var mongojs = require('../')
+const test = require('tape')
+const mongojs = require('../')
 
-test('events close', function (t) {
-  var db = mongojs('test', ['a'])
+test('events close', (t) => {
+  const db = mongojs('test', ['a'])
 
-  db.on('close', function () {
+  db.on('close', () => {
     t.pass('close event emitted')
     t.end()
   })
 
-  db.close(function (err) {
+  db.close((err) => {
     t.error(err, 'should close without error')
   })
 })

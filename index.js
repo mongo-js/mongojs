@@ -1,10 +1,10 @@
-var Database = require('./lib/database')
-var mongodb = require('mongodb')
+const Database = require('./lib/database')
+const mongodb = require('mongodb')
 
 module.exports = function (connString, cols, options) {
-  var db = new Database(connString, cols, options)
+  const db = new Database(connString, cols, options)
   if (typeof Proxy !== 'undefined') {
-    var handler = {
+    const handler = {
       get: function (obj, prop) {
         // Work around for event emitters to work together with harmony proxy
         if (prop === 'on' || prop === 'emit') {

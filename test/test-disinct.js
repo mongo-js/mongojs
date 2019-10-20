@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('distinct', [{
   goodbye: 'world',
@@ -12,8 +12,8 @@ insert('distinct', [{
 }, {
   goodbye: 'world',
   hello: 'space'
-}], function (db, t, done) {
-  db.a.distinct('goodbye', { hello: 'space' }, function (err, docs) {
+}], (db, t, done) => {
+  db.a.distinct('goodbye', { hello: 'space' }, (err, docs) => {
     t.error(err)
     t.equal(docs.length, 2)
     t.equal(docs[0], 'world')

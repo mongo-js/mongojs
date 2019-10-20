@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('cursor.rewind', [{
   name: 'Squirtle', type: 'water'
@@ -6,16 +6,16 @@ insert('cursor.rewind', [{
   name: 'Starmie', type: 'water'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t) {
-  var cursor = db.a.find().sort({ name: 1 })
-  cursor.next(function (err, obj1) {
+}], (db, t) => {
+  const cursor = db.a.find().sort({ name: 1 })
+  cursor.next((err, obj1) => {
     t.error(err)
     t.equal(obj1.name, 'Lapras')
-    cursor.next(function (err, obj2) {
+    cursor.next((err, obj2) => {
       t.error(err)
       t.equal(obj2.name, 'Squirtle')
       cursor.rewind()
-      cursor.next(function (err) {
+      cursor.next((err) => {
         t.error(err)
         t.equal(obj1.name, 'Lapras')
         t.end()

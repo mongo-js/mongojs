@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('sort', [{
   name: 'Squirtle', type: 'water'
@@ -8,8 +8,8 @@ insert('sort', [{
   name: 'Charmander', type: 'fire'
 }, {
   name: 'Lapras', type: 'water'
-}], function (db, t, done) {
-  db.a.find().sort({ name: 1 }, function (err, docs) {
+}], (db, t, done) => {
+  db.a.find().sort({ name: 1 }, (err, docs) => {
     t.error(err)
     t.equal(docs[0].name, 'Charmander')
     t.equal(docs[1].name, 'Lapras')

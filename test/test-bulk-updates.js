@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('bulk', [{
   name: 'Squirtle', type: 'water'
@@ -8,12 +8,12 @@ insert('bulk', [{
   name: 'Lapras', type: 'water'
 }, {
   name: 'Charmander', type: 'fire'
-}], function (db, t, done) {
-  db.runCommand('serverStatus', function (err, resp) {
+}], (db, t, done) => {
+  db.runCommand('serverStatus', (err, resp) => {
     t.error(err)
     if (parseFloat(resp.version) < 2.6) return t.end()
 
-    var bulk = db.a.initializeOrderedBulkOp()
+    const bulk = db.a.initializeOrderedBulkOp()
     bulk.find({ type: 'water' }).update({ $set: { level: 1 } })
     bulk.find({ type: 'water' }).update({ $inc: { level: 2 } })
     bulk.insert({ name: 'Spearow', type: 'flying' })
@@ -26,10 +26,10 @@ insert('bulk', [{
     bulk.find({ name: 'Squirtle' }).upsert().updateOne({ $set: { name: 'Wartortle', type: 'water' } })
     bulk.find({ name: 'Bulbasaur' }).upsert().updateOne({ $setOnInsert: { name: 'Bulbasaur' }, $set: { type: 'grass', level: 1 } })
 
-    bulk.execute(function (err, res) {
+    bulk.execute((err, res) => {
       t.error(err)
       t.ok(res.ok)
-      db.a.find(function (err, res) {
+      db.a.find((err, res) => {
         t.error(err)
         t.equal(res[0].name, 'Wartortle')
         t.equal(res[1].name, 'Starmie')

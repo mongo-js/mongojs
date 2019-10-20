@@ -1,17 +1,17 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'b'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'b'])
 
-test('insertOne', function (t) {
-  db.a.insert({ name: 'Lapras' }, function (err, doc) {
+test('insertOne', (t) => {
+  db.a.insert({ name: 'Lapras' }, (err, doc) => {
     t.error(err)
     t.equal(doc.name, 'Lapras')
 
-    db.a.insert({ name: 'Pidgeotto' }, function (err, doc) {
+    db.a.insert({ name: 'Pidgeotto' }, (err, doc) => {
       t.error(err)
       t.equal(doc.name, 'Pidgeotto')
 
-      db.a.remove(function () {
+      db.a.remove(() => {
         db.close(t.end.bind(t))
       })
     })

@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('empty bulk', [{
   name: 'Squirtle', type: 'water'
@@ -8,13 +8,13 @@ insert('empty bulk', [{
   name: 'Lapras', type: 'water'
 }, {
   name: 'Charmander', type: 'fire'
-}], function (db, t, done) {
-  db.runCommand('serverStatus', function (err, resp) {
+}], (db, t, done) => {
+  db.runCommand('serverStatus', (err, resp) => {
     t.error(err)
     if (parseFloat(resp.version) < 2.6) return t.end()
 
-    var bulk = db.a.initializeOrderedBulkOp()
-    bulk.execute(function (err, result) {
+    const bulk = db.a.initializeOrderedBulkOp()
+    bulk.execute((err, result) => {
       t.error(err, 'Should not yield an error')
       t.equals(result.ok, 1, 'Should result in ok field set to 1')
 

@@ -1,10 +1,10 @@
-var test = require('tape')
-var mongojs = require('../')
+const test = require('tape')
+const mongojs = require('../')
 
-test('close unopened db', function (t) {
-  var db = mongojs('test', ['a'])
+test('close unopened db', (t) => {
+  const db = mongojs('test', ['a'])
 
-  db.close(function (err) {
+  db.close((err) => {
     t.error(err, 'should close without error')
     t.end()
   })

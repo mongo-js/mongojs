@@ -1,12 +1,12 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('find cursor options', [{
   hello: 'world1'
 }, {
   hello: 'world2'
-}], function (db, t, done) {
-  var cursor = db.a.find().sort({ _id: 1 }).limit(1).skip(1)
-  var runs = 0
+}], (db, t, done) => {
+  const cursor = db.a.find().sort({ _id: 1 }).limit(1).skip(1)
+  let runs = 0
 
   cursor.next(function loop (err, doc) {
     if (!doc) {

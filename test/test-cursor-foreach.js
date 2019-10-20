@@ -1,6 +1,6 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
-var pokemons = [{
+const pokemons = [{
   name: 'Squirtle', type: 'water'
 }, {
   name: 'Starmie', type: 'water'
@@ -8,9 +8,9 @@ var pokemons = [{
   name: 'Lapras', type: 'water'
 }]
 
-insert('cursor.foreach', pokemons, function (db, t, done) {
-  var i = 0
-  db.a.find().forEach(function (err, pkm) {
+insert('cursor.foreach', pokemons, (db, t, done) => {
+  let i = 0
+  db.a.find().forEach((err, pkm) => {
     t.error(err)
     if (++i === 4) return t.end()
     t.equal(pkm.name, pokemons[i - 1].name)

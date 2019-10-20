@@ -1,31 +1,31 @@
-var test = require('./tape')
-var mongojs = require('../')
+const test = require('./tape')
+const mongojs = require('../')
 
-test.skip('receive a mongojs instance', function (t) {
-  var db = mongojs(mongojs('test', []), ['a'])
-  var afterFind = function () {
-    db.a.remove(function (err) {
+test.skip('receive a mongojs instance', (t) => {
+  const db = mongojs(mongojs('test', []), ['a'])
+  const afterFind = function () {
+    db.a.remove((err) => {
       t.error(err)
       t.equal(db.toString(), 'test', 'should expose database name')
 
-      db.close(function (err) {
+      db.close((err) => {
         t.error(err)
         t.end()
       })
     })
   }
 
-  var afterInsert = function (err) {
+  const afterInsert = function (err) {
     t.error(err)
 
-    db.a.findOne(function (err, data) {
+    db.a.findOne((err, data) => {
       t.error(err)
       t.equal(data.name, 'Pidgey')
       afterFind()
     })
   }
 
-  var afterRemove = function (err) {
+  const afterRemove = function (err) {
     t.error(err)
     db.a.insert({ name: 'Pidgey' }, afterInsert)
   }

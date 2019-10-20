@@ -8,8 +8,8 @@ if (gitStatus) {
   process.exit(2)
 }
 
-var versionIncrement = process.argv[process.argv.length - 1]
-var versionIncrements = ['major', 'minor', 'patch']
+const versionIncrement = process.argv[process.argv.length - 1]
+const versionIncrements = ['major', 'minor', 'patch']
 
 if (versionIncrements.indexOf(versionIncrement) < 0) {
   console.error('Usage: node release.js major|minor|patch')
@@ -25,7 +25,7 @@ exec('git push --tags')
 exec('npm publish')
 
 function exec (cmd) {
-  var stdout = execSync(cmd, { encoding: 'utf-8' })
+  const stdout = execSync(cmd, { encoding: 'utf-8' })
 
   return {
     stdout

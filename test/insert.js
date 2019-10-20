@@ -1,16 +1,16 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a'])
 
 module.exports = function (testName, docs, testFn) {
-  test(testName, function (t) {
-    db.a.remove(function (err) {
+  test(testName, (t) => {
+    db.a.remove((err) => {
       t.error(err)
 
-      db.a.insert(docs, function (err) {
+      db.a.insert(docs, (err) => {
         t.error(err)
-        testFn(db, t, function () {
-          db.a.remove(function (err) {
+        testFn(db, t, () => {
+          db.a.remove((err) => {
             t.error(err)
             t.end()
           })
@@ -21,7 +21,7 @@ module.exports = function (testName, docs, testFn) {
 }
 
 module.exports.skip = function (testName) {
-  test.skip(testName, function (t) {
+  test.skip(testName, (t) => {
     t.end()
   })
 }

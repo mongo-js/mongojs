@@ -1,4 +1,4 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('mapreduce', [{
   name: 'Squirtle', type: 'water', level: 10
@@ -8,19 +8,19 @@ insert('mapreduce', [{
   name: 'Charmander', type: 'fire', level: 8
 }, {
   name: 'Lapras', type: 'water', level: 12
-}], function (db, t, done) {
+}], (db, t, done) => {
   db.a.mapReduce(function () {
     /* eslint-disable no-undef */
     emit(this.type, this.level)
     /* eslint-enable no-undef */
-  }, function (key, values) {
+  }, (key, values) => {
     return Array.sum(values)
   }, {
     query: { type: 'water' },
     out: 'levelSum'
-  }, function (err) {
+  }, (err) => {
     t.error(err)
-    db.collection('levelSum').findOne(function (err, res) {
+    db.collection('levelSum').findOne((err, res) => {
       t.error(err)
       t.equal(res._id, 'water')
       t.equal(res.value, 30)
@@ -37,12 +37,12 @@ insert('mapreduce finalize', [{
   name: 'Charmander', type: 'fire', level: 8
 }, {
   name: 'Lapras', type: 'water', level: 12
-}], function (db, t, done) {
+}], (db, t, done) => {
   db.a.mapReduce(function () {
     /* eslint-disable no-undef */
     emit(this.type, this.level)
     /* eslint-enable no-undef */
-  }, function (key, values) {
+  }, (key, values) => {
     return {
       sum: Array.sum(values),
       count: values.length
@@ -54,9 +54,9 @@ insert('mapreduce finalize', [{
       reducedVal.avg = reducedVal.sum / reducedVal.count
       return reducedVal
     }
-  }, function (err) {
+  }, (err) => {
     t.error(err)
-    db.collection('levelSum').findOne(function (err, res) {
+    db.collection('levelSum').findOne((err, res) => {
       t.error(err)
       t.equal(res._id, 'water')
       t.equal(res.value.sum, 30)

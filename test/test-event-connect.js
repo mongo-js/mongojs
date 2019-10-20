@@ -1,13 +1,13 @@
-var test = require('./tape')
-var mongojs = require('../index')
+const test = require('./tape')
+const mongojs = require('../index')
 
-test('events connect', function (t) {
-  var db = mongojs('test', ['a'])
+test('events connect', (t) => {
+  const db = mongojs('test', ['a'])
 
-  db.on('connect', function () {
+  db.on('connect', () => {
     t.pass('connect event emitted')
     t.end()
   })
 
-  db.a.find({}, function (err) { t.error(err, 'should find items without error') })
+  db.a.find({}, (err) => { t.error(err, 'should find items without error') })
 })

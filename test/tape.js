@@ -1,9 +1,9 @@
-var test = require('tape')
+const test = require('tape')
 
-var wait = global.setImmediate || process.nextTick
+const wait = global.setImmediate || process.nextTick
 
-wait(function () {
-  test('end', function (t) {
+wait(() => {
+  test('end', (t) => {
     t.end()
     process.exit()
   })

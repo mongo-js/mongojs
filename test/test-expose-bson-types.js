@@ -1,7 +1,7 @@
-var test = require('./tape')
-var mongojs = require('../index')
+const test = require('./tape')
+const mongojs = require('../index')
 
-test('should export bson types', function (t) {
+test('should export bson types', (t) => {
   t.ok(mongojs.Binary)
   t.ok(mongojs.Code)
   t.ok(mongojs.DBRef)

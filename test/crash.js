@@ -1,10 +1,10 @@
-var mongojs = require('../index')
-var db = mongojs('localhost', ['test'])
+const mongojs = require('../index')
+const db = mongojs('localhost', ['test'])
 
-db.test.findOne(function () {
+db.test.findOne(() => {
   throw new Error('I should crash the program')
 })
 
-setTimeout(function () {
+setTimeout(() => {
   throw new Error('timeout')
 }, 5000)

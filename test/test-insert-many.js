@@ -1,15 +1,15 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'b'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'b'])
 
-test('insertMany', function (t) {
-  db.a.insertMany([{ name: 'Squirtle' }, { name: 'Charmander' }, { name: 'Bulbasaur' }], function (err, docs) {
+test('insertMany', (t) => {
+  db.a.insertMany([{ name: 'Squirtle' }, { name: 'Charmander' }, { name: 'Bulbasaur' }], (err, docs) => {
     t.error(err)
     t.ok(docs[0]._id)
     t.ok(docs[1]._id)
     t.ok(docs[2]._id)
 
-    db.a.remove(function () {
+    db.a.remove(() => {
       db.close(t.end.bind(t))
     })
   })

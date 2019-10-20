@@ -1,8 +1,8 @@
-var test = require('./tape')
-var mongojs = require('../')
+const test = require('./tape')
+const mongojs = require('../')
 
-test('db.toString', function (t) {
-  var db = mongojs('test', ['a'])
+test('db.toString', (t) => {
+  const db = mongojs('test', ['a'])
   t.equal(db.toString(), 'test', 'toString should return database name')
   t.end()
 })

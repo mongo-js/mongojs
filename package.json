@@ -37,16 +37,23 @@
     "to-mongodb-core": "^2.0.0"
   },
   "scripts": {
-    "test": "standard && (tape \"test/test-*.js\" && node --harmony --harmony-proxies node_modules/tape/bin/tape \"test/test-*.js\") | tap-spec",
+    "test": "npm run lint && (tape \"test/test-*.js\" && node --harmony --harmony-proxies node_modules/tape/bin/tape \"test/test-*.js\") | tap-spec",
     "cover": "nyc npm test",
     "cover:report": "nyc report --reporter=lcov",
     "cover:report:html": "nyc report --reporter=html",
-    "version": "auto-changelog -p --commit-limit false && git add CHANGELOG.md"
+    "version": "auto-changelog -p --commit-limit false && git add CHANGELOG.md",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "auto-changelog": "^1.16.1",
     "concat-stream": "^2.0.0",
-    "standard": "^14.3.1",
+    "eslint": "^6.5.1",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.11.0"
   }

@@ -1,13 +1,13 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test')
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test')
 
-test('proxy', function (t) {
+test('proxy', (t) => {
   if (typeof Proxy === 'undefined') return t.end()
 
-  db.a.remove(function () {
-    db.a.insert({ hello: 'world' }, function () {
-      db.a.findOne(function (err, doc) {
+  db.a.remove(() => {
+    db.a.insert({ hello: 'world' }, () => {
+      db.a.findOne((err, doc) => {
         t.error(err)
         t.equal(doc.hello, 'world')
         t.end()

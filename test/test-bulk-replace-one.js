@@ -1,22 +1,22 @@
-var insert = require('./insert')
+const insert = require('./insert')
 
 insert('bulk', [{
   name: 'Squirtle', type: 'water'
 }, {
   name: 'Starmie', type: 'water'
-}], function (db, t, done) {
-  db.runCommand('serverStatus', function (err, resp) {
+}], (db, t, done) => {
+  db.runCommand('serverStatus', (err, resp) => {
     t.error(err)
     if (parseFloat(resp.version) < 2.6) return t.end()
 
-    var bulk = db.a.initializeUnorderedBulkOp()
+    const bulk = db.a.initializeUnorderedBulkOp()
     bulk.find({ name: 'Squirtle' }).replaceOne({ name: 'Charmander', type: 'fire' })
     bulk.find({ name: 'Starmie' }).replaceOne({ type: 'fire' })
 
-    bulk.execute(function (err, res) {
+    bulk.execute((err, res) => {
       t.error(err)
       t.ok(res.ok)
-      db.a.find(function (err, res) {
+      db.a.find((err, res) => {
         t.error(err)
         t.equal(res[0].name, 'Charmander')
         t.equal(res[1].name, undefined)

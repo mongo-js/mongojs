@@ -1,12 +1,12 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['test123'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['test123'])
 
-test('createCollection', function (t) {
-  db.test123.drop(function () {
-    db.createCollection('test123', function (err) {
+test('createCollection', (t) => {
+  db.test123.drop(() => {
+    db.createCollection('test123', (err) => {
       t.error(err)
-      db.createCollection('test123', function (err) {
+      db.createCollection('test123', (err) => {
         t.ok(err)
         t.end()
       })

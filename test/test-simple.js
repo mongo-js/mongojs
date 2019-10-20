@@ -1,9 +1,9 @@
-var test = require('./tape')
-var mongojs = require('../index')
-var db = mongojs('test', ['a', 'b'])
+const test = require('./tape')
+const mongojs = require('../index')
+const db = mongojs('test', ['a', 'b'])
 
-test('simple', function (t) {
-  db.a.find(function (err, docs) {
+test('simple', (t) => {
+  db.a.find((err, docs) => {
     t.error(err)
     t.equal(docs.length, 0)
     db.close(t.end.bind(t))

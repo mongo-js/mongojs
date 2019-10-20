@@ -1,8 +1,8 @@
-var test = require('tape')
-var mongojs = require('../')
+const test = require('tape')
+const mongojs = require('../')
 
-test('connection string parsing', function (t) {
-  var db = mongojs('mongodb://localhost,localhost:28017/test', ['a'])
+test('connection string parsing', (t) => {
+  let db = mongojs('mongodb://localhost,localhost:28017/test', ['a'])
   t.equal(db._dbname, 'test')
 
   db = mongojs('test', ['a'])
