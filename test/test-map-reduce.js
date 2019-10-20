@@ -1,5 +1,7 @@
 const insert = require('./insert')
 
+/* eslint-disable prefer-arrow-callback */
+
 insert('mapreduce', [{
   name: 'Squirtle', type: 'water', level: 10
 }, {
@@ -13,7 +15,7 @@ insert('mapreduce', [{
     /* eslint-disable no-undef */
     emit(this.type, this.level)
     /* eslint-enable no-undef */
-  }, (key, values) => {
+  }, function (key, values) {
     return Array.sum(values)
   }, {
     query: { type: 'water' },
@@ -42,7 +44,7 @@ insert('mapreduce finalize', [{
     /* eslint-disable no-undef */
     emit(this.type, this.level)
     /* eslint-enable no-undef */
-  }, (key, values) => {
+  }, function (key, values) {
     return {
       sum: Array.sum(values),
       count: values.length
@@ -58,6 +60,7 @@ insert('mapreduce finalize', [{
     t.error(err)
     db.collection('levelSum').findOne((err, res) => {
       t.error(err)
+
       t.equal(res._id, 'water')
       t.equal(res.value.sum, 30)
       t.equal(res.value.avg, 10)

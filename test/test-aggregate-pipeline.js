@@ -11,15 +11,12 @@ insert('aggregate', [{
   name: 'Lapras', type: 'water'
 }], (db, t, done) => {
   db.a.aggregate([{ $group: { _id: '$type' } }, { $project: { _id: 0, foo: '$_id' } }], (err, types) => {
-    console.log(err, types)
+    t.error(err)
+
     const arr = types.map((x) => { return x.foo })
-    console.log('arr', arr)
     t.equal(types.length, 2)
-    console.log('here')
     t.notEqual(arr.indexOf('fire'), -1)
-    console.log('there')
     t.notEqual(arr.indexOf('water'), -1)
-    console.log('where')
 
     // test as a stream
     const strm = db.a.aggregate([{ $group: { _id: '$type' } }, { $project: { _id: 0, foo: '$_id' } }])
