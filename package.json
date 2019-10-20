@@ -33,8 +33,7 @@
     "parse-mongo-url": "^1.1.1",
     "readable-stream": "^3.4.0",
     "thunky": "^1.1.0",
-    "to-mongodb-core": "^2.0.0",
-    "xtend": "^4.0.2"
+    "to-mongodb-core": "^2.0.0"
   },
   "scripts": {
     "test": "standard && (tape \"test/test-*.js\" && node --harmony --harmony-proxies node_modules/tape/bin/tape \"test/test-*.js\") | tap-spec",
