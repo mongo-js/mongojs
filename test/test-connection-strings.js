@@ -10,6 +10,11 @@ test('connection string parsing', function (t) {
 
   db = mongojs('mongodb://localhost/test', ['a'])
   t.equal(db._dbname, 'test')
+  t.equal(db._connString, 'mongodb://localhost/test')
+
+  db = mongojs('mongodb+srv://username:passwor>@test.mongodb.net/test', ['a'])
+  t.equal(db._dbname, 'test')
+  t.equal(db._connString, 'mongodb+srv://username:passwor>@test.mongodb.net/test')
 
   db = mongojs('localhost/test', ['a'])
   t.equal(db._dbname, 'test')
