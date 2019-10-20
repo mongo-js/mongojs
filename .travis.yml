@@ -18,7 +18,7 @@ before_script:
   - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB_VERSION}.tgz -O /tmp/mongodb.tgz
   - tar -xvf /tmp/mongodb.tgz
   - mkdir /tmp/data
-  - ${PWD}/mongodb-linux-x86_64-${MONGODB_VERSION}/bin/mongod --dbpath /tmp/data &> /dev/null &
+  - ${PWD}/mongodb-linux-x86_64-${MONGODB_VERSION}/bin/mongod --smallFiles --dbpath /tmp/data &> /dev/null &
   - ${PWD}/mongodb-linux-x86_64-${MONGODB_VERSION}/bin/mongod --version
   - until nc -z localhost 27017; do echo Waiting for MongoDB; sleep 1; done
 
