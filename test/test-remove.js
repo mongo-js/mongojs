@@ -7,6 +7,10 @@ insert('remove', [{
   name: 'Starmie', type: 'water'
 }, {
   name: 'Lapras', type: 'water'
+}, {
+  name: 'Torkoal', type: 'fire'
+}, {
+  name: 'Chimchar', type: 'fire'
 }], (db, t, done) => {
   // Remove just one
   db.a.remove({ type: 'water' }, true, (err, lastErrorObject) => {
@@ -26,7 +30,18 @@ insert('remove', [{
         db.a.find({ type: 'water' }, (err, docs) => {
           t.error(err)
           t.equal(docs.length, 0)
-          done()
+
+          db.a.remove({ type: 'fire' }, null, (err, lastErrorObject) => {
+            t.error(err)
+            t.equal(lastErrorObject.n, 2)
+
+            db.a.find({ type: 'fire' }, (err, docs) => {
+              t.error(err)
+              t.equal(docs.length, 0)
+
+              done()
+            })
+          })
         })
       })
     })

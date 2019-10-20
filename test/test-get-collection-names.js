@@ -1,6 +1,6 @@
 const insert = require('./insert')
 
-insert('getCollectionNames', [{
+insert('get collection names', [{
   hello: 'world'
 }], (db, t, done) => {
   db.collection('b').save({ hello: 'world' }, (err, b) => {
