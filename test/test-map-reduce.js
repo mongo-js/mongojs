@@ -16,7 +16,7 @@ insert('mapreduce', [{
   }, function (key, values) {
     return Array.sum(values)
   }, {
-    query: {type: 'water'},
+    query: { type: 'water' },
     out: 'levelSum'
   }, function (err) {
     t.error(err)
@@ -48,7 +48,7 @@ insert('mapreduce finalize', [{
       count: values.length
     }
   }, {
-    query: {type: 'water'},
+    query: { type: 'water' },
     out: 'levelSum',
     finalize: function (key, reducedVal) {
       reducedVal.avg = reducedVal.sum / reducedVal.count

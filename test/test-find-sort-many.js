@@ -10,7 +10,7 @@ for (var i = 0; i < numTestDocs; i++) {
 }
 
 insert('sort-many', testDocs, function (db, t, done) {
-  db.a.find().sort({name: 1}, function (err, docs) {
+  db.a.find().sort({ name: 1 }, function (err, docs) {
     t.error(err)
     t.equal(docs.length, numTestDocs)
     t.end()

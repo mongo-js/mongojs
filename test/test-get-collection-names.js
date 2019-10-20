@@ -3,7 +3,7 @@ var insert = require('./insert')
 insert('getCollectionNames', [{
   hello: 'world'
 }], function (db, t, done) {
-  db.collection('b').save({hello: 'world'}, function (err, b) {
+  db.collection('b').save({ hello: 'world' }, function (err, b) {
     t.error(err)
     db.getCollectionNames(function (err, colNames) {
       t.error(err)

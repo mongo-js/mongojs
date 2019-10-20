@@ -28,13 +28,13 @@
   ],
   "dependencies": {
     "each-series": "^1.0.0",
-    "mongodb": "^3.0.10",
+    "mongodb": "^3.3.2",
     "once": "^1.4.0",
     "parse-mongo-url": "^1.1.1",
-    "readable-stream": "^2.3.3",
-    "thunky": "^1.0.2",
+    "readable-stream": "^3.4.0",
+    "thunky": "^1.1.0",
     "to-mongodb-core": "^2.0.0",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.2"
   },
   "scripts": {
     "test": "standard && (tape \"test/test-*.js\" && node --harmony --harmony-proxies node_modules/tape/bin/tape \"test/test-*.js\") | tap-spec",
@@ -42,13 +42,13 @@
     "geotag": "geopkg update"
   },
   "devDependencies": {
-    "concat-stream": "^1.6.0",
+    "concat-stream": "^2.0.0",
     "geopkg": "^4.0.3",
     "istanbul": "^0.4.5",
-    "shelljs": "^0.8.1",
-    "standard": "^10.0.3",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.8.0"
+    "shelljs": "^0.8.3",
+    "standard": "^14.3.1",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.11.0"
   },
   "coordinates": [
     48.2091041,

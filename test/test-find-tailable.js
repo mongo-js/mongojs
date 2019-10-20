@@ -4,7 +4,7 @@ var db = mongojs('test', ['tailable'])
 
 test('tailable find', function (t) {
   db.tailable.drop(function () {
-    db.createCollection('tailable', {capped: true, size: 1024}, function (err) {
+    db.createCollection('tailable', { capped: true, size: 1024 }, function (err) {
       t.error(err, 'no error in creating the collection')
 
       var expected1 = { hello: 'world' }
