@@ -1,7 +1,10 @@
 const { execSync } = require('child_process')
 
-if (exec('git status --porcelain').stdout) {
+const gitStatus = exec('git status --porcelain').stdout
+
+if (gitStatus) {
   console.error('Git working directory not clean. Please commit all chances to release a new package to npm.')
+  console.error('Git status:', gitStatus)
   process.exit(2)
 }
 
@@ -22,7 +25,7 @@ exec('git push --tags')
 exec('npm publish')
 
 function exec (cmd) {
-  var stdout = execSync(cmd)
+  var stdout = execSync(cmd, { encoding: 'utf-8' })
 
   return {
     stdout
