@@ -3,7 +3,9 @@
 A [node.js](http://nodejs.org) module for mongodb, that emulates [the official mongodb API](http://www.mongodb.org/display/DOCS/Home) as much as possible.
 It wraps [mongodb-native](https://github.com/christkv/node-mongodb-native) and is available through [npm](http://npmjs.org)
 
-	npm install mongojs
+```bash
+npm install mongojs
+```
 
 [![Build Status](https://travis-ci.org/mongo-js/mongojs.svg?branch=master)](https://travis-ci.org/mongo-js/mongojs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
@@ -52,42 +54,42 @@ The format for callbacks is always `callback(error, value)` where error is null 
 ```js
 // find everything
 db.mycollection.find(function (err, docs) {
-	// docs is an array of all the documents in mycollection
+  // docs is an array of all the documents in mycollection
 })
 
 // find everything, but sort by name
 db.mycollection.find().sort({name: 1}, function (err, docs) {
-	// docs is now a sorted array
+  // docs is now a sorted array
 })
 
 // iterate over all whose level is greater than 90.
 db.mycollection.find({level: {$gt: 90}}).forEach(function (err, doc) {
-	if (!doc) {
-		// we visited all docs in the collection
-		return
-	}
-	// doc is a document in the collection
+  if (!doc) {
+    // we visited all docs in the collection
+    return
+  }
+  // doc is a document in the collection
 })
 
 // find a document using a native ObjectId
 db.mycollection.findOne({
-	_id: mongojs.ObjectId('523209c4561c640000000001')
+  _id: mongojs.ObjectId('523209c4561c640000000001')
 }, function(err, doc) {
-	// doc._id.toString() === '523209c4561c640000000001'
+  // doc._id.toString() === '523209c4561c640000000001'
 })
 
 // find all named 'mathias' and increment their level
 db.mycollection.update({name: 'mathias'}, {$inc: {level: 1}}, {multi: true}, function () {
-	// the update is complete
+  // the update is complete
 })
 
 // find one named 'mathias', tag him as a contributor and return the modified doc
 db.mycollection.findAndModify({
-	query: { name: 'mathias' },
-	update: { $set: { tag: 'maintainer' } },
-	new: true
+  query: { name: 'mathias' },
+  update: { $set: { tag: 'maintainer' } },
+  new: true
 }, function (err, doc, lastErrorObject) {
-	// doc.tag === 'maintainer'
+  // doc.tag === 'maintainer'
 })
 
 
@@ -102,6 +104,7 @@ db.mycollection.find({}, function (err, docs) { ... })
 
 db.mycollection.find({}).limit(2).skip(1, function (err, docs) { ... })
 ```
+
 is the same as
 
 ```js
@@ -112,6 +115,27 @@ db.mycollection.find({}).limit(2).skip(1).toArray(function (err, docs) { ... })
 
 For more detailed information about the different usages of update and querying see [the mongo docs](http://www.mongodb.org/display/DOCS/Manual)
 
+### Collection Aliases
+
+Collection names can be provided in an object form to alias collection names.
+
+```js
+const db = mongojs('mydb', { 'a': 'real_collection_name' })
+db.a.find({}, (err, docs) => {
+  // ...
+})
+```
+
+### Write Options
+
+Default write options can be passed to the database connection
+
+```js
+const db = mongojs('mydb', ['a'], { writeOpts: { writeConcern: { w: 3 }, ordered: false } })
+```
+
+This allows to pass default write operations to collection operations instead of passing write options to each
+collection operation.
 
 ## Events
 
@@ -119,14 +143,13 @@ For more detailed information about the different usages of update and querying 
 const db = mongojs('mydb', ['mycollection'])
 
 db.on('error', function (err) {
-	console.log('database error', err)
+  console.log('database error', err)
 })
 
 db.on('connect', function () {
-	console.log('database connected')
+  console.log('database connected')
 })
 ```
-
 
 ## Streaming cursors
 
@@ -151,7 +174,7 @@ const cursor = db.mycollection.find({}, {}, {tailable: true, timeout: false})
 
 // since all cursors are streams we can just listen for data
 cursor.on('data', function (doc) {
-	console.log('new document', doc)
+  console.log('new document', doc)
 })
 ```
 
@@ -163,7 +186,7 @@ With mongojs you can run database commands just like with the mongo shell using 
 
 ```js
 db.runCommand({ping: 1}, function (err, res) {
-	if(!err && res.ok) console.log('we\'re up')
+  if(!err && res.ok) console.log('we\'re up')
 })
 ```
 
@@ -171,7 +194,7 @@ or `db.collection.runCommand()`
 
 ```js
 db.things.runCommand('count', function (err, res) {
-	console.log(res)
+  console.log(res)
 })
 ```
 
@@ -228,7 +251,7 @@ const mongodb = require('mongodb')
 const mongojs = require('mongojs')
 
 mongodb.Db.connect('mongodb://localhost/test', function (err, theDb) {
-    const db = mongojs(theDb, ['myCollection'])
+  const db = mongojs(theDb, ['myCollection'])
 })
 ```
 
