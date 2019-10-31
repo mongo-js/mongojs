@@ -13,8 +13,26 @@ test('save', function (t) {
       t.error(err)
       t.ok(doc._id)
       t.equal(doc.hello, 'verden')
-      db.a.remove(function () {
-        db.close(t.end.bind(t))
+
+      delete doc.hello
+      doc.hallo = 'verden'
+
+      db.a.save(doc, function (err, doc) {
+        t.error(err)
+        t.ok(doc._id)
+        t.equal(doc.hello, undefined)
+        t.equal(doc.hallo, 'verden')
+
+        db.a.findOne(function (err, doc) {
+          t.error(err)
+          t.ok(doc._id)
+          t.equal(doc.hello, undefined)
+          t.equal(doc.hallo, 'verden')
+
+          db.a.remove(function () {
+            db.close(t.end.bind(t))
+          })
+        })
       })
     })
   })
