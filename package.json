@@ -29,7 +29,6 @@
   "dependencies": {
     "each-series": "^1.0.0",
     "mongodb": "^3.3.2",
-    "nyc": "^14.1.1",
     "once": "^1.4.0",
     "parse-mongo-url": "^1.1.1",
     "readable-stream": "^3.4.0",
@@ -46,6 +45,7 @@
   "devDependencies": {
     "auto-changelog": "^1.16.1",
     "concat-stream": "^2.0.0",
+    "nyc": "^14.1.1",
     "standard": "^14.3.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.11.0"
